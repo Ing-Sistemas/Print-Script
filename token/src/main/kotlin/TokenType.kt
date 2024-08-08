@@ -1,0 +1,21 @@
+package org.example.token
+
+enum class TokenType {
+    ASSIGNMENT,
+    SEMICOLON,
+    COLON,
+    KEYWORD,
+    LITERAL_NUMBER,
+    LITERAL_STRING,
+    IDENTIFIER,
+    STRING_TYPE,
+    NUMBER_TYPE,
+    PLUS_OPERATOR,
+    MINUS_OPERATOR,
+    MULTIPLY_OPERATOR,
+    DIVIDE_OPERATOR,
+    PRINTLN,
+
+    PROGRAM,
+    STATEMENT;
+}
