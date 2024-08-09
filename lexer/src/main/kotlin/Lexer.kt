@@ -2,14 +2,14 @@ import org.example.token.TokenMatcher
 
 //coordina tokenization
 //obs: usaría estretegias de tokenization
-class Lexer(val input: String) {
+class Lexer {
     private var position = 0
     private val tokenMatcher = TokenMatcher()
 
-    fun tokenize(): List<Token> {
+    fun tokenize(input: String): List<Token> {
         val tokenList = mutableListOf<Token>()
         while (position < input.length) {
-            val token = nextToken()
+            val token = nextToken(input)
             if (token != null) {
                 tokenList.add(token)
             }
@@ -17,7 +17,7 @@ class Lexer(val input: String) {
         return tokenList
     }
 
-    private fun nextToken(): Token? {
+    private fun nextToken(input: String): Token? {
         if (position >= input.length) {
             return null
         }
@@ -25,7 +25,7 @@ class Lexer(val input: String) {
 
         if (restOfString[0].isWhitespace()) {
             position++
-            return nextToken()
+            return nextToken(input)
         }
 
         val isMatch = tokenMatcher.match(input, position)
