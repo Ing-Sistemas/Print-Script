@@ -4,20 +4,22 @@ import Token
 
 data class LeafNode(
     private val token: Token,
+    private val start: Int,
+    private val end: Int
 ): ASTNode {
     override fun getToken(): Token {
         return token
     }
 
     override fun getStart(): Int {
-        TODO("Not yet implemented")
+        return start
     }
 
     override fun getEnd(): Int {
-        TODO("Not yet implemented")
+        return end
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {
-        TODO("Not yet implemented")
+        return visitor.visit(this)
     }
 }

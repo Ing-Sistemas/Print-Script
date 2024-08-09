@@ -8,7 +8,7 @@ class AssignmentNode(
     private val children: List<ASTNode>
 ): ASTNode {
     override fun getToken(): Token {
-        TODO("Not yet implemented")
+        return token
     }
 
     override fun getStart(): Int {

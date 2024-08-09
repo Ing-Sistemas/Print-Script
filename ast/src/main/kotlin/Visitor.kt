@@ -8,4 +8,5 @@ interface Visitor<T> {
     fun visit(variableDeclarationNode: VariableDeclarationNode): T
     fun visit(programNode: ProgramNode): T
     fun visit(statement: StatementNode): T
+    fun visit(leafNode: LeafNode): T
 }
