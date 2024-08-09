@@ -1,8 +1,8 @@
 package org.example.parser
 
-import com.sun.tools.example.debug.expr.ExpressionParserConstants.STRING_LITERAL
-import org.example.ast.*
-import org.example.token.Token
+
+import Token
+import org.example.*
 import org.example.token.TokenType
 import org.example.token.TokenType.*
 
@@ -14,7 +14,7 @@ class SyntacticAnalyser {
     //TODO idea: use a map to assign a Token with a AST Builder
     // add indexes to Token class
 
-    fun buildAST(tokens: List<Token>): ASTNode{
+    fun buildAST(tokens: List<Token>): ASTNode {
         val stopAt = SEMICOLON
         val tokenIterator = tokens.iterator()
         val currentNode = ProgramNode(TEMP_NUM, TEMP_NUM, buildAST(tokenIterator, stopAt))
