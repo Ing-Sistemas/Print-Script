@@ -1,4 +1,4 @@
 package org.example.parser
 
-class SemanticAnalyser {
+class SemanticAnalyzer {
 }

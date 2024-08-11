@@ -6,10 +6,10 @@ import org.example.token.TokenType
 data class StatementNode(
     private val startIndex: Int,
     private val endIndex: Int,
-    private val children: List<Token>
+    private val children: List<ASTNode>
 ): ASTNode {
 
-    private val token = Token(TokenType.STATEMENT, "statement")
+    private val token = Token(TokenType.STATEMENT, "Statement")
 
     override fun getToken(): Token {
         return token
