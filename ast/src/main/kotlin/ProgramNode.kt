@@ -28,4 +28,8 @@ data class ProgramNode(
         return visitor.visit(this)
     }
 
+    fun getChildren(): List<ASTNode> {
+        return children
+    }
+
 }

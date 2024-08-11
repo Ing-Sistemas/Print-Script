@@ -24,4 +24,8 @@ data class LiteralNode(
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
+
+    fun getValue(): String {
+      return value
+    }
 }

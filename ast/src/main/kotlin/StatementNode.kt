@@ -6,7 +6,7 @@ import org.example.token.TokenType
 data class StatementNode(
     private val startIndex: Int,
     private val endIndex: Int,
-    private val children: List<Token>
+    private val children: List<ASTNode>
 ): ASTNode {
 
     private val token = Token(TokenType.STATEMENT, "statement")
@@ -25,5 +25,9 @@ data class StatementNode(
 
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
+    }
+
+    fun getChildren(): List<ASTNode> {
+        return children
     }
 }

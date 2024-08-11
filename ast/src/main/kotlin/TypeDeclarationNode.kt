@@ -24,4 +24,5 @@ class TypeDeclarationNode(
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
+
 }
