@@ -1,9 +1,9 @@
 package org.example
 
 class Interpreter {
-    private val storage = mutableMapOf<String, Int>()
+    private val storage = mutableMapOf<String, Any>()
 
-    fun interpret(node: ASTNode) {
+    fun interpret(node: ASTNode): Any {
         return when (node) {
             is AssignmentNode -> visitAssignment(node)
             is CallNode -> TODO("Implement")
@@ -13,11 +13,12 @@ class Interpreter {
             is ProgramNode -> TODO("Implement")
             is StatementNode -> TODO("Implement")
             is TypeDeclarationNode -> TODO("Implement")
-            is VariableDeclarationNode ->
+            is VariableDeclarationNode -> TODO("Implement")
+            else -> throw IllegalArgumentException("Unknown node type: ${node.javaClass}")
         }
     }
 
-    private fun visitAssignment(node: AssignmentNode) : Int {
+    private fun visitAssignment(node: AssignmentNode) : Any {
         TODO("Implement")
     }
 }
