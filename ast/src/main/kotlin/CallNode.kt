@@ -5,21 +5,27 @@ import Token
 data class CallNode(
     private val token: Token,
     private val arguments: List<ASTNode>,
+    private val startIndex: Int,
+    private val endIndex: Int
 ): ASTNode {
 
     override fun getToken(): Token {
-        TODO("Not yet implemented")
+        return token
     }
 
     override fun getStart(): Int {
-        TODO("Not yet implemented")
+        return startIndex
     }
 
     override fun getEnd(): Int {
-        TODO("Not yet implemented")
+        return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {
-        TODO("Not yet implemented")
+        return visitor.visit(this)
+    }
+
+    fun getArguments(): List<ASTNode> {
+        return arguments
     }
 }
