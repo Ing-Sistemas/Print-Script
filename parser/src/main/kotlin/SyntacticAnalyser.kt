@@ -46,7 +46,7 @@ class SyntacticAnalyser {
                 }
 
                 COLON -> {
-                    val leafNode = LeafNode(token)
+                    val leafNode = LeafNode(token, TEMP_NUM, TEMP_NUM)
                     astNodes.add(leafNode)
                 }
 
