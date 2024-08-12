@@ -5,7 +5,7 @@ import Token
 class AssignmentNode(
     private val token: Token,
     private val identifierNode: ASTNode,
-    private val literalNode: ASTNode,
+    private val valueNode: ASTNode,
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
@@ -30,6 +30,6 @@ class AssignmentNode(
         return identifierNode
     }
     fun getLiteralNode(): ASTNode {
-        return literalNode
+        return valueNode
     }
 }
