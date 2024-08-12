@@ -7,8 +7,8 @@ class VariableDeclarationNode(
     private val token: Token,
     private val startIndex: Int,
     private val endIndex: Int,
-    private val typeDeclarationNode: TypeDeclarationNode,
-    private val assignmentNode: AssignmentNode
+    private val typeDeclarationNode: ASTNode,
+    private val assignmentNode: ASTNode
 ) : ASTNode {
 
     override fun getToken(): Token {
@@ -27,11 +27,11 @@ class VariableDeclarationNode(
         return visitor.visit(this)
     }
 
-    fun getTypeDeclaration(): TypeDeclarationNode {
+    fun getTypeDeclaration(): ASTNode {
         return typeDeclarationNode
     }
 
-    fun getAssignment(): AssignmentNode {
+    fun getAssignment(): ASTNode {
         return assignmentNode
     }
 }
