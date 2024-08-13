@@ -7,9 +7,9 @@ class Interpreter {
         return when (node) {
             is AssignmentNode -> visitAssignment(node) //not ready
             is CallNode -> visitCall(node)
-            is IdentifierNode -> TODO("Implement")
+            is IdentifierNode -> visitIdentifier(node)
             is LeafNode -> TODO("Implement")
-            is LiteralNode -> TODO("Implement")
+            is LiteralNode -> visitLiteral(node)
             is ProgramNode -> visitProgram(node) //ready
             is StatementNode -> visitStatement(node) //ready
             is TypeDeclarationNode -> TODO("Implement")
@@ -23,9 +23,7 @@ class Interpreter {
             throw IllegalArgumentException("Program is empty")
         }
         node.getChildren().forEach {
-            if (it is StatementNode) {
-                visitStatement(it)
-            }
+            interpret(it)
         }
     }
 
@@ -44,26 +42,21 @@ class Interpreter {
     }
 
     private fun visitVariableDeclaration(node: VariableDeclarationNode) {
-        if (node.getChildren().first() is IdentifierNode) {
-            val key = visitIdentifier(node.getChildren().first())
-        }
+        var key: Any? = null
+        var value: Any? = null
 
-        if (node.getChildren().last() is LiteralNode) {
-            val value = visitiLiteral(node.getChildren().last())
+        node.getChildren().forEach {
+            if (it is IdentifierNode){
+                key = visitIdentifier(it)
+            }
+            if (it is LiteralNode) {
+                value = visitLiteral(it)
+            }
         }
-        storage[key] = value
-//        node.getChildren().forEach {
-//            if (it is IdentifierNode){
-//                val key = visitIdentifier(it)
-//            }
-//            if (it is LiteralNode) {
-//                val value = visitiLiteral(it)
-//            }
-//            storage[key] = value
-//        }
+        storage [key.toString()] = value!!
     }
 
-    private fun visitiLiteral(node: LiteralNode): Any {
+    private fun visitLiteral(node: LiteralNode): Any {
         return node.getToken().getValue()
     }
 
