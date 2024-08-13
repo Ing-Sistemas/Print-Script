@@ -1,0 +1,3 @@
+let myVar: string = "Hello, World!";
+list myNum: number = 42;
+println(myVar);

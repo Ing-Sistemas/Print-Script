@@ -1,19 +1,24 @@
-import org.example.ASTNode
-import org.example.AssignmentNode
-import org.example.BinaryNode
-import org.example.token.TokenType
-import stategy.operators.DivideTokenStrategy
+import org.example.*
+
 
 class SemanticAnalyzer {
     fun analyze(node: ASTNode): ASTNode {
         return when (node) {
-            //is ProgramNode -> TODO()
+            is ProgramNode -> analyzeProgramNode(node.getChildren())
             is AssignmentNode -> analyzeAssignment(node)
             is BinaryNode -> analyzeBinary(node)
-
-
-            else -> throw Exception("Unknown node type: ${node.javaClass}")
+            is CallNode -> analyzeCall(node)
+            is IdentifierNode -> node
+            is LiteralNode -> node
+            is TypeDeclarationNode -> node
+            is UnaryNode -> node //TODO("check whats for")
+            is VariableDeclarationNode -> analyzeVarDec(node)
         }
+    }
+
+    private fun analyzeProgramNode(children: List<ASTNode>): ASTNode {
+        children.forEach { analyze(it) }
+        return ProgramNode(0, 0, children) //TODO("tf el start y end)
     }
 
     private fun analyzeAssignment(node: AssignmentNode): ASTNode {
@@ -33,6 +38,19 @@ class SemanticAnalyzer {
         return node
     }
 
+    private fun analyzeCall(node: CallNode): ASTNode {
+        if (node.getArguments().isEmpty()) {
+            throw Exception("Call node must have arguments")
+        }
+        return node
+    }
+
+    private fun analyzeVarDec(node: VariableDeclarationNode): ASTNode {
+        analyze(node.getTypeDeclaration() as TypeDeclarationNode)
+        analyzeAssignment(node.getAssignment() as AssignmentNode) //TODO("decidir")
+        return node
+    }
+
     private fun checkOperator(operator: Token) {
         if (operator.getValue() != "+" &&
             operator.getValue() != "-" &&
@@ -43,14 +61,10 @@ class SemanticAnalyzer {
         }
     }
 
-
-
-
     private fun compareTypes(left: Token, right: Token) {
         if (left.getType() != right.getType()) {
             throw Exception("Type mismatch: ${left.getType()} != ${right.getType()}")
         }
     }
-
 
 }
