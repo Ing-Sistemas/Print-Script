@@ -2,7 +2,7 @@ package stategy.operators
 
 import Token
 import org.example.token.TokenType
-import org.example.token.pattern.TokenRegex
+import TokenRegex
 import org.example.token.stategy.TokenMatch
 import org.example.token.stategy.TokenStrategy
 

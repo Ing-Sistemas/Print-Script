@@ -1,5 +1,3 @@
-package org.example.token.pattern
-
 object TokenRegex {
     val identifierRegex = Regex("[a-zA-Z_][a-zA-Z_0-9]*")
     val keywordRegex = Regex("\\b(let|var)\\b")
