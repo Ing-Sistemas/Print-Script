@@ -4,7 +4,6 @@ import Token
 
 data class LiteralNode(
     private val token: Token,
-    private val value: String,
     private val start: Int,
     private val end: Int,
     ) : ASTNode {
@@ -23,5 +22,9 @@ data class LiteralNode(
 
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
+    }
+
+    fun getValue(): String {
+        return token.getValue()
     }
 }

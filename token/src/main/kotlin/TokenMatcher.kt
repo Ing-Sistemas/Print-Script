@@ -1,11 +1,15 @@
 package org.example.token
 
 import org.example.token.stategy.*
+import stategy.CallStrategy
+import stategy.ClosingParensStrategy
+import stategy.OpeningParensStrategy
 
 class TokenMatcher {
     //el orden de como estan las strats importa
     private val strategies = listOf(
         KeywordTokenStrategy(),
+        CallStrategy(),
         AssignmentTokenStrategy(),
         SemicolonTokenStrategy(),
         NumberTypeTokenStrategy(),
@@ -13,6 +17,8 @@ class TokenMatcher {
         ColonTokenStrategy(),
         NumberTokenStrategy(),
         StringTokenStrategy(),
+        OpeningParensStrategy(),
+        ClosingParensStrategy(),
         IdentifierTokenStrategy(),
     )
 

@@ -1,15 +1,12 @@
 package org.example
 
 import Token
-import org.example.token.TokenType
 
-data class StatementNode(
+class UnaryNode(
+    private val token: Token,
     private val startIndex: Int,
     private val endIndex: Int,
-    private val children: List<Token>
 ): ASTNode {
-
-    private val token = Token(TokenType.STATEMENT, "statement")
 
     override fun getToken(): Token {
         return token

@@ -1,6 +1,6 @@
 package org.example.token.stategy
 
-import org.example.token.pattern.TokenRegex
+import TokenRegex
 import Token
 import org.example.token.TokenType
 

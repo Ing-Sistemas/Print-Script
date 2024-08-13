@@ -2,7 +2,7 @@ package org.example.token.stategy
 
 import Token
 import org.example.token.TokenType
-import org.example.token.pattern.TokenRegex
+import TokenRegex
 
 class KeywordTokenStrategy: TokenStrategy {
     override fun match(input: String, position: Int): TokenMatch? {

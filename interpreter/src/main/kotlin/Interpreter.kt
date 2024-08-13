@@ -5,12 +5,12 @@ class Interpreter {
 
     fun interpret(node: ASTNode): Any {
         return when (node) {
-            is AssignmentNode -> visitAssignment(node)
+            //is AssignmentNode -> visitAssignment(node)
             is LeafNode -> visitLeaf(node)
             is ProgramNode -> visitProgram(node)
             is VariableDeclarationNode -> visitVariableDeclaration(node)
-            is StatementNode -> visitStatement(node)
-            is TypeDeclarationNode -> visitTypeDeclaration(node)
+            //is StatementNode -> visitStatement(node)
+            //is TypeDeclarationNode -> visitTypeDeclaration(node)
             is LiteralNode -> visitLiteral(node)
             else -> throw IllegalArgumentException("Unknown node type: ${node.javaClass}")
         }
@@ -22,6 +22,7 @@ class Interpreter {
 
     private fun visitProgram(node: ProgramNode): Any {
         //TODO visitar todos los children y hacerles a cada uno interpret(child)
+        TODO()
     }
 
     private fun visitVariableDeclaration(node: VariableDeclarationNode): Any {

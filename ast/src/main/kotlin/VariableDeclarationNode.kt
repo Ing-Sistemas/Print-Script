@@ -7,7 +7,8 @@ class VariableDeclarationNode(
     private val token: Token,
     private val startIndex: Int,
     private val endIndex: Int,
-    private val children: List<ASTNode>
+    private val typeDeclarationNode: ASTNode,
+    private val assignmentNode: ASTNode
 ) : ASTNode {
 
     override fun getToken(): Token {
@@ -26,9 +27,11 @@ class VariableDeclarationNode(
         return visitor.visit(this)
     }
 
-    fun getChildren(): List<ASTNode> {
-        return children
+    fun getTypeDeclaration(): ASTNode {
+        return typeDeclarationNode
     }
 
-
+    fun getAssignment(): ASTNode {
+        return assignmentNode
+    }
 }

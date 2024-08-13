@@ -7,6 +7,8 @@ interface Visitor<T> {
     fun visit(typeDeclaration: TypeDeclarationNode): T
     fun visit(variableDeclarationNode: VariableDeclarationNode): T
     fun visit(programNode: ProgramNode): T
-    fun visit(statement: StatementNode): T
-    fun visit(leafNode: LeafNode): T
+    fun visit(unaryNode: UnaryNode): T
+    fun visit(binaryNode: BinaryNode): T
+    fun visit(assignmentNode: AssignmentNode): T
+    fun visit(callNode: CallNode): T
 }
