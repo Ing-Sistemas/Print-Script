@@ -4,5 +4,5 @@ import Token
 import org.example.ASTNode
 
 interface ASTBuilderStrategy {
-    fun build(token: Token,tokens: ListIterator<Token>): ASTNode
+    fun build(token: Token,tokens: List<Token>): ASTNode
 }

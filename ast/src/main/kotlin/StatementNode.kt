@@ -26,7 +26,7 @@ data class StatementNode(
         return visitor.visit(this)
     }
 
-    fun getChildren(): List<ASTNode> {
-        return children
+    fun getStatement(): ASTNode {
+        return statement
     }
 }

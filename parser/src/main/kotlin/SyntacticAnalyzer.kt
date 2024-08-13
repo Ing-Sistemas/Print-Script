@@ -20,10 +20,13 @@ class SyntacticAnalyzer {
     }
 
     fun buildAST(tokens: List<Token>): ASTNode {
-
-        //val currentNode = ProgramNode(TEMP_NUM, TEMP_NUM, statements)
-        TODO()
+        val firstToken = tokens.first()
+        val builder = builderStrategy[firstToken.getType()] ?:
+        error("token ${firstToken.getType()} not found")
+        val node = builder.build(firstToken, tokens)
+        return ProgramNode(TEMP_NUM, TEMP_NUM, listOf(node))
     }
+
 }
 
 

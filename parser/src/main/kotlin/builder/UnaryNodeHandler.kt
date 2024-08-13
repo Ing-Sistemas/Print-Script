@@ -4,7 +4,7 @@ import Token
 import org.example.ASTNode
 
 class UnaryNodeHandler: ASTBuilderStrategy {
-    override fun build(token: Token, tokens: ListIterator<Token>): ASTNode {
+    override fun build(token: Token, tokens: List<Token>): ASTNode {
         TODO("not implemented")
     }
 }
