@@ -25,4 +25,8 @@ data class StatementNode(
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
+
+    fun getChildren(): List<ASTNode> {
+        return children
+    }
 }
