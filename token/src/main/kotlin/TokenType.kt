@@ -15,7 +15,9 @@ enum class TokenType {
     MULTIPLY_OPERATOR,
     DIVIDE_OPERATOR,
     PRINTLN,
-
+    CALL,
+    OPENING_PARENS,
+    CLOSING_PARENS,
     PROGRAM,
     STATEMENT;
 }

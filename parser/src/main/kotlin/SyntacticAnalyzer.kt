@@ -6,7 +6,7 @@ import org.example.*
 import org.example.token.TokenType
 import org.example.token.TokenType.*
 
-class SyntacticAnalyser {
+class SyntacticAnalyzer {
     companion object{
         const val TEMP_NUM = 1
     }
@@ -46,7 +46,7 @@ class SyntacticAnalyser {
                 }
 
                 COLON -> {
-                    val leafNode = LeafNode(token)
+                    val leafNode = LeafNode(token, TEMP_NUM, TEMP_NUM)
                     astNodes.add(leafNode)
                 }
 
@@ -83,5 +83,4 @@ class SyntacticAnalyser {
         }
         return astNodes
     }
-
 }

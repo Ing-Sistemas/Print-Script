@@ -2,25 +2,35 @@ package org.example
 
 import Token
 
-
 class AssignmentNode(
     private val token: Token,
-    private val children: List<ASTNode>
+    private val identifierNode: ASTNode,
+    private val valueNode: ASTNode,
+    private val startIndex: Int,
+    private val endIndex: Int
 ): ASTNode {
+
     override fun getToken(): Token {
         return token
     }
 
     override fun getStart(): Int {
-        TODO("Not yet implemented")
+        return startIndex
     }
 
     override fun getEnd(): Int {
-        TODO("Not yet implemented")
+        return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {
-        TODO("Not yet implemented")
+        return visitor.visit(this)
+    }
+
+    fun getIdentifierNode(): ASTNode {
+        return identifierNode
+    }
+    fun getLiteralNode(): ASTNode {
+        return valueNode
     }
 
     fun getChildren(): List<ASTNode> {

@@ -2,15 +2,13 @@ package org.example
 
 import Token
 
-
-class VariableDeclarationNode(
+data class BinaryNode(
     private val token: Token,
+    private val left: ASTNode,
+    private val right: ASTNode,
     private val startIndex: Int,
-    private val endIndex: Int,
-    private val typeDeclarationNode: ASTNode,
-    private val assignmentNode: ASTNode
-) : ASTNode {
-
+    private val endIndex: Int
+): ASTNode {
     override fun getToken(): Token {
         return token
     }
@@ -27,11 +25,10 @@ class VariableDeclarationNode(
         return visitor.visit(this)
     }
 
-    fun getTypeDeclaration(): ASTNode {
-        return typeDeclarationNode
+    fun getLeft(): ASTNode {
+        return left
     }
-
-    fun getAssignment(): ASTNode {
-        return assignmentNode
+    fun getRight(): ASTNode {
+        return right
     }
 }

@@ -31,5 +31,4 @@ data class ProgramNode(
     fun getChildren(): List<ASTNode> {
         return children
     }
-
 }

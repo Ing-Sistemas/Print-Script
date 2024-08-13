@@ -3,16 +3,15 @@ package org.example
 import Token
 import org.example.token.TokenType
 
+
 data class StatementNode(
+    private val statement: ASTNode,
+    private val stopAt: TokenType,
     private val startIndex: Int,
-    private val endIndex: Int,
-    private val children: List<ASTNode>
+    private val endIndex: Int
 ): ASTNode {
-
-    private val token = Token(TokenType.STATEMENT, "statement")
-
     override fun getToken(): Token {
-        return token
+        return Token(stopAt, "endOfStatement")
     }
 
     override fun getStart(): Int {
@@ -20,7 +19,7 @@ data class StatementNode(
     }
 
     override fun getEnd(): Int {
-        return endIndex
+       return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {

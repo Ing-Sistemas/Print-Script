@@ -4,7 +4,6 @@ import Token
 
 data class LiteralNode(
     private val token: Token,
-    private val value: String,
     private val start: Int,
     private val end: Int,
     ) : ASTNode {
@@ -26,6 +25,6 @@ data class LiteralNode(
     }
 
     fun getValue(): String {
-      return value
+        return token.getValue()
     }
 }
