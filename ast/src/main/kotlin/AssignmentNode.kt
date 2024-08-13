@@ -32,8 +32,4 @@ class AssignmentNode(
     fun getLiteralNode(): ASTNode {
         return valueNode
     }
-
-    fun getChildren(): List<ASTNode> {
-        return children
-    }
 }

@@ -5,10 +5,9 @@ class Interpreter {
 
     fun interpret(node: ASTNode): Any {
         return when (node) {
-            is AssignmentNode -> visitAssignment(node) //not ready
+            is AssignmentNode -> visitAssignment(node)
             is CallNode -> visitCall(node)
             is IdentifierNode -> visitIdentifier(node)
-            is LeafNode -> TODO("Implement")
             is LiteralNode -> visitLiteral(node)
             is ProgramNode -> visitProgram(node) //ready
             is StatementNode -> visitStatement(node) //ready
@@ -28,30 +27,22 @@ class Interpreter {
     }
 
     private fun visitStatement(node: StatementNode){
-        node.getChildren().forEach {
-            if (it is AssignmentNode) {
-                visitAssignment(it)
-            }
-            if (it is CallNode) {
-                visitCall(it)
-            }
-            if (it is VariableDeclarationNode) {
-                visitVariableDeclaration(it)
-            }
+        when (val it = node.getStatement()) {
+            is AssignmentNode -> visitAssignment(it)
+            is CallNode -> visitCall(it)
+            is VariableDeclarationNode -> visitVariableDeclaration(it)
+            else -> {IllegalArgumentException()}
         }
     }
 
     private fun visitVariableDeclaration(node: VariableDeclarationNode) {
         var key: Any? = null
         var value: Any? = null
+        when (val it = node.getTypeDeclaration()){
+            is IdentifierNode -> key = visitIdentifier(it)
+            is LiteralNode -> value = visitLiteral(it)
 
-        node.getChildren().forEach {
-            if (it is IdentifierNode){
-                key = visitIdentifier(it)
-            }
-            if (it is LiteralNode) {
-                value = visitLiteral(it)
-            }
+            else -> {IllegalArgumentException()}
         }
         storage [key.toString()] = value!!
     }
@@ -66,18 +57,28 @@ class Interpreter {
 
 
     private fun visitCall(node: CallNode) {
-        TODO("Not yet implemented")
+        if (node.getToken().getValue() == "println"){
+            println(node.getArguments())
+        }
+        if (node.getToken().getValue() == "if"){
+            TODO()
+        }
+        if (node.getToken().getValue() == "else"){
+            TODO()
+        }
+        if (node.getToken().getValue() == "while"){
+            TODO()
+        }
+        if (node.getToken().getValue() == "for"){
+            TODO()
+        }
     }
 
     private fun visitAssignment(node: AssignmentNode)  {
-//        node.getChildren().forEach {
-//          if (it is LiteralNode) {
-//            storage[it.getToken().getValue()] = visitLiteral(it)
-//          }
-//          if (it is TypeDeclarationNode) {
-//            storage[it.getToken().getValue()] = visitTypeDeclaration(it)
-//          }
-//        }
+        val identifier = node.getIdentifierNode()
+        val literal  = node.getLiteralNode()
+
+        storage[identifier.toString()] = literal
     }
 
 }
