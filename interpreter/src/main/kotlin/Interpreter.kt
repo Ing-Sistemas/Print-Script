@@ -70,7 +70,12 @@ class Interpreter {
     private fun visitCall(node: CallNode) {
         if (node.getToken().getValue() == "println"){
             node.getArguments().forEach {
-                println(it.getToken().getValue())
+                if (it is IdentifierNode){
+                    println(storage[it.getToken().getValue()])
+                }
+                else {
+                    println(it.getToken().getValue())
+                }
             }
         }
         if (node.getToken().getValue() == "if"){

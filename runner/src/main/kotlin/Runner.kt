@@ -13,6 +13,7 @@ class Runner {
 
     fun run(code: String): Any {
         val tokens = lexer.tokenize(code)
+        println(tokens)
         val ast = syntacticAnalyzer.buildAST(tokens)
         val ast2 = semanticAnalyzer.analyze(ast)
         val interpreted = interpreter.interpret(ast2)

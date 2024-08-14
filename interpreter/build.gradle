@@ -12,7 +12,7 @@ repositories {
 dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     implementation project(':ast')
-    implementation project('::token')
+    implementation project(':token')
 }
 
 test {
