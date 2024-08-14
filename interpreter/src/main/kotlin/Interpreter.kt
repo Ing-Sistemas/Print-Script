@@ -59,7 +59,9 @@ class Interpreter {
 
     private fun visitCall(node: CallNode) {
         if (node.getToken().getValue() == "println"){
-            println(node.getArguments())
+            val it = node.getArguments().forEach {
+                println(it.getToken().getValue())
+            }
         }
         if (node.getToken().getValue() == "if"){
             TODO()
