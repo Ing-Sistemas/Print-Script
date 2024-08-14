@@ -1,5 +1,11 @@
 package org.example
 
 fun main() {
-    println("Hello World!")
+    val runner = Runner()
+
+    val code = "let a: number = 5; println(a);"
+
+    val result = runner.run(code)
+    println(result)
+
 }

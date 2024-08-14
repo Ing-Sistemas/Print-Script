@@ -13,7 +13,7 @@ class SemanticAnalyzer {
             is TypeDeclarationNode -> node
             is UnaryNode -> node //TODO("check whats for")
             is VariableDeclarationNode -> analyzeVarDec(node)
-            is StatementNode -> TODO()
+            is StatementNode -> node //TODO()
         }
     }
 

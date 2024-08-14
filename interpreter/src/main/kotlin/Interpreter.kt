@@ -50,7 +50,7 @@ class Interpreter {
 
     //think valueChecker should be done better with value token and TokenType
 
-    private fun valueChecker(value: String): Any{
+    private fun valueChecker(value: String): Any {
         return if (value.toInt() != null){
             value.toInt()
         } else {
@@ -69,7 +69,7 @@ class Interpreter {
 
     private fun visitCall(node: CallNode) {
         if (node.getToken().getValue() == "println"){
-            val it = node.getArguments().forEach {
+            node.getArguments().forEach {
                 println(it.getToken().getValue())
             }
         }
