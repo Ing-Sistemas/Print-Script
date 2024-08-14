@@ -41,11 +41,21 @@ class Interpreter {
         when (val assignmentNode = node.getAssignment()){
             is AssignmentNode -> {
                 key = assignmentNode.getIdentifierNode().getToken().getValue()
-                value = assignmentNode.getLiteralNode().getToken().getValue()
+                value = valueChecker(assignmentNode.getLiteralNode().getToken().getValue())
             }
             else -> {IllegalArgumentException()}
         }
         storage [key.toString()] = value!!
+    }
+
+    //think valueChecker should be done better with value token and TokenType
+
+    private fun valueChecker(value: String): Any{
+        return if (value.toInt() != null){
+            value.toInt()
+        } else {
+            value
+        }
     }
 
     private fun visitLiteral(node: LiteralNode): Any {
@@ -59,7 +69,9 @@ class Interpreter {
 
     private fun visitCall(node: CallNode) {
         if (node.getToken().getValue() == "println"){
-            println(node.getArguments())
+            val it = node.getArguments().forEach {
+                println(it.getToken().getValue())
+            }
         }
         if (node.getToken().getValue() == "if"){
             TODO()
