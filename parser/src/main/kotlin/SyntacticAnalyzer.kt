@@ -3,84 +3,51 @@ package org.example.parser
 
 import Token
 import org.example.*
+import org.example.parser.builder.*
 import org.example.token.TokenType
 import org.example.token.TokenType.*
+import java.util.*
 
 class SyntacticAnalyzer {
-    companion object{
-        const val TEMP_NUM = 1
-    }
 
-    //TODO idea: use a map to assign a Token with a AST Builder
-    // add indexes to Token class
+    companion object {
+        const val TEMP_NUM = 1
+        val builderStrategy = mutableMapOf<TokenType, ASTBuilderStrategy>(
+            KEYWORD to VariableDeclarationBuilder(),
+            ASSIGNMENT to AssignationBuilder(),
+            CALL to CallBuilder(),
+        )
+    }
 
     fun buildAST(tokens: List<Token>): ASTNode {
-        val stopAt = SEMICOLON
-        val tokenIterator = tokens.iterator()
-        val currentNode = ProgramNode(TEMP_NUM, TEMP_NUM, buildAST(tokenIterator, stopAt))
-        return currentNode
+        val statements = buildStatements(tokens)
+        val statementNodes = mutableListOf<ASTNode>()
+        for (statement in statements) {
+            val firstToken = statement.first()
+            val builder = builderStrategy[firstToken.getType()] ?:
+            error("token ${firstToken.getType()} not found")
+            val astRoot = builder.build(firstToken, statement)
+            val statementNode = StatementNode(astRoot, SEMICOLON, 0,0)
+            statementNodes.add(statementNode)
+        }
+        return ProgramNode(TEMP_NUM, TEMP_NUM, statementNodes)
     }
 
-    private fun buildAST(tokens: Iterator<Token>, stopAt: TokenType): List<ASTNode>{
-        val astNodes = mutableListOf<ASTNode>()
-
-        while (tokens.hasNext()){
-            val token = tokens.next()
-            when(token.getType()){
-                KEYWORD -> {
-                    when(token.getValue()) {
-                        "let" -> {
-                            val variableDeclaration = VariableDeclarationNode(token,TEMP_NUM,TEMP_NUM, buildAST(tokens, stopAt))
-                            astNodes.add(variableDeclaration)
-                        }
-                        "println" -> {
-                            val callNode = CallNode(token, buildAST(tokens, stopAt))
-                            astNodes.add(callNode)
-                        }
-                    }
-                }
-
-                IDENTIFIER -> {
-                    val identifierNode = IdentifierNode(token,TEMP_NUM,TEMP_NUM)
-                    astNodes.add(identifierNode)
-                }
-
-                COLON -> {
-                    val leafNode = LeafNode(token, TEMP_NUM, TEMP_NUM)
-                    astNodes.add(leafNode)
-                }
-
-                STRING_TYPE -> {
-                    val typeDeclarationNode = TypeDeclarationNode(token,TEMP_NUM,TEMP_NUM)
-                    astNodes.add(typeDeclarationNode)
-                }
-                NUMBER_TYPE -> {
-                    val typeDeclarationNode = TypeDeclarationNode(token,TEMP_NUM,TEMP_NUM)
-                    astNodes.add(typeDeclarationNode)
-                }
-
-                LITERAL_NUMBER -> {
-                    val stringLiteralNode = LiteralNode(token, token.getValue(), TEMP_NUM, TEMP_NUM)
-                    astNodes.add(stringLiteralNode)
-                }
-
-                LITERAL_STRING -> {
-                    val stringLiteralNode = LiteralNode(token, token.getValue(), TEMP_NUM, TEMP_NUM)
-                    astNodes.add(stringLiteralNode)
-                }
-
-                ASSIGNMENT -> {
-                    val assigmentNode = AssignmentNode(token, buildAST(tokens, stopAt))
-                    astNodes.add(assigmentNode)
-                }
-
-                stopAt -> {break}
-
-                else -> {
-                    error("Unexpected token ${token.getType()}")
-                }
+    private fun buildStatements(tokens: List<Token>): List<List<Token>>{
+        val listIt = tokens.iterator()
+        val statements = mutableListOf<List<Token>>()
+        val statement = mutableListOf<Token>()
+        while (listIt.hasNext()){
+            val token = listIt.next()
+            if(token.getType() == SEMICOLON){
+                statement.add(token)
+                statements.add(statement.toList())
+                statement.clear()
+            } else {
+                statement.add(token)
             }
         }
-        return astNodes
+        return statements
     }
+
 }
