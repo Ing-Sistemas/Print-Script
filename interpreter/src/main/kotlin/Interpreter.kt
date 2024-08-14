@@ -9,8 +9,8 @@ class Interpreter {
             is CallNode -> visitCall(node)
             is IdentifierNode -> visitIdentifier(node)
             is LiteralNode -> visitLiteral(node)
-            is ProgramNode -> visitProgram(node) //ready
-            is StatementNode -> visitStatement(node) //ready
+            is ProgramNode -> visitProgram(node)
+            is StatementNode -> visitStatement(node)
             is TypeDeclarationNode -> TODO("Implement")
             is VariableDeclarationNode -> visitVariableDeclaration(node)
             else -> throw IllegalArgumentException("Unknown node type: ${node.javaClass}")
@@ -38,10 +38,11 @@ class Interpreter {
     private fun visitVariableDeclaration(node: VariableDeclarationNode) {
         var key: Any? = null
         var value: Any? = null
-        when (val it = node.getTypeDeclaration()){
-            is IdentifierNode -> key = visitIdentifier(it)
-            is LiteralNode -> value = visitLiteral(it)
-
+        when (val assignmentNode = node.getAssignment()){
+            is AssignmentNode -> {
+                key = assignmentNode.getIdentifierNode().getToken().getValue()
+                value = assignmentNode.getLiteralNode().getToken().getValue()
+            }
             else -> {IllegalArgumentException()}
         }
         storage [key.toString()] = value!!
@@ -79,6 +80,10 @@ class Interpreter {
         val literal  = node.getLiteralNode()
 
         storage[identifier.toString()] = literal
+    }
+
+    fun getStorage(): MutableMap<String, Any> {
+        return storage
     }
 
 }
