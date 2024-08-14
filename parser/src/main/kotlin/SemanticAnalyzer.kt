@@ -24,7 +24,7 @@ class SemanticAnalyzer {
 
     private fun analyzeAssignment(node: AssignmentNode): ASTNode {
         val identifier = node.getIdentifierNode()
-        val literal = node.getLiteralNode()
+        val literal = node.getValueNode()
 
         compareTypes(identifier.getToken(), literal.getToken())
         return node

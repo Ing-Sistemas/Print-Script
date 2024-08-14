@@ -29,7 +29,7 @@ class AssignmentNode(
     fun getIdentifierNode(): ASTNode {
         return identifierNode
     }
-    fun getLiteralNode(): ASTNode {
+    fun getValueNode(): ASTNode {
         return valueNode
     }
 }

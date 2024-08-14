@@ -9,7 +9,7 @@ class StringTokenStrategy: TokenStrategy {
         val match = TokenRegex.literalStringRegex.find(input, position)
         return if (match != null && match.range.first == position) {
             val nextPosition = position + match.value.length
-            TokenMatch(Token(TokenType.LITERAL_STRING, match.value), nextPosition)
+            TokenMatch(Token(TokenType.LITERAL_STRING, match.value.substring(1,match.value.length -1)), nextPosition)
         } else {null}
     }
 }
