@@ -1,17 +1,17 @@
 package org.example
 
 import Token
+import org.example.token.TokenType
 
-class AssignmentNode(
-    private val token: Token,
-    private val identifierNode: ASTNode,
-    private val valueNode: ASTNode,
+
+data class StatementNode(
+    private val statement: ASTNode,
+    private val stopAt: TokenType,
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
-
     override fun getToken(): Token {
-        return token
+        return Token(stopAt, "endOfStatement")
     }
 
     override fun getStart(): Int {
@@ -19,17 +19,14 @@ class AssignmentNode(
     }
 
     override fun getEnd(): Int {
-        return endIndex
+       return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
 
-    fun getIdentifierNode(): ASTNode {
-        return identifierNode
-    }
-    fun getLiteralNode(): ASTNode {
-        return valueNode
+    fun getStatement(): ASTNode {
+        return statement
     }
 }

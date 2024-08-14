@@ -11,4 +11,5 @@ interface Visitor<T> {
     fun visit(binaryNode: BinaryNode): T
     fun visit(assignmentNode: AssignmentNode): T
     fun visit(callNode: CallNode): T
+    fun visit(statementNode: StatementNode): T
 }
