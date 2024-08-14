@@ -37,7 +37,7 @@ class InterpreterTests {
         val storage = interpreter.getStorage()
         interpreter.interpret(myProgram)
         assert(storage.isNotEmpty())
-        assert(storage.containsValue("4"))
+        assert(storage.containsValue(4))
         assert(storage.containsKey("a"))
     }
 }
