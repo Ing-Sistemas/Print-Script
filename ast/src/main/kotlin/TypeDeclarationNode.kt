@@ -25,4 +25,8 @@ class TypeDeclarationNode(
         return visitor.visit(this)
     }
 
+    fun getValue(): String {
+        return token.getValue()
+    }
+
 }
