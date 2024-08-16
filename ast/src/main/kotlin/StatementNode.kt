@@ -5,6 +5,7 @@ data class StatementNode(
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
+    //TODO REMOVE ESTA GARCHA.
     override fun getValue(): String {
         return "Statement"
     }

@@ -2,8 +2,8 @@ package org.example
 
 class VariableDeclarationNode(
     private val value: String, //let o const
-    private val typeDeclarationNode: ASTNode, //string o number
-    private val assignmentNode: ASTNode, //ver assignment
+    private val typeDeclarationNode: TypeDeclarationNode, //string o number
+    private val assignmentNode: AssignmentNode,
     private val startIndex: Int,
     private val endIndex: Int,
 ) : ASTNode {
@@ -24,11 +24,11 @@ class VariableDeclarationNode(
         return visitor.visit(this)
     }
 
-    fun getTypeDeclaration(): ASTNode {
+    fun getTypeDeclaration(): TypeDeclarationNode {
         return typeDeclarationNode
     }
 
-    fun getAssignment(): ASTNode {
+    fun getAssignment(): AssignmentNode {
         return assignmentNode
     }
 }

@@ -2,8 +2,8 @@ package org.example
 
 class AssignmentNode(
     private val equalSign: String, //literally the = sign
-    private val identifierNode: ASTNode,
-    private val valueNode: ASTNode,
+    private val identifierNode: IdentifierNode,
+    private val valueNode: ASTNode, //binary o literal
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
@@ -24,7 +24,7 @@ class AssignmentNode(
         return visitor.visit(this)
     }
 
-    fun getIdentifierNode(): ASTNode {
+    fun getIdentifierNode(): IdentifierNode {
         return identifierNode
     }
     fun getValueNode(): ASTNode {

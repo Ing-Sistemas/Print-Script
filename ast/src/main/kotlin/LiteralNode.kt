@@ -2,6 +2,7 @@ package org.example
 
 data class LiteralNode(
     private val value: String,
+    private val type: String,
     private val start: Int,
     private val end: Int,
     ) : ASTNode {
@@ -20,5 +21,9 @@ data class LiteralNode(
 
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
+    }
+
+    fun getType(): String {
+        return type
     }
 }

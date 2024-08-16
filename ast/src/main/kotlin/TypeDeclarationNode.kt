@@ -1,13 +1,13 @@
 package org.example
 
 class TypeDeclarationNode(
-    private val value: String, //string or number
+    private val type: String, //string or number
     private val start: Int,
     private val end: Int,
 )
     : ASTNode {
     override fun getValue(): String {
-        return value
+        return type
     }
 
     override fun getStart(): Int {
