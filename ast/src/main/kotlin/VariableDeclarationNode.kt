@@ -1,18 +1,15 @@
 package org.example
 
-import Token
-
-
 class VariableDeclarationNode(
-    private val token: Token,
+    private val value: String, //let o const
+    private val typeDeclarationNode: ASTNode, //string o number
+    private val assignmentNode: ASTNode, //ver assignment
     private val startIndex: Int,
     private val endIndex: Int,
-    private val typeDeclarationNode: ASTNode,
-    private val assignmentNode: ASTNode
 ) : ASTNode {
 
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return value
     }
 
     override fun getStart(): Int {

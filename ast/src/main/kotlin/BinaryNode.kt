@@ -1,16 +1,14 @@
 package org.example
 
-import Token
-
 data class BinaryNode(
-    private val token: Token,
+    private val value: String,
     private val left: ASTNode,
     private val right: ASTNode,
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return value
     }
 
     override fun getStart(): Int {

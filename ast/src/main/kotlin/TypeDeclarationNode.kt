@@ -1,16 +1,13 @@
 package org.example
 
-import Token
-
-
 class TypeDeclarationNode(
-    private val token: Token,
+    private val value: String, //string or number
     private val start: Int,
     private val end: Int,
 )
     : ASTNode {
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return value
     }
 
     override fun getStart(): Int {
@@ -23,10 +20,6 @@ class TypeDeclarationNode(
 
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
-    }
-
-    fun getValue(): String {
-        return token.getValue()
     }
 
 }

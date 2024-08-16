@@ -1,16 +1,14 @@
 package org.example
 
-import Token
-
 data class CallNode(
-    private val token: Token,
+    private val functionCall: String, //println, if
     private val arguments: List<ASTNode>,
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
 
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return functionCall
     }
 
     override fun getStart(): Int {
