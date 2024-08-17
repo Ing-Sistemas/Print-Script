@@ -27,7 +27,7 @@ class SyntacticAnalyzer {
             val builder = builderStrategy[firstToken.getType()] ?:
             error("token ${firstToken.getType()} not found")
             val astRoot = builder.build(firstToken, statement)
-            val statementNode = StatementNode(astRoot, SEMICOLON, 0,0)
+            val statementNode = StatementNode(astRoot, 0,0)
             statementNodes.add(statementNode)
         }
         return ProgramNode(TEMP_NUM, TEMP_NUM, statementNodes)

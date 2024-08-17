@@ -29,7 +29,7 @@ class SemanticAnalyzer {
         val identifier = node.getIdentifierNode()
         val literal = node.getValueNode()
 
-        compareTypes(identifier.getToken(), literal.getToken())
+        //todo compareTypes(identifier.getToken(), literal.getToken())
         return node
     }
 
@@ -37,8 +37,8 @@ class SemanticAnalyzer {
         val left = node.getLeft()
         val right = node.getRight()
 
-        compareTypes(left.getToken(), right.getToken())
-        checkOperator(node.getToken())
+        //todo compareTypes(left.getToken(), right.getToken())
+        //todo checkOperator(node.getToken())
         return node
     }
 
