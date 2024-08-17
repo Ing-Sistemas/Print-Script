@@ -1,15 +1,13 @@
 package org.example
 
-import Token
-
 class UnaryNode(
-    private val token: Token,
+    private val value: String,
     private val startIndex: Int,
     private val endIndex: Int,
 ): ASTNode {
 
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return value
     }
 
     override fun getStart(): Int {

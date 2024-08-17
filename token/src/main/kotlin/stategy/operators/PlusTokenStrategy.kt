@@ -12,5 +12,6 @@ class PlusTokenStrategy: TokenStrategy {
         return if (match != null && match.range.first == position) {
             val nextPosition = position + match.value.length
             TokenMatch(Token(TokenType.PLUS_OPERATOR, match.value), nextPosition)
-        } else {null}    }
+        } else {null}
+    }
 }

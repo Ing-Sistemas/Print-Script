@@ -1,17 +1,13 @@
 package org.example
 
-import Token
-import org.example.token.TokenType
-
-
 data class StatementNode(
     private val statement: ASTNode,
-    private val stopAt: TokenType,
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
-    override fun getToken(): Token {
-        return Token(stopAt, "endOfStatement")
+    //TODO REMOVE ESTA GARCHA.
+    override fun getValue(): String {
+        return "Statement"
     }
 
     override fun getStart(): Int {

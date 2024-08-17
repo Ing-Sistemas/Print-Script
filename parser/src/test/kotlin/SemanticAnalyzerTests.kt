@@ -1,6 +1,7 @@
 import org.example.*
 import org.example.token.TokenType
 import org.junit.jupiter.api.Test
+import semantic.SemanticAnalyzer
 
 class SemanticAnalyzerTests {
 

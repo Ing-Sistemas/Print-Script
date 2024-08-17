@@ -1,17 +1,15 @@
 package org.example
 
-import Token
-
 class AssignmentNode(
-    private val token: Token,
-    private val identifierNode: ASTNode,
-    private val valueNode: ASTNode,
+    private val equalSign: String, //literally the = sign
+    private val identifierNode: IdentifierNode,
+    private val valueNode: ASTNode, //binary o literal
     private val startIndex: Int,
     private val endIndex: Int
 ): ASTNode {
 
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return equalSign
     }
 
     override fun getStart(): Int {
@@ -26,7 +24,7 @@ class AssignmentNode(
         return visitor.visit(this)
     }
 
-    fun getIdentifierNode(): ASTNode {
+    fun getIdentifierNode(): IdentifierNode {
         return identifierNode
     }
     fun getValueNode(): ASTNode {

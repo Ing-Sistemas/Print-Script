@@ -1,7 +1,7 @@
 package org.example
 
 import Lexer
-import SemanticAnalyzer
+import semantic.SemanticAnalyzer
 import Token
 import org.example.parser.SyntacticAnalyzer
 
