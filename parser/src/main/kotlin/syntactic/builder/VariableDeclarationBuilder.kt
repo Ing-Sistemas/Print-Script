@@ -1,4 +1,4 @@
-package org.example.parser.builder
+package org.example.parser.syntactic.builder
 
 import Token
 import org.example.ASTNode
@@ -15,11 +15,11 @@ class VariableDeclarationBuilder: ASTBuilderStrategy {
             error("Variable declaration expected")
         }
         return VariableDeclarationNode(
-            token,
+            token.getValue(),
+            TypeDeclarationNode(valDec.getValue(), 0,0),
+            AssignationBuilder().build(tokens[tokenPos + 4], tokens),
             0,
             0,
-            TypeDeclarationNode(valDec, 0,0),
-            AssignationBuilder().build(tokens[tokenPos+ 4], tokens)
             )
     }
 
