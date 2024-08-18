@@ -1,12 +1,12 @@
 package org.example
 
 class AssignmentNode(
-    private val equalSign: String, //literally the = sign
+    private val equalSign: String, // literally the = sign
     private val identifierNode: IdentifierNode,
-    private val valueNode: ASTNode, //binary o literal
+    private val valueNode: ASTNode, // binary o literal
     private val startIndex: Int,
-    private val endIndex: Int
-): ASTNode {
+    private val endIndex: Int,
+) : ASTNode {
 
     override fun getValue(): String {
         return equalSign

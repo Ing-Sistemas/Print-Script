@@ -1,10 +1,10 @@
 package org.example
 
 class IdentifierNode(
-    private val varIdentifier: String, //variable name
+    private val varIdentifier: String, // variable name
     private val start: Int,
-    private val end: Int
-): ASTNode {
+    private val end: Int,
+) : ASTNode {
 
     override fun getValue(): String {
         return varIdentifier

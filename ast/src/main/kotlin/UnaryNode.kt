@@ -4,7 +4,7 @@ class UnaryNode(
     private val value: String,
     private val startIndex: Int,
     private val endIndex: Int,
-): ASTNode {
+) : ASTNode {
 
     override fun getValue(): String {
         return value

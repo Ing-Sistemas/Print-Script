@@ -7,4 +7,4 @@ sealed interface ASTNode {
     fun <T> accept(visitor: Visitor<T>): T
 }
 
-//TODO ExpressionNode, BinaryOpNode, FunctionDeclarationNode
+// TODO ExpressionNode, BinaryOpNode, FunctionDeclarationNode

@@ -1,23 +1,22 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
-    id "org.jlleitschuh.gradle.ktlint" version "11.1.0"
+	id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    implementation project(':token')
+	testImplementation 'org.jetbrains.kotlin:kotlin-test'
+	implementation project(':token')
 }
 
 test {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(21)
+	jvmToolchain(21)
 }
