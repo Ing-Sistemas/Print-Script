@@ -1,12 +1,15 @@
-package org.example.parser
+package org.example.parser.syntactic
 
 
 import Token
 import org.example.*
-import org.example.parser.builder.*
+import org.example.parser.syntactic.builder.*
+import org.example.parser.syntactic.builder.ASTBuilderStrategy
+import org.example.parser.syntactic.builder.AssignationBuilder
+import org.example.parser.syntactic.builder.CallBuilder
+import org.example.parser.syntactic.builder.VariableDeclarationBuilder
 import org.example.token.TokenType
 import org.example.token.TokenType.*
-import java.util.*
 
 class SyntacticAnalyzer {
 
@@ -49,5 +52,5 @@ class SyntacticAnalyzer {
         }
         return statements
     }
-
 }
+
