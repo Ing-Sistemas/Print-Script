@@ -22,10 +22,10 @@ fun main(){
         Token(IDENTIFIER, "a"),
         Token(ASSIGNMENT, "="),
         Token(LITERAL_NUMBER, "8"),
-        Token(PLUS_OPERATOR, "+"),
-        Token(LITERAL_NUMBER, "9"),
-        Token(MINUS_OPERATOR, "-"),
-        Token(LITERAL_NUMBER,"2"),
+//        Token(PLUS_OPERATOR, "+"),
+//        Token(LITERAL_NUMBER, "9"),
+//        Token(MINUS_OPERATOR, "-"),
+//        Token(LITERAL_NUMBER,"2"),
         Token(SEMICOLON,";" )
     )
     val ast = SyntacticAnalyzer().buildAST(tokens)

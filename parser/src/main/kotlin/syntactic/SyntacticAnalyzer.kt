@@ -14,7 +14,7 @@ import org.example.token.TokenType.*
 class SyntacticAnalyzer {
     //TODO remove TEMP_NUM
     /**
-     * [TEMP_NUM] current temporary solution to Lexer issue with indexes
+     * [TEMP_NUM] current temporary solution to Lexer's issue with indexes
      *
      * [builderStrategy] map of every builder that has as key the type of token assigned
      *
