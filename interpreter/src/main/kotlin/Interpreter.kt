@@ -1,5 +1,7 @@
 package org.example
 
+import org.example.token.TokenType
+
 class Interpreter {
     private val storage = mutableMapOf<String, Any>()
 
@@ -40,8 +42,8 @@ class Interpreter {
         var value: Any? = null
         when (val assignmentNode = node.getAssignment()){
             is AssignmentNode -> {
-                key = assignmentNode.getIdentifierNode().getToken().getValue()
-                value = valueChecker(assignmentNode.getValueNode().getToken().getValue())
+                key = assignmentNode.getIdentifierNode().getValue()
+                value = valueChecker(assignmentNode)
             }
             else -> {IllegalArgumentException()}
         }
@@ -50,44 +52,75 @@ class Interpreter {
 
     //think valueChecker should be done better with value token and TokenType
 
-    private fun valueChecker(value: String): Any {
-        return try {
-            value.toInt()
-        } catch (e: NumberFormatException) {
-            value
+    private fun valueChecker(value: AssignmentNode): Any {
+        val nodeToAnalyze = value.getValueNode()
+
+        if (nodeToAnalyze is BinaryNode){
+            val operator = nodeToAnalyze.getValue()
+            val left = nodeToAnalyze.getLeft().getValue().toInt()
+            val right = nodeToAnalyze.getRight().getValue().toInt()
+            val result = applyOperator(left, operator, right)
+            return result
+        }
+        return if (nodeToAnalyze is LiteralNode){
+            try {
+                nodeToAnalyze.getValue().toInt()
+            } catch (e: NumberFormatException) {
+                nodeToAnalyze.getValue()
+            }
+        } else IllegalArgumentException() //change to a result exception "node error"
+    }
+
+    private fun applyOperator (left: Int, operator: String, right: Int): Int {
+        return when (operator) {
+            "+" -> left + right
+            "-" -> left - right
+            "*" -> left * right
+            "/" -> left / right
+            else -> {throw IllegalArgumentException()} // change to result
         }
     }
 
     private fun visitLiteral(node: LiteralNode): Any {
-        return node.getToken().getValue()
+        return node.getValue()
     }
 
     private fun visitIdentifier(it: IdentifierNode): Any{
-        return it.getToken().getValue()
+        return it.getValue()
     }
 
 
     private fun visitCall(node: CallNode) {
-        if (node.getToken().getValue() == "println"){
+        if (node.getValue() == "println"){
             node.getArguments().forEach {
-                if (it is IdentifierNode){
-                    println(storage[it.getToken().getValue()])
-                }
-                else {
-                    println(it.getToken().getValue())
+                when (it) {
+                    is IdentifierNode -> {
+                        println(storage[it.getValue()])
+                    }
+
+                    is BinaryNode -> {
+                        println(applyOperator(
+                            it.getLeft().getValue().toInt(),
+                            it.getValue(),
+                            it.getRight().getValue().toInt()))
+                    }
+
+                    else -> {
+                        println(it.getValue())
+                    }
                 }
             }
         }
-        if (node.getToken().getValue() == "if"){
+        if (node.getValue() == "if"){
             TODO()
         }
-        if (node.getToken().getValue() == "else"){
+        if (node.getValue() == "else"){
             TODO()
         }
-        if (node.getToken().getValue() == "while"){
+        if (node.getValue() == "while"){
             TODO()
         }
-        if (node.getToken().getValue() == "for"){
+        if (node.getValue() == "for"){
             TODO()
         }
     }
