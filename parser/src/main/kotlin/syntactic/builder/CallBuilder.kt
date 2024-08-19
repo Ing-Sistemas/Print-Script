@@ -6,6 +6,7 @@ import org.example.CallNode
 import org.example.IdentifierNode
 import org.example.LiteralNode
 import org.example.token.TokenType
+import org.example.token.TokenType.*
 
 class CallBuilder: ASTBuilderStrategy {
     /**
@@ -27,14 +28,22 @@ class CallBuilder: ASTBuilderStrategy {
             error("Call parenthesis not found")
         }
         val args = mutableListOf<ASTNode>()
-        when(val type = tokens[tokenPos+ 2].getType()){
-            //TODO, add binary node for println(5 + 5)
-            //checks the following token inside the ( ), therefore it builds the args list
-            TokenType.LITERAL_NUMBER ->args.add(LiteralNode(tokens[tokenPos+ 2].getValue(),type.name ,0,0))
-            TokenType.LITERAL_STRING ->args.add(LiteralNode(tokens[tokenPos + 2].getValue(), type.name,0,0))
-            TokenType.IDENTIFIER -> args.add(IdentifierNode(tokens[tokenPos + 2].getValue(), 0,0))
-            else -> error("Unexpected token type")
+        val tokensArgs = tokens.subList(tokenPos + 2 , tokens.lastIndex - 1 ) //grabs all the arguments between the () //excluding them
+        println(tokensArgs)
+        if(tokensArgs.size > 1 && isOperator(tokensArgs[1])) {
+            val ast = BinaryNodeBuilder().build(tokensArgs[1], tokensArgs)
+            args.add(ast)
+        } else {
+            when(val type = tokens[tokenPos+ 2].getType()){
+                //TODO, add binary node for println(5 + 5)
+                //checks the following token inside the ( ), therefore it builds the args list
+                LITERAL_NUMBER -> args.add(LiteralNode(tokens[tokenPos + 2].getValue(),type.name ,0,0))
+                LITERAL_STRING -> args.add(LiteralNode(tokens[tokenPos + 2].getValue(), type.name,0,0))
+                IDENTIFIER -> args.add(IdentifierNode(tokens[tokenPos + 2].getValue(), 0,0))
+                else -> error("Unexpected token type")
+            }
         }
+
         return CallNode(token.getValue(), args, 0,0)
     }
 
@@ -43,7 +52,18 @@ class CallBuilder: ASTBuilderStrategy {
      */
 
     private fun hasParens(tokenPos: Int, tokens: List<Token>): Boolean{
-        return (tokens[tokenPos + 1].getType() == TokenType.OPENING_PARENS
-                && tokens[tokens.lastIndex - 1].getType() == TokenType.CLOSING_PARENS)
+        return (tokens[tokenPos + 1].getType() == OPENING_PARENS
+                && tokens[tokens.lastIndex - 1].getType() == CLOSING_PARENS) //last index is ';', - 1 should be ')'
     }
+
+    private fun isOperator(token: Token): Boolean {
+        return when (token.getType()) {
+            MINUS_OPERATOR -> true
+            DIVIDE_OPERATOR -> true
+            PLUS_OPERATOR -> true
+            MULTIPLY_OPERATOR -> true
+            else -> false
+        }
+    }
+
 }

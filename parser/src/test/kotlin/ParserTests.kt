@@ -14,18 +14,19 @@ fun main(){
 //        Token(ASSIGNMENT, "="),
 //        Token(LITERAL_STRING,"'hello'"),
 //        Token(SEMICOLON, ";"),
-//        Token(CALL, "println"),
-//        Token(OPENING_PARENS, "("),
+        Token(CALL, "println"),
+        Token(OPENING_PARENS, "("),
 //        Token(LITERAL_STRING, "'hola'"),
-//        Token(CLOSING_PARENS, ")"),
+
 //        Token(SEMICOLON,";" )
-        Token(IDENTIFIER, "a"),
-        Token(ASSIGNMENT, "="),
+//        Token(IDENTIFIER, "a"),
+//        Token(ASSIGNMENT, "="),
         Token(LITERAL_NUMBER, "8"),
 //        Token(PLUS_OPERATOR, "+"),
 //        Token(LITERAL_NUMBER, "9"),
 //        Token(MINUS_OPERATOR, "-"),
 //        Token(LITERAL_NUMBER,"2"),
+        Token(CLOSING_PARENS, ")"),
         Token(SEMICOLON,";" )
     )
     val ast = SyntacticAnalyzer().buildAST(tokens)
