@@ -3,9 +3,9 @@ package org.example
 data class StatementNode(
     private val statement: ASTNode,
     private val startIndex: Int,
-    private val endIndex: Int
-): ASTNode {
-    //TODO REMOVE ESTA GARCHA.
+    private val endIndex: Int,
+) : ASTNode {
+    // TODO REMOVE ESTA GARCHA.
     override fun getValue(): String {
         return "Statement"
     }
@@ -15,7 +15,7 @@ data class StatementNode(
     }
 
     override fun getEnd(): Int {
-       return endIndex
+        return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {

@@ -1,11 +1,11 @@
 package org.example
 
 data class CallNode(
-    private val functionCall: String, //println, if
+    private val functionCall: String, // println, if
     private val arguments: List<ASTNode>,
     private val startIndex: Int,
-    private val endIndex: Int
-): ASTNode {
+    private val endIndex: Int,
+) : ASTNode {
 
     override fun getValue(): String {
         return functionCall

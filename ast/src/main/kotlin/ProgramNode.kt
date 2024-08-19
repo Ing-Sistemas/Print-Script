@@ -1,6 +1,5 @@
 package org.example
 
-
 data class ProgramNode(
     private val startIndex: Int,
     private val endIndex: Int,

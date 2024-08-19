@@ -1,8 +1,8 @@
 package org.example
 
 class VariableDeclarationNode(
-    private val value: String, //let o const
-    private val typeDeclarationNode: TypeDeclarationNode, //string o number
+    private val value: String, // let o const
+    private val typeDeclarationNode: TypeDeclarationNode, // string o number
     private val assignmentNode: AssignmentNode,
     private val startIndex: Int,
     private val endIndex: Int,

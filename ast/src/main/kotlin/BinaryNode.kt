@@ -5,8 +5,8 @@ data class BinaryNode(
     private val left: ASTNode,
     private val right: ASTNode,
     private val startIndex: Int,
-    private val endIndex: Int
-): ASTNode {
+    private val endIndex: Int,
+) : ASTNode {
     override fun getValue(): String {
         return value
     }

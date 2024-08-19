@@ -5,7 +5,7 @@ data class LiteralNode(
     private val type: String,
     private val start: Int,
     private val end: Int,
-    ) : ASTNode {
+) : ASTNode {
 
     override fun getValue(): String {
         return value
