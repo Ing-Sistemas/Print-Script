@@ -15,7 +15,8 @@ class Interpreter {
             is StatementNode -> visitStatement(node)
             is TypeDeclarationNode -> TODO("Implement")
             is VariableDeclarationNode -> visitVariableDeclaration(node)
-            else -> throw IllegalArgumentException("Unknown node type: ${node.javaClass}")
+            is BinaryNode -> TODO("Implement")
+            is UnaryNode -> TODO("Implement")
         }
     }
 
