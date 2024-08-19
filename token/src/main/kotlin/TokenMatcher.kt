@@ -4,9 +4,17 @@ import org.example.token.stategy.*
 import stategy.CallStrategy
 import stategy.ClosingParensStrategy
 import stategy.OpeningParensStrategy
+import stategy.operators.DivideTokenStrategy
+import stategy.operators.MinusTokenStrategy
+import stategy.operators.MultiplyTokenStrategy
+import stategy.operators.PlusTokenStrategy
 
 class TokenMatcher {
-    //el orden de como estan las strats importa
+    /**
+     * Order of elements in [strategies] matters, therefore variable names are last
+     * (so all the reserved strings are tokenized first)
+     */
+
     private val strategies = listOf(
         KeywordTokenStrategy(),
         CallStrategy(),
@@ -19,8 +27,16 @@ class TokenMatcher {
         StringTokenStrategy(),
         OpeningParensStrategy(),
         ClosingParensStrategy(),
+        PlusTokenStrategy(),
+        MinusTokenStrategy(),
+        DivideTokenStrategy(),
+        MultiplyTokenStrategy(),
         IdentifierTokenStrategy(),
     )
+
+    /**
+     * goes through every strategy and returns the one that matches the given input
+     */
 
     //TODO esta bien devolver TType? o conviene mas TMatch?
     fun match(input: String, position: Int): TokenMatch? {
