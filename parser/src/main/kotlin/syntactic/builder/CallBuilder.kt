@@ -29,13 +29,11 @@ class CallBuilder: ASTBuilderStrategy {
         }
         val args = mutableListOf<ASTNode>()
         val tokensArgs = tokens.subList(tokenPos + 2 , tokens.lastIndex - 1 ) //grabs all the arguments between the () //excluding them
-        println(tokensArgs)
         if(tokensArgs.size > 1 && isOperator(tokensArgs[1])) {
             val ast = BinaryNodeBuilder().build(tokensArgs[1], tokensArgs)
             args.add(ast)
         } else {
             when(val type = tokens[tokenPos+ 2].getType()){
-                //TODO, add binary node for println(5 + 5)
                 //checks the following token inside the ( ), therefore it builds the args list
                 LITERAL_NUMBER -> args.add(LiteralNode(tokens[tokenPos + 2].getValue(),type.name ,0,0))
                 LITERAL_STRING -> args.add(LiteralNode(tokens[tokenPos + 2].getValue(), type.name,0,0))
