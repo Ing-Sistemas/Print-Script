@@ -1,7 +1,5 @@
 package org.example
 
-import org.example.token.TokenType
-
 class Interpreter {
     private val storage = mutableMapOf<String, Any>()
 
@@ -15,7 +13,7 @@ class Interpreter {
             is StatementNode -> visitStatement(node)
             is TypeDeclarationNode -> TODO("Implement")
             is VariableDeclarationNode -> visitVariableDeclaration(node)
-            is BinaryNode -> TODO("Implement")
+            is BinaryNode -> evaluateNode(node)
             is UnaryNode -> TODO("Implement")
         }
     }
@@ -39,37 +37,34 @@ class Interpreter {
     }
 
     private fun visitVariableDeclaration(node: VariableDeclarationNode) {
-        var key: Any? = null
-        var value: Any? = null
-        when (val assignmentNode = node.getAssignment()){
-            is AssignmentNode -> {
-                key = assignmentNode.getIdentifierNode().getValue()
-                value = valueChecker(assignmentNode)
-            }
-            else -> {IllegalArgumentException()}
-        }
-        storage [key.toString()] = value!!
+        val assignmentNode = node.getAssignment()
+        val key = assignmentNode.getIdentifierNode().getValue()
+        val value = evaluateNode(assignmentNode.getValueNode())
+        storage[key] = value
     }
 
     //think valueChecker should be done better with value token and TokenType
 
-    private fun valueChecker(value: AssignmentNode): Any {
-        val nodeToAnalyze = value.getValueNode()
+    private fun evaluateNode(node: ASTNode): Any {
+        return when (node) {
+            is BinaryNode -> {
+                val operator = node.getValue()
+                val leftValue = evaluateNode(node.getLeft())
+                val rightValue = evaluateNode(node.getRight())
 
-        if (nodeToAnalyze is BinaryNode){
-            val operator = nodeToAnalyze.getValue()
-            val left = nodeToAnalyze.getLeft().getValue().toInt()
-            val right = nodeToAnalyze.getRight().getValue().toInt()
-            val result = applyOperator(left, operator, right)
-            return result
-        }
-        return if (nodeToAnalyze is LiteralNode){
-            try {
-                nodeToAnalyze.getValue().toInt()
-            } catch (e: NumberFormatException) {
-                nodeToAnalyze.getValue()
+                val left = leftValue.toString().toIntOrNull() ?: throw IllegalArgumentException("Invalid left")
+                val right = rightValue.toString().toIntOrNull() ?: throw IllegalArgumentException("Invalid right")
+
+                applyOperator(left, operator, right)
             }
-        } else IllegalArgumentException() //change to a result exception "node error"
+            is LiteralNode -> {
+                node.getValue().toIntOrNull() ?: node.getValue()
+            }
+            is IdentifierNode -> {
+                storage[node.getValue()] ?: throw IllegalArgumentException("Unknown variable: ${node.getValue()}")
+            }
+            else -> throw IllegalArgumentException("Unknown node type")
+        }
     }
 
     private fun applyOperator (left: Int, operator: String, right: Int): Int {
@@ -94,22 +89,12 @@ class Interpreter {
     private fun visitCall(node: CallNode) {
         if (node.getValue() == "println"){
             node.getArguments().forEach {
-                when (it) {
-                    is IdentifierNode -> {
-                        println(storage[it.getValue()])
-                    }
-
-                    is BinaryNode -> {
-                        println(applyOperator(
-                            it.getLeft().getValue().toInt(),
-                            it.getValue(),
-                            it.getRight().getValue().toInt()))
-                    }
-
-                    else -> {
-                        println(it.getValue())
-                    }
+                val value = when (it) {
+                    is IdentifierNode -> storage[it.getValue()]
+                    is BinaryNode, is LiteralNode -> evaluateNode(it)
+                    else -> it.getValue()
                 }
+                println(value)
             }
         }
         if (node.getValue() == "if"){
@@ -127,10 +112,10 @@ class Interpreter {
     }
 
     private fun visitAssignment(node: AssignmentNode)  {
-        val identifier = node.getIdentifierNode()
-        val literal  = node.getValueNode()
+        val key = node.getIdentifierNode().getValue()
+        val value  = evaluateNode(node.getValueNode())
 
-        storage[identifier.toString()] = literal
+        storage[key] = value
     }
 
     fun getStorage(): MutableMap<String, Any> {
