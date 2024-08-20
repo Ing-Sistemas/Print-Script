@@ -34,7 +34,7 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
         val typeDeclaration = variableDeclarationNode.getTypeDeclaration().getValue() //'string' o 'number'
         val assignmentValue = variableDeclarationNode.getAssignment().accept(this)
         if (assignmentValue.getErrors().isNotEmpty()) return ResultInformation(null, null, assignmentValue.getErrors())
-        val typeMatchingAssignmentSide = if (assignmentValue.getType() == "NUMBER_TYPE") "number" else "string"
+        val typeMatchingAssignmentSide = if (assignmentValue.getType() == "LITERAL_NUMBER") "number" else "string"
         if (typeDeclaration != typeMatchingAssignmentSide) return ResultInformation(null, null, listOf("Type mismatch for variable declaration"))
         return ResultInformation(assignmentValue.getValue(), assignmentValue.getType(), emptyList())
     }

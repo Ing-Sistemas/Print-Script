@@ -11,7 +11,7 @@ fun main() {
     val code6 = "let a: number = 12; let b: number = 4; let c: number = a / b; println('Result: ' + c);"
     val code7 = "let a: number = 12; let b: number = 4; a = a / b; println('Result: ' + a);"
     //invalid cases
-    val code8 = "let a: string = 12;"
+    val code8 = "let a: number = '12';"
     val code9 = "let a: string = 'hello';"
 
     runner.run(code8)
