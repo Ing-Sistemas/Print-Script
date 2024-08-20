@@ -64,7 +64,7 @@ class Interpreter {
                 node.getValue().toIntOrNull() ?: node.getValue()
             }
             is IdentifierNode -> {
-                storage[node.getValue()] ?: throw IllegalArgumentException("Unknown variable: ${node.getValue()}")
+                visitIdentifier(node)
             }
             else -> throw IllegalArgumentException("Unknown node type")
         }
@@ -84,8 +84,8 @@ class Interpreter {
         return node.getValue()
     }
 
-    private fun visitIdentifier(it: IdentifierNode): Any{
-        return it.getValue()
+    private fun visitIdentifier(node: IdentifierNode): Any{
+        return storage[node.getValue()]!!
     }
 
 
