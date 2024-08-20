@@ -52,10 +52,13 @@ class Interpreter {
                 val leftValue = evaluateNode(node.getLeft())
                 val rightValue = evaluateNode(node.getRight())
 
-                val left = leftValue.toString().toIntOrNull() ?: throw IllegalArgumentException("Invalid left")
-                val right = rightValue.toString().toIntOrNull() ?: throw IllegalArgumentException("Invalid right")
-
-                applyOperator(left, operator, right)
+                when {
+                    leftValue is Int && rightValue is Int -> applyOperator(leftValue, operator, rightValue)
+                    leftValue is String && rightValue is String && operator == "+" -> leftValue + rightValue
+                    leftValue is String && rightValue is Int && operator == "+" -> leftValue + rightValue.toString()
+                    leftValue is Int && rightValue is String && operator == "+" -> leftValue.toString() + rightValue
+                    else -> throw IllegalArgumentException("Invalid operands for operator: $operator")
+                }
             }
             is LiteralNode -> {
                 node.getValue().toIntOrNull() ?: node.getValue()
