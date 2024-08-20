@@ -96,6 +96,9 @@ class SyntacticAnalyzer {
                 statement.add(token)
             }
         }
+        if(statement.isNotEmpty()){
+            error("; is missing")
+        }
         return statements
     }
 }
