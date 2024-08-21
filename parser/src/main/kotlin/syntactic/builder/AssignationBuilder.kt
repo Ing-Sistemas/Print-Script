@@ -49,6 +49,24 @@ class AssignationBuilder: ASTBuilderStrategy {
     private fun handleBinaryValue(tokenIndex: Int, tokens: List<Token>): AssignmentNode{
         val idToken = tokens[tokenIndex - 1]
         val valueToken = tokens[tokenIndex + 1]
+        return buildAssigmentNode(tokenIndex, idToken, valueToken, tokens)
+    }
+    //token list example on binary value
+
+    /**
+     * [handleValDeclaration] follows the structure `let a:string = 'hi';`
+     */
+
+    private fun handleValDeclaration(tokenIndex: Int, tokens: List<Token>): AssignmentNode{
+        val idToken = tokens[tokenIndex - 3]
+        val valueToken = tokens[tokenIndex + 1]
+        return buildAssigmentNode(tokenIndex, idToken, valueToken, tokens)
+    }
+
+    private fun buildAssigmentNode(tokenIndex: Int,
+                                   idToken: Token,
+                                   valueToken: Token,
+                                   tokens: List<Token>):AssignmentNode{
         try {
             val operator = tokens[tokenIndex + 2]
             val valueNode = BinaryNodeBuilder().build(operator, tokens)
@@ -60,28 +78,20 @@ class AssignationBuilder: ASTBuilderStrategy {
             )
         } catch (e: Exception) {
             val idNode = IdentifierNode(idToken.getValue(), 0,0)
-            val valueNode = LiteralNode(valueToken.getValue(), valueToken.getType().name,0,0)
+            val valueNode = buildValueLeaf(valueToken)
             return AssignmentNode(tokens[tokenIndex].getValue(), idNode,valueNode, 0,0)
         }
     }
-    //token list example on binary value
 
-    /**
-     * [handleValDeclaration] follows the structure `let a:string = 'hi';`
-     */
-
-    private fun handleValDeclaration(tokenIndex: Int, tokens: List<Token>): AssignmentNode{
-        val typeDecToken = tokens[tokenIndex - 1]
-        val idToken = tokens[tokenIndex - 3]
-        val valueToken = tokens[tokenIndex + 1]
-        return AssignmentNode(
-            tokens[tokenIndex].getValue(),
-            IdentifierNode(idToken.getValue(),0,0),
-            LiteralNode(valueToken.getValue(), typeDecToken.getType().name,0 ,0),
-            0,
-            0
-        )
+    private fun buildValueLeaf(valueToken: Token): ASTNode {
+        return when(valueToken.getType()){
+            IDENTIFIER ->  IdentifierNode(valueToken.getValue(),0,0)
+            LITERAL_NUMBER-> LiteralNode(valueToken.getValue(), valueToken.getType().name,0,0)
+            LITERAL_STRING-> LiteralNode(valueToken.getValue(), valueToken.getType().name,0,0)
+            else -> { error("wrong token type ${valueToken.getType()}") }
+        }
     }
+
     //token list example on variable assignation
     //[KEYWORD, IDENTIFIER, COLON, STRING_TYPE, ASSIGNATION, STRING_LITERAL, SEMICOLON]
 }
