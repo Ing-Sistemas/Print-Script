@@ -26,12 +26,13 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
 
     override fun visit(identifierNode: IdentifierNode): ResultInformation {
         val variableName = identifierNode.getValue()
-        if (variableName in storage) return ResultInformation(variableName, null, listOf("Variable name already in use")) // todo into assigmentNodeVisit
         return ResultInformation(variableName, null, emptyList())
     }
 
     override fun visit(variableDeclarationNode: VariableDeclarationNode): ResultInformation {
         val typeDeclaration = variableDeclarationNode.getTypeDeclaration().getValue() //'string' o 'number'
+        val identifierName = variableDeclarationNode.getAssignment().getIdentifierNode().getValue()
+        if (identifierName in storage) return ResultInformation(null, null, listOf("Variable name already in use"))
         val assignmentValue = variableDeclarationNode.getAssignment().accept(this)
         if (assignmentValue.getErrors().isNotEmpty()) return ResultInformation(null, null, assignmentValue.getErrors())
         val typeMatchingAssignmentSide = if (assignmentValue.getType() == "LITERAL_NUMBER") "number" else "string"
