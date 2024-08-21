@@ -78,8 +78,17 @@ class AssignationBuilder: ASTBuilderStrategy {
             )
         } catch (e: Exception) {
             val idNode = IdentifierNode(idToken.getValue(), 0,0)
-            val valueNode = LiteralNode(valueToken.getValue(), valueToken.getType().name,0,0)
+            val valueNode = buildValueLeaf(valueToken)
             return AssignmentNode(tokens[tokenIndex].getValue(), idNode,valueNode, 0,0)
+        }
+    }
+
+    private fun buildValueLeaf(valueToken: Token): ASTNode {
+        return when(valueToken.getType()){
+            IDENTIFIER ->  IdentifierNode(valueToken.getValue(),0,0)
+            LITERAL_NUMBER-> LiteralNode(valueToken.getValue(), valueToken.getType().name,0,0)
+            LITERAL_STRING-> LiteralNode(valueToken.getValue(), valueToken.getType().name,0,0)
+            else -> { error("wrong token type ${valueToken.getType()}") }
         }
     }
 
