@@ -26,7 +26,7 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
 
     override fun visit(identifierNode: IdentifierNode): ResultInformation {
         val variableName = identifierNode.getValue()
-        if (variableName in storage) return ResultInformation(variableName, null, listOf("Variable name already in use"))
+        if (variableName in storage) return ResultInformation(variableName, null, listOf("Variable name already in use")) // todo into assigmentNodeVisit
         return ResultInformation(variableName, null, emptyList())
     }
 
@@ -46,6 +46,8 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
     }
 
     private fun performOperation(left: ResultInformation, right: ResultInformation, operator: String): ResultInformation {
+        val leftValue = getIntValue(left.getValue().toString(), storage)
+        val rightValue = getIntValue(right.getValue().toString(), storage)
         return when (operator) {
             "+" -> ResultInformation(left.getValue() + right.getValue(), null, emptyList())
             "-" -> {
@@ -58,21 +60,30 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
             }
             "/" -> {
                 if (left.getType() == right.getType()) {
-                    val operation = left.getValue()!!.toInt() / right.getValue()!!.toInt()
-                    ResultInformation(operation.toString(), left.getType(), emptyList())
+                    val operation = leftValue!! / rightValue!!
+                    ResultInformation(operation.toString(), "LITERAL_NUMBER", emptyList())
                 } else {
                     ResultInformation(null, null, listOf("Type mismatch for division"))
                 }
             }
             "*" -> {
                 if (left.getType() == right.getType()) {
-                    val operation = left.getValue()!!.toInt() * right.getValue()!!.toInt()
-                    ResultInformation(operation.toString(), left.getType(), emptyList())
+                    val operation = leftValue!! * rightValue!!
+                    ResultInformation(operation.toString(), "LITERAL_NUMBER", emptyList())
                 } else {
                     ResultInformation(null, null, listOf("Type mismatch for multiplication"))
                 }
             }
             else -> ResultInformation(null, null, listOf("Invalid operator specified"))
+        }
+    }
+
+    private fun getIntValue(key: String, map: Map<String, Any>): Int? {
+        val value = map[key]
+        return when (value) {
+            is Int -> value
+            is String -> value.toIntOrNull() // Convert String to Int if possible
+            else -> null // Return null if it's neither an Int nor a convertible String
         }
     }
 
