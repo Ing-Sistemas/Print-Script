@@ -18,9 +18,9 @@ class Runner {
         val ast2 = semanticAnalyzer.analyze(ast)
         val interpreted = interpreter.interpret(ast2)
         val storage = interpreter.getStorage()
-        println(storage)
-        println(storage["a"])
-        println(storage["c"])
+        //println(storage)
+        //println(storage["a"])
+        //println(storage["c"])
         return interpreted
     }
 

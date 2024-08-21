@@ -49,6 +49,24 @@ class AssignationBuilder: ASTBuilderStrategy {
     private fun handleBinaryValue(tokenIndex: Int, tokens: List<Token>): AssignmentNode{
         val idToken = tokens[tokenIndex - 1]
         val valueToken = tokens[tokenIndex + 1]
+        return buildAssigmentNode(tokenIndex, idToken, valueToken, tokens)
+    }
+    //token list example on binary value
+
+    /**
+     * [handleValDeclaration] follows the structure `let a:string = 'hi';`
+     */
+
+    private fun handleValDeclaration(tokenIndex: Int, tokens: List<Token>): AssignmentNode{
+        val idToken = tokens[tokenIndex - 3]
+        val valueToken = tokens[tokenIndex + 1]
+        return buildAssigmentNode(tokenIndex, idToken, valueToken, tokens)
+    }
+
+    private fun buildAssigmentNode(tokenIndex: Int,
+                                   idToken: Token,
+                                   valueToken: Token,
+                                   tokens: List<Token>):AssignmentNode{
         try {
             val operator = tokens[tokenIndex + 2]
             val valueNode = BinaryNodeBuilder().build(operator, tokens)
@@ -64,24 +82,7 @@ class AssignationBuilder: ASTBuilderStrategy {
             return AssignmentNode(tokens[tokenIndex].getValue(), idNode,valueNode, 0,0)
         }
     }
-    //token list example on binary value
 
-    /**
-     * [handleValDeclaration] follows the structure `let a:string = 'hi';`
-     */
-
-    private fun handleValDeclaration(tokenIndex: Int, tokens: List<Token>): AssignmentNode{
-        val typeDecToken = tokens[tokenIndex - 1]
-        val idToken = tokens[tokenIndex - 3]
-        val valueToken = tokens[tokenIndex + 1]
-        return AssignmentNode(
-            tokens[tokenIndex].getValue(),
-            IdentifierNode(idToken.getValue(),0,0),
-            LiteralNode(valueToken.getValue(), typeDecToken.getType().name,0 ,0),
-            0,
-            0
-        )
-    }
     //token list example on variable assignation
     //[KEYWORD, IDENTIFIER, COLON, STRING_TYPE, ASSIGNATION, STRING_LITERAL, SEMICOLON]
 }
