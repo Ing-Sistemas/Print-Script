@@ -77,7 +77,7 @@ class AssignationBuilder: ASTBuilderStrategy {
         return AssignmentNode(
             tokens[tokenIndex].getValue(),
             IdentifierNode(idToken.getValue(),0,0),
-            LiteralNode(valueToken.getValue(), valueToken.getType().name,0 ,0),
+            LiteralNode(valueToken.getValue(), typeDecToken.getType().name,0 ,0),
             0,
             0
         )
