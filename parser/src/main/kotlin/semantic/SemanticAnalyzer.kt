@@ -1,6 +1,5 @@
 package semantic
 
-import Token
 import org.example.*
 import org.example.parser.semantic.validate.SemanticNodeVisitor
 
