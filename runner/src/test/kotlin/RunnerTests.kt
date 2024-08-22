@@ -59,4 +59,10 @@ class RunnerTests {
         val code9 = "let a: string = 'hello';"
         runner.run(code9)
     }
+
+    @Test
+    fun test9() {
+        val invalidCode = "let a: string = 'hello'"
+        assertThrows<Exception> { runner.run(invalidCode) }
+    }
 }
