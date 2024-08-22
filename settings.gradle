@@ -1,7 +1,3 @@
 rootProject.name = 'print-script'
 include ('token', 'ast', 'lexer', 'parser', 'interpreter')
 include 'src:main:kotlin'
-include 'interpreter:src:main:test'
-findProject(':interpreter:src:main:test')?.name = 'test'
-include 'interpreter:src:main:test:kotlin'
-findProject(':interpreter:src:main:test:kotlin')?.name = 'kotlin'
