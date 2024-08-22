@@ -1,7 +1,6 @@
 import org.example.Runner
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import kotlin.test.assertEquals
 
 class RunnerTests {
     val runner = Runner()
@@ -26,7 +25,7 @@ class RunnerTests {
 
     @Test
     fun `test case 4`() {
-        val code4 = "let a: number = 12; let c: number = a;"
+        val code4 = "let a: number = 12; let c: number = a; println(c);"
         runner.run(code4)
     }
 

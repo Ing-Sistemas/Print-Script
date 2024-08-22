@@ -26,7 +26,20 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
 
     override fun visit(identifierNode: IdentifierNode): ResultInformation {
         val variableName = identifierNode.getValue()
+        if (variableName in storage) {
+            val value = storage[variableName].toString()
+            val type = storage[variableName]?.let { getTypeForVar(it) }
+            return ResultInformation(variableName, type, emptyList())
+        }
         return ResultInformation(variableName, null, emptyList())
+    }
+
+    private fun getTypeForVar(value: Any): String {
+        return when (value) {
+            is Int -> "LITERAL_NUMBER"
+            is String -> "LITERAL_STRING"
+            else -> "UNKNOWN"
+        }
     }
 
     override fun visit(variableDeclarationNode: VariableDeclarationNode): ResultInformation {
@@ -91,8 +104,11 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
     override fun visit(assignmentNode: AssignmentNode): ResultInformation {
         val identifierNodeName = assignmentNode.getIdentifierNode().accept(this)
         val valueNode = assignmentNode.getValueNode().accept(this)
+//        if (storage[valueNode] != null) {
+//            return ResultInformation(storage[valueNode], valueNode.getType(), emptyList())
+//        }
+        // todo ver si el valueNode esta como key en storage.
         val value = tryToInt(valueNode.getValue().toString())
-        //agregar un try para convertir a int el valueNode
         storage[identifierNodeName.getValue().toString()] = value
         return ResultInformation(valueNode.getValue(), valueNode.getType(), identifierNodeName.getErrors() + valueNode.getErrors())
     }
