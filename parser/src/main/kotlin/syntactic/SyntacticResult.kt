@@ -16,6 +16,6 @@ import org.example.ASTNode
 
 sealed interface SyntacticResult
 
-data class Success(private val astNode: ASTNode): SyntacticResult
-data class Error(private val message: String): SyntacticResult
+data class SyntacticSuccess(val astNode: ASTNode): SyntacticResult
+data class SyntacticFail(val message: String): SyntacticResult
 

@@ -3,6 +3,8 @@ package org.example.parser
 import Token
 import org.example.ASTNode
 import org.example.parser.syntactic.SyntacticAnalyzer
+import org.example.parser.syntactic.SyntacticFail
+import org.example.parser.syntactic.SyntacticSuccess
 import semantic.SemanticAnalyzer
 
 /**
@@ -15,7 +17,11 @@ class Parser {
     private val semanticAnalyzer = SemanticAnalyzer()
 
     fun parse(tokens: List<Token>): ASTNode {
-        val ast = syntacticAnalyzer.buildAST(tokens)
-        return semanticAnalyzer.analyze(ast)
+        return when(val syntacticResult = syntacticAnalyzer.buildAST(tokens)) {
+            is SyntacticFail -> {
+                throw Exception("Error: ${syntacticResult.message}")
+            }
+            is SyntacticSuccess -> {semanticAnalyzer.analyze(syntacticResult.astNode)}
+        }
     }
 }
