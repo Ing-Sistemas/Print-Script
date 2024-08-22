@@ -3,7 +3,6 @@ package org.example.parser.syntactic
 
 import Token
 import org.example.*
-import org.example.parser.syntactic.builder.*
 import org.example.parser.syntactic.builder.ASTBuilderStrategy
 import org.example.parser.syntactic.builder.AssignationBuilder
 import org.example.parser.syntactic.builder.CallBuilder
@@ -51,28 +50,31 @@ class SyntacticAnalyzer {
      *  Example => `let a:number = 12;`
      */
 
-    fun buildAST(tokens: List<Token>): ASTNode {
-        val statements = buildStatements(tokens)
+    fun buildAST(tokens: List<Token>): SyntacticResult {
+        try {
+            val statements = buildStatements(tokens)
+            val statementNodes = mutableListOf<ASTNode>() //list of nodes that will be ProgramNode's children
 
-        val statementNodes = mutableListOf<ASTNode>() //list of nodes that will be ProgramNode's children
-
-        for (statement in statements) {
-            val firstToken = statement.first() //used for identifying which strategy to use
-            val builder = builderStrategy[firstToken.getType()] ?:
-            error("token ${firstToken.getType()} not found")
-            val astRoot = when(firstToken.getType()){
-                IDENTIFIER ->  {
-                    val equalTokenIndex = statement[1]
-                    builder.build(equalTokenIndex, statement)
+            for (statement in statements) {
+                val firstToken = statement.first() //used for identifying which strategy to use
+                val builder = builderStrategy[firstToken.getType()] ?:
+                error("token ${firstToken.getType()} not found")
+                val astRoot = when(firstToken.getType()){
+                    IDENTIFIER ->  {
+                        val equalTokenIndex = statement[1]
+                        builder.build(equalTokenIndex, statement)
+                    }
+                    KEYWORD -> builder.build(firstToken,statement)
+                    CALL -> builder.build(firstToken,statement)
+                    else -> error("token ${firstToken.getType()} not found")
                 }
-                KEYWORD -> builder.build(firstToken,statement)
-                CALL -> builder.build(firstToken,statement)
-                else -> error("token ${firstToken.getType()} not found")
+                val statementNode = StatementNode(astRoot, 0,0)
+                statementNodes.add(statementNode)
             }
-            val statementNode = StatementNode(astRoot, 0,0)
-            statementNodes.add(statementNode)
+            return SyntacticSuccess(ProgramNode(TEMP_NUM, TEMP_NUM, statementNodes))
+        } catch (e: Exception) {
+            return SyntacticFail(e.message ?: e.toString())
         }
-        return ProgramNode(TEMP_NUM, TEMP_NUM, statementNodes)
     }
 
     /**
