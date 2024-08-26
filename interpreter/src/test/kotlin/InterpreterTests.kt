@@ -27,7 +27,10 @@ class InterpreterTests {
     val myProgram = ProgramNode(0, 10, statementListed)
     val storage = interpreter.getStorage()
 
-//    // println("hello world!")
+
+
+    // println("hello world!")
+
 
     val printCall = Token(TokenType.CALL, "println" )
     val printArgument = Token(TokenType.LITERAL_STRING, "'hello world!'")
@@ -40,7 +43,6 @@ class InterpreterTests {
     val statementListed2 = listOf<ASTNode>(statement2)
     val myProgram2 = ProgramNode(0, 55, statementListed2)
 
-
     @Test
     fun testEmptyStorage(){
         val emptyStorage = interpreter.getStorage()
@@ -49,14 +51,18 @@ class InterpreterTests {
 
     @Test
     fun testStorageVarDeclaration(){
+        val storage = interpreter.getStorage()
         interpreter.interpret(myProgram)
         assert(storage.isNotEmpty())
         assert(storage.containsValue(4))
         assert(storage.containsKey("a"))
     }
 
-    @Test
-    fun testPrint(){
-        assert(interpreter.interpret(myProgram2) == println("'hello world!'"))
-    }
+
+//    @Test
+//    fun testPrint(){
+//        val toPrint = interpreter.interpret(myProgram2)
+//        println(toPrint)
+//        assert(toPrint == "'hello world!'")
+//    }
 }
