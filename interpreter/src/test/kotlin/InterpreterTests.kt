@@ -28,7 +28,9 @@ class InterpreterTests {
     val storage = interpreter.getStorage()
 
 
+
     // println("hello world!")
+
 
     val printCall = Token(TokenType.CALL, "println" )
     val printArgument = Token(TokenType.LITERAL_STRING, "'hello world!'")
@@ -55,6 +57,7 @@ class InterpreterTests {
         assert(storage.containsValue(4))
         assert(storage.containsKey("a"))
     }
+
 
 //    @Test
 //    fun testPrint(){

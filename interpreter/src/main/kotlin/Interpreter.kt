@@ -11,10 +11,10 @@ class Interpreter {
             is LiteralNode -> visitLiteral(node)
             is ProgramNode -> visitProgram(node)
             is StatementNode -> visitStatement(node)
-            is TypeDeclarationNode -> TODO("Implement")
+            is TypeDeclarationNode -> TODO("Not necessary")
             is VariableDeclarationNode -> visitVariableDeclaration(node)
             is BinaryNode -> evaluateNode(node)
-            is UnaryNode -> TODO("Implement")
+            is UnaryNode -> TODO("Not necessary")
         }
     }
 
