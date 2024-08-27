@@ -9,3 +9,5 @@ insert_final_newline = false
 # wildcard imports
 ij_kotlin_packages_to_use_import_on_demand = true
 ij_kotlin_space_after_comma = true
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_function-start-of-body-spacing = disabled
