@@ -1,6 +1,4 @@
 package org.example.parser
 
-
-fun main(){
-
+fun main() {
 }

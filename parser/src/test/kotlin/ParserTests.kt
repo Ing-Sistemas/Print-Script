@@ -1,19 +1,17 @@
 import org.example.parser.syntactic.SyntacticAnalyzer
 import org.example.token.TokenType.*
 
+class ParserTests
 
-class ParserTests {
-}
-
-fun main(){
+fun main() {
     val tokens = listOf<Token>(
         Token(KEYWORD, "let"),
         Token(IDENTIFIER, "c"),
         Token(COLON, ":"),
-        Token(NUMBER_TYPE,"number"),
+        Token(NUMBER_TYPE, "number"),
         Token(ASSIGNMENT, "="),
         Token(IDENTIFIER, "a"),
-        Token(DIVIDE_OPERATOR,"/"),
+        Token(DIVIDE_OPERATOR, "/"),
         Token(IDENTIFIER, "b"),
 //        Token(LITERAL_STRING,"'hello'"),
 //        Token(SEMICOLON, ";"),
@@ -30,7 +28,7 @@ fun main(){
 //        Token(MINUS_OPERATOR, "-"),
 //        Token(LITERAL_NUMBER,"2"),
 //        Token(CLOSING_PARENS, ")"),
-        Token(SEMICOLON,";" )
+        Token(SEMICOLON, ";"),
     )
     val ast = SyntacticAnalyzer().buildAST(tokens)
     println(ast)

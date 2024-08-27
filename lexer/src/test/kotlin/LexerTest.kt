@@ -6,7 +6,7 @@ class LexerTest {
     val lexer = Lexer()
 
     @Test
-    fun LexerTokenizes(){
+    fun LexerTokenizes() {
         val input = "let x = 5;"
         val tokens = lexer.tokenize(input)
         assert(tokens.isNotEmpty())
@@ -16,7 +16,7 @@ class LexerTest {
     fun firstElement() {
         val input = "let"
         val tokens = lexer.tokenize(input)
-        assert (tokens[0].getType() == TokenType.KEYWORD)
+        assert(tokens[0].getType() == TokenType.KEYWORD)
     }
 
     @Test

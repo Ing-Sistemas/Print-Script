@@ -1,0 +1,13 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+insert_final_newline = false
+
+[*.{kt,kts}]
+# wildcard imports
+ij_kotlin_packages_to_use_import_on_demand = true
+ij_kotlin_space_after_comma = true
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_function-start-of-body-spacing = disabled

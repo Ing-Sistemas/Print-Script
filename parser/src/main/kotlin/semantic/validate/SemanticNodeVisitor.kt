@@ -3,8 +3,8 @@ package org.example.parser.semantic.validate
 import org.example.*
 import org.example.parser.semantic.ResultInformation
 
-class SemanticNodeVisitor: Visitor<ResultInformation> {
-    //TODO("all exception -> Result")
+class SemanticNodeVisitor : Visitor<ResultInformation> {
+    // TODO("all exception -> Result")
     private val storage = mutableMapOf<String, Any>()
 
     override fun visit(programNode: ProgramNode): ResultInformation {
@@ -43,7 +43,7 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
     }
 
     override fun visit(variableDeclarationNode: VariableDeclarationNode): ResultInformation {
-        val typeDeclaration = variableDeclarationNode.getTypeDeclaration().getValue() //'string' o 'number'
+        val typeDeclaration = variableDeclarationNode.getTypeDeclaration().getValue() // 'string' o 'number'
         val identifierName = variableDeclarationNode.getAssignment().getIdentifierNode().getValue()
         if (identifierName in storage) return ResultInformation(null, null, listOf("Variable name already in use"))
         val assignmentValue = variableDeclarationNode.getAssignment().accept(this)

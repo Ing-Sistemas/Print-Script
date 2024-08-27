@@ -51,7 +51,6 @@ class InterpreterTests {
 
     @Test
     fun testStorageVarDeclaration(){
-        val storage = interpreter.getStorage()
         interpreter.interpret(myProgram)
         assert(storage.isNotEmpty())
         assert(storage.containsValue(4))

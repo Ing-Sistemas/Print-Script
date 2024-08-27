@@ -19,5 +19,5 @@ enum class TokenType {
     OPENING_PARENS,
     CLOSING_PARENS,
     PROGRAM,
-    STATEMENT;
+    STATEMENT,
 }
