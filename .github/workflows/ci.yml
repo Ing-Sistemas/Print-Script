@@ -2,9 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - dev
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - dev
 
 jobs:
   build:
@@ -33,7 +37,4 @@ jobs:
           arguments: build jacocoTestReport
 
       - name: Run Linting
-        run: ./gradlew detekt
-
-      - name: Check Formatting
-        run: ./gradlew ktlintCheck
+        run: ./gradlew lintCheck
