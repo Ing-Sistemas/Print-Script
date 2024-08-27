@@ -59,4 +59,16 @@ class RunnerTests {
         val code9 = "let a: string = 'hello';"
         runner.run(code9)
     }
+
+    @Test
+    fun test9() {
+        val invalidCode = "let a: string = 'hello'"
+        assertThrows<Exception> { runner.run(invalidCode) }
+    }
+
+    @Test
+    fun `test binary operations`() {
+        val code = "println(4+4); println(4-4); println(4*4); println(4/4);"
+        runner.run(code)
+    }
 }

@@ -3,7 +3,7 @@ package org.example.parser.semantic
 class ResultInformation(
     private val value: String?,
     private val type: String?,
-    private val errors: List<String>
+    private val errors: List<String>,
 ) {
     fun getValue(): String? {
         return value
@@ -14,5 +14,4 @@ class ResultInformation(
     fun getErrors(): List<String> {
         return errors
     }
-
 }

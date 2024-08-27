@@ -27,12 +27,12 @@ class Interpreter {
         }
     }
 
-    private fun visitStatement(node: StatementNode){
+    private fun visitStatement(node: StatementNode) {
         when (val it = node.getStatement()) {
             is AssignmentNode -> visitAssignment(it)
             is CallNode -> visitCall(it)
             is VariableDeclarationNode -> visitVariableDeclaration(it)
-            else -> {IllegalArgumentException()}
+            else -> { IllegalArgumentException() }
         }
     }
 
@@ -43,7 +43,7 @@ class Interpreter {
         storage[key] = value
     }
 
-    //think valueChecker should be done better with value token and TokenType
+    // think valueChecker should be done better with value token and TokenType
 
     private fun evaluateNode(node: ASTNode): Any {
         return when (node) {
@@ -70,13 +70,13 @@ class Interpreter {
         }
     }
 
-    private fun applyOperator (left: Int, operator: String, right: Int): Int {
+    private fun applyOperator(left: Int, operator: String, right: Int): Int {
         return when (operator) {
             "+" -> left + right
             "-" -> left - right
             "*" -> left * right
             "/" -> left / right
-            else -> {throw IllegalArgumentException()} // change to result
+            else -> { throw IllegalArgumentException() } // change to result
         }
     }
 
@@ -84,13 +84,12 @@ class Interpreter {
         return node.getValue()
     }
 
-    private fun visitIdentifier(node: IdentifierNode): Any{
+    private fun visitIdentifier(node: IdentifierNode): Any {
         return storage[node.getValue()]!!
     }
 
-
     private fun visitCall(node: CallNode) {
-        if (node.getValue() == "println"){
+        if (node.getValue() == "println") {
             node.getArguments().forEach {
                 val value = when (it) {
                     is IdentifierNode -> storage[it.getValue()]
@@ -100,23 +99,23 @@ class Interpreter {
                 println(value)
             }
         }
-        if (node.getValue() == "if"){
+        if (node.getValue() == "if") {
             TODO()
         }
-        if (node.getValue() == "else"){
+        if (node.getValue() == "else") {
             TODO()
         }
-        if (node.getValue() == "while"){
+        if (node.getValue() == "while") {
             TODO()
         }
-        if (node.getValue() == "for"){
+        if (node.getValue() == "for") {
             TODO()
         }
     }
 
-    private fun visitAssignment(node: AssignmentNode)  {
+    private fun visitAssignment(node: AssignmentNode) {
         val key = node.getIdentifierNode().getValue()
-        val value  = evaluateNode(node.getValueNode())
+        val value = evaluateNode(node.getValueNode())
 
         storage[key] = value
     }
@@ -124,5 +123,4 @@ class Interpreter {
     fun getStorage(): MutableMap<String, Any> {
         return storage
     }
-
 }

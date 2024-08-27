@@ -17,11 +17,11 @@ class Parser {
     private val semanticAnalyzer = SemanticAnalyzer()
 
     fun parse(tokens: List<Token>): ASTNode {
-        return when(val syntacticResult = syntacticAnalyzer.buildAST(tokens)) {
+        return when (val syntacticResult = syntacticAnalyzer.buildAST(tokens)) {
             is SyntacticFail -> {
                 throw Exception("Error: ${syntacticResult.message}")
             }
-            is SyntacticSuccess -> {semanticAnalyzer.analyze(syntacticResult.astNode)}
+            is SyntacticSuccess -> { semanticAnalyzer.analyze(syntacticResult.astNode) }
         }
     }
 }

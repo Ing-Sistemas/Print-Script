@@ -3,7 +3,6 @@ package semantic
 import org.example.*
 import org.example.parser.semantic.*
 
-
 class SemanticAnalyzer {
     private val resultFactory = ResultFactory()
     private val typeCheck = TypeCheck(resultFactory)

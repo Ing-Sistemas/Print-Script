@@ -10,5 +10,5 @@ interface ASTBuilderStrategy {
      * This structure is defined using the indexes relative to the given token
      */
 
-    fun build(token: Token,tokens: List<Token>): ASTNode
+    fun build(token: Token, tokens: List<Token>): ASTNode
 }
