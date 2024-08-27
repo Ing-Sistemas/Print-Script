@@ -6,8 +6,8 @@ object TokenRegex {
     val multiplyOperatorRegex = Regex("\\*")
     val divideOperatorRegex = Regex("/")
     val functionCallRegex = Regex("\\b(if|else|for|while|println)\\b")
-    val opening_parens = Regex("\\(");
-    val closing_parens = Regex("\\)");
+    val opening_parens = Regex("\\(")
+    val closing_parens = Regex("\\)")
     val stringTypeRegex = Regex("string")
     val numberTypeRegex = Regex("number")
     val assignmentRegex = Regex("=")
