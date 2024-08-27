@@ -7,8 +7,8 @@
 ./gradlew formatApply
 git add . -u #agrega todos los elementos versionados y sin commitear (producto del formateo anterior)
 
-# Corre los tests
-./gradlew test
+# Corre los tests y check
+./gradlew build
 
 # Si falla, rechaza el commit
 if [ $? -ne 0 ]; then

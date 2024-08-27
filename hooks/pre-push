@@ -1,16 +1,17 @@
 #!/bin/sh
 
-# vas al project root
-cd "$(git rev-parse --show-toplevel)" || exit
+# vas al root directory del proyecto
+#cd "$(git rev-parse --show-toplevel)" || exit
 
-# Corre los tests
-./gradlew test
+# Formatea el codigo
+./gradlew formatApply
+git add . -u #agrega todos los elementos versionados y sin commitear (producto del formateo anterior)
 
-# verifica que el código esté formateado bien
-./gradlew lintCheck
+# Corre los tests y check
+./gradlew build
 
 # Si falla, rechaza el push
 if [ $? -ne 0 ]; then
-  echo "Pre-push checks failed. Push aborted."
+  echo "Pre-push checks failed. Push cancelled."
   exit 1
 fi
