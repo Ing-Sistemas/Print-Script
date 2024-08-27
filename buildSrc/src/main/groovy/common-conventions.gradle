@@ -51,7 +51,7 @@ jacocoTestCoverageVerification {
     }
 }
 
-tasks.register("ktlintCheck", JavaExec) {
+tasks.register("lintCheck", JavaExec) {
     group = "verification"
     description = "Check Kotlin code style."
     classpath = configurations.ktlint
@@ -64,7 +64,7 @@ tasks.named("check") {
     dependsOn tasks.named("jacocoTestCoverageVerification")
 }
 
-tasks.register("ktlintFormat", JavaExec) {
+tasks.register("formatApply", JavaExec) {
     group = "formatting"
     description = "Fix Kotlin code style deviations."
     classpath = configurations.ktlint

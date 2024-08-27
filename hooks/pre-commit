@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # formatea el codigo
-./gradlew spotlessApply
+./gradlew formatApply
 
 # corre los tests
 ./gradlew test
