@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# formatea el codigo
+./gradlew spotlessApply
+
+# corre los tests
+./gradlew test
+
+# si falla, rechaza el commit
+if [ $? -ne 0 ]; then
+  echo "Pre-commit checks failed. Commit cancelled."
+  exit 1
+fi

@@ -1,7 +1,6 @@
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id 'org.jetbrains.kotlin.jvm'
-
     id 'jacoco'
 }
 
@@ -74,15 +73,6 @@ tasks.register("ktlintFormat", JavaExec) {
     args "-F", "src/**/*.kt", "**.kts", "!**/build/**"
 }
 
-task installGitHooks(type: Copy) {
-    from new File(rootProject.rootDir, 'hooks/pre-commit')
-    into { new File(rootProject.rootDir, '.git/hooks') }
-    doLast {
-        file("${rootProject.rootDir}/.git/hooks/pre-commit").setExecutable(true)
-    }
-}
-
-build.dependsOn installGitHooks
 
 jacocoTestReport {
     dependsOn test

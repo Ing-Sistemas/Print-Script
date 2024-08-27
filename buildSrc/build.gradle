@@ -1,13 +1,33 @@
 plugins {
-    // Support convention plugins written in Groovy. Convention plugins are build scripts in 'src/main' that automatically become available as plugins in the main build.
     id 'groovy-gradle-plugin'
 }
 
 repositories {
-    // Use the plugin portal to apply community plugins in convention plugins.
     gradlePluginPortal()
+    mavenCentral()
 }
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0-RC1'
 }
+
+tasks.register('installGitHooks', Copy) {
+    from('hooks/pre-commit')
+    into('.git/hooks')
+
+    from('hooks/pre-push')
+    into('.git/hooks')
+
+    doLast {
+        println 'Installed Git hooks:'
+        file('.git/hooks/pre-commit').setExecutable(true)
+        println file('.git/hooks/pre-commit').absolutePath
+        file('.git/hooks/pre-push').setExecutable(true)
+        println file('.git/hooks/pre-push').absolutePath
+    }
+}
+
+tasks.named("build") {
+    dependsOn(":buildSrc:installGitHooks")
+}
+
