@@ -2,6 +2,8 @@ plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id 'org.jetbrains.kotlin.jvm'
     id 'jacoco'
+    id 'checkstyle'
+    id 'maven-publish'
 }
 
 repositories {
@@ -55,8 +57,8 @@ tasks.register("lintCheck", JavaExec) {
     group = "verification"
     description = "Check Kotlin code style."
     classpath = configurations.ktlint
-    mainClass = "com.pinterest.ktlint.Main"
-    args "src/**/*.kt", "**.kts", "!**/build/**"
+    mainClass.set("com.pinterest.ktlint.Main")
+    args('src/**/*.kt', '**/*.kts', '!build/**')
 }
 
 tasks.named("check") {
@@ -68,11 +70,10 @@ tasks.register("formatApply", JavaExec) {
     group = "formatting"
     description = "Fix Kotlin code style deviations."
     classpath = configurations.ktlint
-    mainClass = "com.pinterest.ktlint.Main"
-    jvmArgs "--add-opens=java.base/java.lang=ALL-UNNAMED"
-    args "-F", "src/**/*.kt", "**.kts", "!**/build/**"
+    mainClass.set("com.pinterest.ktlint.Main")
+    jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
+    args('-F', 'src/**/*.kt', '**/*.kts', '!build/**')
 }
-
 
 jacocoTestReport {
     dependsOn test

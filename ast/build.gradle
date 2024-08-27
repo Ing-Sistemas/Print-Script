@@ -1,6 +1,6 @@
 plugins {
 	id 'org.jetbrains.kotlin.jvm'
-    id "library-conventions"
+    id 'application-conventions'
 }
 
 group = 'org.example'
@@ -20,4 +20,24 @@ test {
 }
 kotlin {
 	jvmToolchain(21)
+}
+
+tasks.register('installGitHooks', Copy) {
+    from("${rootDir}/hooks/pre-commit")
+    into("${rootDir}/.git/hooks")
+
+    from("${rootDir}/hooks/pre-push")
+    into("${rootDir}/.git/hooks")
+
+    doLast {
+        println 'Installed Git hooks:'
+        file("${rootDir}/.git/hooks/pre-commit").setExecutable(true)
+        println file("${rootDir}/.git/hooks/pre-commit").absolutePath
+        file("${rootDir}/.git/hooks/pre-push").setExecutable(true)
+        println file("${rootDir}/.git/hooks/pre-push").absolutePath
+    }
+}
+
+tasks.named("build") {
+    dependsOn("installGitHooks")
 }

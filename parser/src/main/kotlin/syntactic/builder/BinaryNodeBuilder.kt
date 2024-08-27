@@ -5,10 +5,9 @@ import org.example.ASTNode
 import org.example.BinaryNode
 import org.example.IdentifierNode
 import org.example.LiteralNode
-import org.example.token.TokenType
 import org.example.token.TokenType.*
 
-class BinaryNodeBuilder: ASTBuilderStrategy {
+class BinaryNodeBuilder : ASTBuilderStrategy {
     /**
      * returns a Binary node with the structure
      *
@@ -33,30 +32,29 @@ class BinaryNodeBuilder: ASTBuilderStrategy {
      *  `check final structure at the end`
      */
 
-
     override fun build(token: Token, tokens: List<Token>): ASTNode {
         val operatorIndex = tokens.indexOf(token)
         val left = tokens[operatorIndex - 1] // leftValue, operand, rightValue
-        val possibleOperator = if (operatorIndex + 2 < tokens.size) tokens[operatorIndex + 2] else null //Checks if there's another operand to build
-        val right = if(possibleOperator != null && isOperator(possibleOperator)){   // its branch on the right node from the root
-            build(possibleOperator, tokens) //if it finds one, the function builds the branch with recursion
-        } else { buildNode(tokens[operatorIndex + 1])} //if the is no operand, that means the following value is a leaf
-        return BinaryNode(token.getValue(), buildNode(left), right, 0,0)
+        val possibleOperator = if (operatorIndex + 2 < tokens.size) tokens[operatorIndex + 2] else null // Checks if there's another operand to build
+        val right = if (possibleOperator != null && isOperator(possibleOperator)) { // its branch on the right node from the root
+            build(possibleOperator, tokens) // if it finds one, the function builds the branch with recursion
+        } else { buildNode(tokens[operatorIndex + 1]) } // if the is no operand, that means the following value is a leaf
+        return BinaryNode(token.getValue(), buildNode(left), right, 0, 0)
     }
 
     /**
      [buildNode] creates a new Leaf Node based on the given token
      */
-    private fun buildNode(token: Token): ASTNode{
-        return when(token.getType()){
-            LITERAL_STRING -> LiteralNode(token.getValue(), token.getType().name, 0,0)
-            LITERAL_NUMBER -> LiteralNode(token.getValue(), token.getType().name, 0,0)
-            IDENTIFIER -> IdentifierNode(token.getValue(), 0,0)
+    private fun buildNode(token: Token): ASTNode {
+        return when (token.getType()) {
+            LITERAL_STRING -> LiteralNode(token.getValue(), token.getType().name, 0, 0)
+            LITERAL_NUMBER -> LiteralNode(token.getValue(), token.getType().name, 0, 0)
+            IDENTIFIER -> IdentifierNode(token.getValue(), 0, 0)
             else -> throw Exception("Unexpected token type: ${token.getType()}")
         }
     }
 
-    //checks if a given token is an operator
+    // checks if a given token is an operator
     private fun isOperator(token: Token): Boolean {
         return when (token.getType()) {
             MINUS_OPERATOR -> true
@@ -74,5 +72,4 @@ class BinaryNodeBuilder: ASTBuilderStrategy {
 
         the original rightVal ends up being the left value of the new node
      */
-
 }

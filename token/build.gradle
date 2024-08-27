@@ -1,6 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
-    id "library-conventions"
+    id 'application-conventions'
 }
 
 group = 'org.example'

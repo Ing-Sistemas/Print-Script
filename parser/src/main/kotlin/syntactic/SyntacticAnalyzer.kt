@@ -1,6 +1,5 @@
 package org.example.parser.syntactic
 
-
 import Token
 import org.example.*
 import org.example.parser.syntactic.builder.ASTBuilderStrategy
@@ -11,7 +10,7 @@ import org.example.token.TokenType
 import org.example.token.TokenType.*
 
 class SyntacticAnalyzer {
-    //TODO remove TEMP_NUM
+    // TODO remove TEMP_NUM
     /**
      * [TEMP_NUM] current temporary solution to Lexer's issue with indexes
      *
@@ -53,22 +52,22 @@ class SyntacticAnalyzer {
     fun buildAST(tokens: List<Token>): SyntacticResult {
         try {
             val statements = buildStatements(tokens)
-            val statementNodes = mutableListOf<ASTNode>() //list of nodes that will be ProgramNode's children
+            val statementNodes = mutableListOf<ASTNode>() // list of nodes that will be ProgramNode's children
 
             for (statement in statements) {
-                val firstToken = statement.first() //used for identifying which strategy to use
-                val builder = builderStrategy[firstToken.getType()] ?:
-                error("token ${firstToken.getType()} not found")
-                val astRoot = when(firstToken.getType()){
-                    IDENTIFIER ->  {
+                val firstToken = statement.first() // used for identifying which strategy to use
+                val builder = builderStrategy[firstToken.getType()]
+                    ?: error("token ${firstToken.getType()} not found")
+                val astRoot = when (firstToken.getType()) {
+                    IDENTIFIER -> {
                         val equalTokenIndex = statement[1]
                         builder.build(equalTokenIndex, statement)
                     }
-                    KEYWORD -> builder.build(firstToken,statement)
-                    CALL -> builder.build(firstToken,statement)
+                    KEYWORD -> builder.build(firstToken, statement)
+                    CALL -> builder.build(firstToken, statement)
                     else -> error("token ${firstToken.getType()} not found")
                 }
-                val statementNode = StatementNode(astRoot, 0,0)
+                val statementNode = StatementNode(astRoot, 0, 0)
                 statementNodes.add(statementNode)
             }
             return SyntacticSuccess(ProgramNode(TEMP_NUM, TEMP_NUM, statementNodes))
@@ -84,13 +83,13 @@ class SyntacticAnalyzer {
      * returns a list containing each statement as a list
      */
 
-    private fun buildStatements(tokens: List<Token>): List<List<Token>>{
+    private fun buildStatements(tokens: List<Token>): List<List<Token>> {
         val listIt = tokens.iterator()
         val statements = mutableListOf<List<Token>>()
         val statement = mutableListOf<Token>()
-        while (listIt.hasNext()){
+        while (listIt.hasNext()) {
             val token = listIt.next()
-            if(token.getType() == SEMICOLON){
+            if (token.getType() == SEMICOLON) {
                 statement.add(token)
                 statements.add(statement.toList())
                 statement.clear()
@@ -98,7 +97,7 @@ class SyntacticAnalyzer {
                 statement.add(token)
             }
         }
-        if(statement.isNotEmpty()){
+        if (statement.isNotEmpty()) {
             error("; is missing")
         }
         return statements

@@ -1,12 +1,16 @@
 #!/bin/sh
 
-# formatea el codigo
-./gradlew formatApply
+# vas al root directory del proyecto
+#cd "$(git rev-parse --show-toplevel)" || exit
 
-# corre los tests
+# Formatea el codigo
+./gradlew formatApply
+git add . -u #agrega todos los elementos versionados y sin commitear (producto del formateo anterior)
+
+# Corre los tests
 ./gradlew test
 
-# si falla, rechaza el commit
+# Si falla, rechaza el commit
 if [ $? -ne 0 ]; then
   echo "Pre-commit checks failed. Commit cancelled."
   exit 1

@@ -1,7 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
-    //id 'application-conventions'
-    id "library-conventions"
+    id 'application-conventions'
 }
 
 version = '1.0-SNAPSHOT'
