@@ -60,7 +60,7 @@ tasks.register("lintCheck", JavaExec) {
 }
 
 tasks.named("check") {
-    dependsOn tasks.named("ktlintCheck")
+    dependsOn tasks.named("lintCheck")
     dependsOn tasks.named("jacocoTestCoverageVerification")
 }
 
