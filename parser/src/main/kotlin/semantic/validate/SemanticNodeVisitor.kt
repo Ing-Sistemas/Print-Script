@@ -4,7 +4,6 @@ import org.example.*
 import org.example.parser.semantic.ResultInformation
 
 class SemanticNodeVisitor: Visitor<ResultInformation> {
-    //TODO("all exception -> Result")
     private val storage = mutableMapOf<String, Any>()
 
     override fun visit(programNode: ProgramNode): ResultInformation {
@@ -27,7 +26,6 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
     override fun visit(identifierNode: IdentifierNode): ResultInformation {
         val variableName = identifierNode.getValue()
         if (variableName in storage) {
-            val value = storage[variableName].toString()
             val type = storage[variableName]?.let { getTypeForVar(it) }
             return ResultInformation(variableName, type, emptyList())
         }
@@ -96,18 +94,14 @@ class SemanticNodeVisitor: Visitor<ResultInformation> {
         val value = map[key]
         return when (value) {
             is Int -> value
-            is String -> value.toIntOrNull() // Convert String to Int if possible
-            else -> null // Return null if it's neither an Int nor a convertible String
+            is String -> value.toIntOrNull() // string to int
+            else -> null // Return null > no int/string
         }
     }
 
     override fun visit(assignmentNode: AssignmentNode): ResultInformation {
         val identifierNodeName = assignmentNode.getIdentifierNode().accept(this)
         val valueNode = assignmentNode.getValueNode().accept(this)
-//        if (storage[valueNode] != null) {
-//            return ResultInformation(storage[valueNode], valueNode.getType(), emptyList())
-//        }
-        // todo ver si el valueNode esta como key en storage.
         val value = tryToInt(valueNode.getValue().toString())
         storage[identifierNodeName.getValue().toString()] = value
         return ResultInformation(valueNode.getValue(), valueNode.getType(), identifierNodeName.getErrors() + valueNode.getErrors())
