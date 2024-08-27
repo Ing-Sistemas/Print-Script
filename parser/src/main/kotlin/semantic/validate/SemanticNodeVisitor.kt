@@ -1,6 +1,7 @@
-package org.example.parser.semantic
+package org.example.parser.semantic.validate
 
 import org.example.*
+import org.example.parser.semantic.ResultInformation
 
 class SemanticNodeVisitor(
     private val typeCheck: TypeCheck,
