@@ -1,30 +1,21 @@
 package linters
 
+import Token
 import configurations.Configuration
 import interfaces.Linter
 
-class Linter(private val configuration: Configuration) : Linter {
+class Linter(configuration: Configuration) {
 
-    override fun lint(code: String) {
-        when (configuration.caseConfiguration.value) {
-            "Camel Case" -> checkCamelCase(code)
-            "Snake Case" -> checkSnakeCase(code)
+    private val linters: List<Linter> = listOf(
+        IdentifierCaseLinter(configuration.caseConfiguration),
+        if (configuration.restrictPrintln) PrinterRestrictions() else null,
+    ).filterNotNull()
+
+    fun lint(tokens: List<Token>): List<String> {
+        val allErrors = mutableListOf<String>()
+        for (linter in linters) {
+            allErrors.add(linter.lint(tokens).toString())
         }
-
-        if (configuration.restrictPrintln) {
-            checkPrintln(code)
-        }
-    }
-
-    private fun checkCamelCase(code: String) {
-        TODO()
-    }
-
-    private fun checkSnakeCase(code: String) {
-        TODO()
-    }
-
-    private fun checkPrintln(code: String) {
-        TODO()
+        return allErrors
     }
 }

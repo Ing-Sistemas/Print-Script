@@ -1,6 +1,8 @@
 package interfaces
 
+import Token
+
 interface Linter {
 
-    fun lint(code: String)
+    fun lint(tokens: List<Token>): List<String>
 }
