@@ -1,0 +1,23 @@
+{
+  "startIndex": 1,
+  "endIndex": 1,
+  "children": [
+    {
+      "statement": {
+        "functionCall": "println",
+        "arguments": [
+          {
+            "value": "\u0027hola\u0027",
+            "type": "LITERAL_STRING",
+            "startIndex": 0,
+            "endIndex": 0
+          }
+        ],
+        "startIndex": 0,
+        "endIndex": 0
+      },
+      "startIndex": 0,
+      "endIndex": 0
+    }
+  ]
+}

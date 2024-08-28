@@ -2,8 +2,8 @@ package org.example
 
 class IdentifierNode(
     private val varIdentifier: String, // variable name
-    private val start: Int,
-    private val end: Int,
+    private val startIndex: Int,
+    private val endIndex: Int,
 ) : ASTNode {
 
     override fun getValue(): String {
@@ -11,11 +11,11 @@ class IdentifierNode(
     }
 
     override fun getStart(): Int {
-        return start
+        return startIndex
     }
 
     override fun getEnd(): Int {
-        return end
+        return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {

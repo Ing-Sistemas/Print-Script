@@ -1,0 +1,36 @@
+{
+  "startIndex": 1 ,
+  "endIndex": 1,
+  "children": [
+    {
+      "statement": {
+        "value": "let",
+        "typeDeclarationNode": {
+          "type": "string",
+          "startIndex": 0,
+          "endIndex": 0
+        },
+        "assignmentNode": {
+          "equalSign": "\u003d",
+          "identifierNode": {
+            "varIdentifier": "myVar",
+            "startIndex": 0,
+            "endIndex": 0
+          },
+          "valueNode": {
+            "value": "'hola'",
+            "type": "LITERAL_STRING",
+            "startIndex": 0,
+            "endIndex": 0
+          },
+          "startIndex": 0,
+          "endIndex": 0
+        },
+        "startIndex": 0,
+        "endIndex": 0
+      },
+      "startIndex": 0,
+      "endIndex": 0
+    }
+  ]
+}

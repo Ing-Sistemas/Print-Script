@@ -3,8 +3,8 @@ package org.example
 data class LiteralNode(
     private val value: String,
     private val type: String,
-    private val start: Int,
-    private val end: Int,
+    private val startIndex: Int,
+    private val endIndex: Int,
 ) : ASTNode {
 
     override fun getValue(): String {
@@ -12,11 +12,11 @@ data class LiteralNode(
     }
 
     override fun getStart(): Int {
-        return start
+        return startIndex
     }
 
     override fun getEnd(): Int {
-        return end
+        return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {
