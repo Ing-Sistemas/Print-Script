@@ -1,7 +1,7 @@
 package org.example.parser.semantic
 
 class ResultFactory {
-    fun create(value: String?, type: String?, errors: List<String> = emptyList()) : ResultInformation {
+    fun create(value: String?, type: String?, errors: List<String> = emptyList()): ResultInformation {
         return ResultInformation(value, type, errors)
     }
 

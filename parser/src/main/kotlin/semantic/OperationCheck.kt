@@ -5,13 +5,13 @@ import org.example.Visitor
 
 class OperationCheck(
     private val resultFactory: ResultFactory,
-    private val storageManager: StorageManager
+    private val storageManager: StorageManager,
 ) {
 
     fun checkBinaryOperation(
         node: BinaryNode,
-        visitor: Visitor<ResultInformation>
-    ) : ResultInformation {
+        visitor: Visitor<ResultInformation>,
+    ): ResultInformation {
         val left = node.getLeft().accept(visitor)
         val right = node.getRight().accept(visitor)
         return performOperation(left, right, node.getValue())
@@ -20,8 +20,8 @@ class OperationCheck(
     private fun performOperation(
         left: ResultInformation,
         right: ResultInformation,
-        operator: String
-    ) : ResultInformation {
+        operator: String,
+    ): ResultInformation {
         return when (operator) {
             "+" -> resultFactory.create(left.getValue() + right.getValue(), null)
             "-" -> handleOperation(left, right, Int::minus)
@@ -43,8 +43,8 @@ class OperationCheck(
     private fun handleOperation(
         left: ResultInformation,
         right: ResultInformation,
-        operation: (Int, Int) -> Int
-    ) : ResultInformation {
+        operation: (Int, Int) -> Int,
+    ): ResultInformation {
         val leftValue = getIntValue(left.getValue().toString(), storageManager.getStorage())
         val rightValue = getIntValue(right.getValue().toString(), storageManager.getStorage())
         return if (left.getType() == right.getType()) {
