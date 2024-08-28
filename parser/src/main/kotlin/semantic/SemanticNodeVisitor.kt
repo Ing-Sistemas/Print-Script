@@ -6,7 +6,7 @@ class SemanticNodeVisitor(
     private val typeCheck: TypeCheck,
     private val storageManager: StorageManager,
     private val operationCheck: OperationCheck,
-    private val resultFactory: ResultFactory
+    private val resultFactory: ResultFactory,
 ) : Visitor<ResultInformation> {
 
     override fun visit(programNode: ProgramNode): ResultInformation {

@@ -5,7 +5,7 @@ import org.example.IdentifierNode
 import org.example.Visitor
 
 class StorageManager(
-    private val result: ResultFactory
+    private val result: ResultFactory,
 ) {
     private val storage = mutableMapOf<String, String>()
 
@@ -21,8 +21,8 @@ class StorageManager(
 
     fun handleAssignment(
         node: AssignmentNode,
-        visitor: Visitor<ResultInformation>
-    ) : ResultInformation {
+        visitor: Visitor<ResultInformation>,
+    ): ResultInformation {
         val identifierResult = node.getIdentifierNode().accept(visitor)
         val valueResult = node.getValueNode().accept(visitor)
         storage[identifierResult.getValue().toString()] = tryToInt(valueResult.getValue().toString())

@@ -7,8 +7,8 @@ class TypeCheck(private val resultFactory: ResultFactory) {
 
     fun checkVariableDeclaration(
         node: VariableDeclarationNode,
-        visitor: Visitor<ResultInformation>
-    ) : ResultInformation {
+        visitor: Visitor<ResultInformation>,
+    ): ResultInformation {
         val assignmentResult = node.getAssignment().accept(visitor)
         if (assignmentResult.getErrors().isNotEmpty()) return assignmentResult
 
