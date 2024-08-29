@@ -1,0 +1,5 @@
+[
+    {"type": "IDENTIFIER", "value": "my_variable"},
+    {"type": "IDENTIFIER", "value": "another_variable"},
+    {"type": "IDENTIFIER", "value": "my-variable"}
+]
