@@ -1,11 +1,8 @@
-import com.google.gson.GsonBuilder
-import com.google.gson.ToNumberPolicy
 import org.example.parser.Parser
 import org.example.token.TokenType.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import kotlin.test.assertEquals
 
 class ParserTests {
 
@@ -75,7 +72,7 @@ class ParserTests {
         val tokens = listOf<Token>(
             Token(CALL, "println"),
             Token(OPENING_PARENS, "("),
-            Token(LITERAL_STRING, "2"),
+            Token(LITERAL_NUMBER, "2"),
             Token(PLUS_OPERATOR, "+"),
             Token(LITERAL_NUMBER, "9"),
             Token(CLOSING_PARENS, ")"),
@@ -106,7 +103,7 @@ class ParserTests {
         val tokens = listOf<Token>(
             Token(CALL, "println"),
             Token(OPENING_PARENS, "("),
-            Token(LITERAL_STRING, "2"),
+            Token(LITERAL_NUMBER, "2"),
             Token(PLUS_OPERATOR, "+"),
             Token(LITERAL_NUMBER, "9"),
             Token(CLOSING_PARENS, ")"),
@@ -118,11 +115,10 @@ class ParserTests {
 
     @Test
     fun `Crate Operations For Every Operator`() {
-
         val tokens = listOf<Token>(
             Token(CALL, "println"),
             Token(OPENING_PARENS, "("),
-            Token(LITERAL_STRING, "2"),
+            Token(LITERAL_NUMBER, "2"),
             Token(PLUS_OPERATOR, "+"),
             Token(LITERAL_NUMBER, "9"),
             Token(MULTIPLY_OPERATOR, "*"),
@@ -134,6 +130,7 @@ class ParserTests {
             Token(CLOSING_PARENS, ")"),
             Token(SEMICOLON, ";"),
         )
+        val ast = Parser().parse(tokens)
         assertDoesNotThrow { Parser().parse(tokens) }
     }
 }
