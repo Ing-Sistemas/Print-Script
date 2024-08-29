@@ -9,8 +9,8 @@ class IdentifierCaseLinter(private val caseConfiguration: CaseConfiguration) : L
     override fun lint(tokens: List<Token>): List<String> {
         val errors = mutableListOf<String>()
         val regex = when (caseConfiguration.value) {
-            "Camel Case" -> Regex("^[a-z]+(?:[A-Z][a-z]+)*$")
-            "Snake Case" -> Regex("^[a-z]+(?:_[a-z]+)*$")
+            "camelCase" -> Regex("^[a-z]+(?:[A-Z][a-z]+)*$")
+            "snake_case" -> Regex("^[a-z]+(?:_[a-z]+)*$")
             else -> {
                 errors.add("Invalid case configuration ${caseConfiguration.value}")
                 return errors

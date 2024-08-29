@@ -14,8 +14,12 @@ class StaticCodeAnalyzer(configuration: Configuration) {
     fun analyze(tokens: List<Token>): List<String> {
         val allErrors = mutableListOf<String>()
         for (linter in linters) {
-            allErrors.add(linter.lint(tokens).toString())
+            allErrors.addAll(linter.lint(tokens))
         }
-        return allErrors
+        return if (allErrors.isEmpty()) {
+            listOf("No errors found")
+        } else {
+            allErrors
+        }
     }
 }

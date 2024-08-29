@@ -1,4 +1,4 @@
 {
-    "caseConfiguration": "camelCase",
-    "restrictPrintln": false
+    "caseConfiguration": "snake_case",
+    "restrictPrintln": true
 }

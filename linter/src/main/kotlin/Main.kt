@@ -1,16 +1,16 @@
 import com.sun.tools.javac.parser.Lexer
 import configurations.ConfigLoader
+import linters.StaticCodeAnalyzer
 
 fun main() {
-    val input = "let myVal: string = 'hello argh 76'"
+    val input = "let val_de_loco: string = 'hello argh 76'; println(val_de_loco);"
 
     val configuration = ConfigLoader.loadConfiguration("linter/src/main/resources/configExample.json")
-    println("caseConfiguration: ${configuration.caseConfiguration}")
-    // val analyzer = StaticCodeAnalyzer(configuration)
 
     val listToken = Lexer().tokenize(input)
+    val analyzer = StaticCodeAnalyzer(configuration).analyze(listToken)
 
-    // println(configuration)
+    println(analyzer)
 
 //    println(analyzer.analyze(listToken))
 //    for (elem in listToken) {
