@@ -11,7 +11,6 @@ object ConfigLoader {
 
         FileReader(filePath).use { reader ->
             val returner = gson.fromJson(reader, Configuration::class.java)
-            println(returner)
             return returner
         }
     }

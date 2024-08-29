@@ -10,7 +10,7 @@ fun main() {
     val listToken = Lexer().tokenize(input)
     val analyzer = StaticCodeAnalyzer(configuration).analyze(listToken)
 
-    // println(analyzer)
+    println(analyzer)
 
 //    println(analyzer.analyze(listToken))
 //    for (elem in listToken) {
