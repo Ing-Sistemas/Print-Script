@@ -99,18 +99,18 @@ class Interpreter {
                 println(value)
             }
         }
-        if (node.getValue() == "if") {
-            TODO()
-        }
-        if (node.getValue() == "else") {
-            TODO()
-        }
-        if (node.getValue() == "while") {
-            TODO()
-        }
-        if (node.getValue() == "for") {
-            TODO()
-        }
+//        if (node.getValue() == "if") {
+//            TODO()
+//        }
+//        if (node.getValue() == "else") {
+//            TODO()
+//        }
+//        if (node.getValue() == "while") {
+//            TODO()
+//        }
+//        if (node.getValue() == "for") {
+//            TODO()
+//        }
     }
 
     private fun visitAssignment(node: AssignmentNode) {
