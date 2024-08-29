@@ -17,7 +17,7 @@ class StaticCodeAnalyzer(configuration: Configuration) {
             allErrors.addAll(linter.lint(tokens))
         }
         return if (allErrors.isEmpty()) {
-            listOf("No errors found")
+            emptyList()
         } else {
             allErrors
         }
