@@ -1,5 +1,5 @@
 {
-    "spaceBeforeColon": false,
+    "spaceBeforeColon": true,
     "spaceAfterColon": true,
     "spaceAroundEquals": true,
     "lineJumpBeforePrintln": 1
