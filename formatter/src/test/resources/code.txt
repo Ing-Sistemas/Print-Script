@@ -2,4 +2,6 @@ let a : string = 'hello';
 let b : number = 5;
 
 
+
+
 println(a);
