@@ -71,4 +71,10 @@ class RunnerTests {
         val code = "println(4+4); println(4-4); println(4*4); println(4/4);"
         runner.run(code)
     }
+
+    @Test
+    fun `test binary operations with number and string`() {
+        val code = "println(5 + 'apples');"
+        runner.run(code)
+    }
 }
