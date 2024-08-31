@@ -32,7 +32,7 @@ fun main() {
     // println("hello world!")
 
     val printCall = Token(TokenType.CALL, "println")
-    val printArgument = Token(TokenType.LITERAL_STRING, "hello world!")
+    val printArgument = Token(TokenType.LITERAL_STRING, "'hello world!'")
     val literalPrintNode = LiteralNode(printArgument.getValue(), printArgument.getType().toString(), 0, 12)
     val listedArgumentsForPrint = listOf<ASTNode>(literalPrintNode)
     val printCaller = CallNode(printCall.getValue(), listedArgumentsForPrint, 0, 10)
@@ -78,6 +78,6 @@ fun main() {
     println(storage.keys)
     println(storage.values)
 
-    println(interpreter.interpret(myProgram2))
-    println(interpreter.interpret(myProgram4))
+    interpreter.interpret(myProgram2)
+    interpreter.interpret(myProgram4)
 }

@@ -11,10 +11,12 @@ class Interpreter {
             is LiteralNode -> visitLiteral(node)
             is ProgramNode -> visitProgram(node)
             is StatementNode -> visitStatement(node)
-            is TypeDeclarationNode -> TODO("Not necessary")
-            is VariableDeclarationNode -> visitVariableDeclaration(node)
-            is BinaryNode -> evaluateNode(node)
-            is UnaryNode -> TODO("Not necessary")
+            else -> throw IllegalArgumentException("Unknown node type")
+//            is TypeDeclarationNode -> TODO("Not necessary")
+//            is VariableDeclarationNode -> visitVariableDeclaration(node)
+//            is BinaryNode -> evaluateNode(node)
+//            is UnaryNode -> TODO("Not necessary")
+            // not necessary nodes to evaluate in this context
         }
     }
 
@@ -76,7 +78,7 @@ class Interpreter {
             "-" -> left - right
             "*" -> left * right
             "/" -> left / right
-            else -> { throw IllegalArgumentException() } // change to result
+            else -> { throw IllegalArgumentException() }
         }
     }
 
@@ -98,6 +100,7 @@ class Interpreter {
                 }
                 println(value)
             }
+            return
         }
 //        if (node.getValue() == "if") {
 //            TODO()
@@ -116,7 +119,6 @@ class Interpreter {
     private fun visitAssignment(node: AssignmentNode) {
         val key = node.getIdentifierNode().getValue()
         val value = evaluateNode(node.getValueNode())
-
         storage[key] = value
     }
 
