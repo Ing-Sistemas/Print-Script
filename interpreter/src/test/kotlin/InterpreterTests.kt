@@ -335,7 +335,7 @@ class InterpreterTests {
         val assignmentNode = AssignmentNode(assignToken.getValue(), aIdentifierNode, aValueNode, 0, 15)
 
         interpreter.interpret(assignmentNode)
-
+        interpreter.interpret(aValueNode)
         val storage = interpreter.getStorage()
         assert(storage.containsKey("a"))
         assert(storage["a"] == 5) {
