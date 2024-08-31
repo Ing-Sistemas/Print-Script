@@ -1,6 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'application-conventions'
+    id 'application'
 }
 group = 'org.example'
 version = 'unspecified'
@@ -18,3 +19,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+application {
+    mainClass.set('org.example.CLIKt')
+}
+
