@@ -1,4 +1,2 @@
 rootProject.name = 'print-script'
-include ('token', 'ast', 'lexer', 'parser', 'interpreter', 'runner')
-include 'formatter'
-
+include ('token', 'ast', 'lexer', 'parser', 'interpreter', 'runner', 'linter', 'formatter')
