@@ -21,6 +21,11 @@ class Format : CliktCommand(
         val inputFile = File(baseDir, fileName)
 
         val configBaseDir = File("../formatter/src/test/resources")
+
+        if (formatConfig == null) {
+            throw CliktError("No format config file provided.")
+        }
+
         val configFile = File(configBaseDir, formatConfig)
         try {
             CodeFormatter().format(inputFile.path, configFile.path)
