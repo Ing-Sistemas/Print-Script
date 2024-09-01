@@ -1,0 +1,1 @@
+let a: number = 5 + 3; let b: number = 10 - 2; let c: number = 4 * 2; let d: number = 8 / 4;

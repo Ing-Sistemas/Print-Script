@@ -33,11 +33,11 @@ class CodeFormatter {
         }
 
         if (config.lineJumpBeforePrintln > 0) {
-            formattedCode = formattedCode.replace(Regex("(.*)(println\\(.*\\))"), "$1\n".repeat(config.lineJumpBeforePrintln) + "$2")
+            formattedCode = formattedCode.replace(Regex("(?<!\\n)(.*)(println\\(.*\\))"), "$1\n".repeat(config.lineJumpBeforePrintln) + "$2")
         }
 
         if (config.lineJumpAfterSemicolon) {
-            formattedCode = formattedCode.replace(Regex(";"), ";\n")
+            formattedCode = formattedCode.replace(Regex(";(?!\\n)"), ";\n")
         }
 
         if (config.singleSpaceBetweenTokens) {
