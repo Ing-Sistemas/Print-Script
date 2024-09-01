@@ -13,7 +13,11 @@ repositories {
 dependencies {
     implementation 'com.github.ajalt.clikt:clikt:4.4.0'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    implementation project(':runner')
+    implementation project(':lexer')
+    implementation project(':parser')
+    implementation project(':interpreter')
+    implementation project(':ast')
+    implementation project(':token')
 }
 
 test {
@@ -24,3 +28,7 @@ application {
     mainClass.set('org.example.CLIKt')
 }
 
+
+run {
+    standardInput = System.in
+}
