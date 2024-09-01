@@ -4,27 +4,27 @@ import Lexer
 import Token
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.required
-import com.github.ajalt.clikt.parameters.types.double
 import configurations.ConfigLoader
 import linters.StaticCodeAnalyzer
+import org.example.CLIContext
 import java.io.File
 
-class Analyse : CliktCommand() {
-
-    private val linterConfig by argument(help = "Linter configuration for check")
-    private val fileName by argument(help = "The file to execute")
-    private val version by option(help = "The version to execute").double().required()
+class Analyse : CliktCommand(
+    name = "analyse",
+    help = "Analyse a file",
+) {
 
     override fun run() {
-        if (version != 1.0) {
-            throw CliktError("Your version '$version' is not supported.")
-        }
+        val cliContext = currentContext.findObject<CLIContext>() ?: throw CliktError("Could not find CLIContext")
+        val linterConfig = cliContext.config
+        val fileName = cliContext.fileName
 
         val baseDir = File("../cli/src/main/resources")
         val inputFile = File(baseDir, fileName)
+
+        if (linterConfig == null) {
+            throw CliktError("No linter config file provided.")
+        }
 
         val configBaseDir = File("../linter/src/main/resources")
         val configFile = File(configBaseDir, linterConfig)
@@ -45,7 +45,8 @@ class Analyse : CliktCommand() {
             }
             val result = linter.analyze(tokens)
             if (result.isNotEmpty()) {
-                throw CliktError("Failed lint check for $linterConfig")
+                println(result.size)
+                throw CliktError("Failed lint check for $linterConfig with Error: ${result.fold("") { acc, s -> acc + s }}")
             }
         } catch (e: Exception) {
             throw CliktError(e.message)
