@@ -18,6 +18,8 @@ dependencies {
     implementation project(':interpreter')
     implementation project(':ast')
     implementation project(':token')
+    implementation project(':linter')
+    implementation project(':formatter')
 }
 
 test {
