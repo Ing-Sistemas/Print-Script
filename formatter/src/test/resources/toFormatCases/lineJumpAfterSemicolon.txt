@@ -1,4 +1,2 @@
 let a: string = 'hello';
-
 println(a);
-

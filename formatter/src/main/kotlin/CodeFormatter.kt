@@ -37,7 +37,7 @@ class CodeFormatter {
         }
 
         if (config.lineJumpAfterSemicolon) {
-            formattedCode = formattedCode.replace(Regex(";(?!\\n)"), ";\n")
+            formattedCode = formattedCode.replace(Regex(";[ \t]*\n?"), ";\n")
         }
 
         if (config.singleSpaceBetweenTokens) {

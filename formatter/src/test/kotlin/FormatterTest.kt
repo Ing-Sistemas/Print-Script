@@ -35,19 +35,19 @@ class FormatterTest {
         assertEquals(correctFormattedCode, formattedCode)
     }
 
-//    @Test
-//    fun `test formatter with line jump before println`() {
-//        val formatter = CodeFormatter()
-//        val codeFilePath = "$configDirectoryPath/toFormatCases/lineJumpAfterSemicolon.txt"
-//        val configFilePath = "$configDirectoryPath/configurations/lineJumpAfterSemicolon.json"
-//        val correctFormatFilePath = "$configDirectoryPath/correctCases/lineJumpAfterSemicolon.txt"
-//
-//        formatter.format(codeFilePath, configFilePath)
-//        val formattedCode = Files.readString(Paths.get(codeFilePath))
-//        val correctFormattedCode = Files.readString(Paths.get(correctFormatFilePath))
-//
-//        assertEquals(correctFormattedCode, formattedCode)
-//    }
+    @Test
+    fun `test formatter with line jump before println`() {
+        val formatter = CodeFormatter()
+        val codeFilePath = "$configDirectoryPath/toFormatCases/lineJumpAfterSemicolon.txt"
+        val configFilePath = "$configDirectoryPath/configurations/lineJumpAfterSemicolon.json"
+        val correctFormatFilePath = "$configDirectoryPath/correctCases/lineJumpAfterSemicolon.txt"
+
+        formatter.format(codeFilePath, configFilePath)
+        val formattedCode = Files.readString(Paths.get(codeFilePath))
+        val correctFormattedCode = Files.readString(Paths.get(correctFormatFilePath))
+
+        assertEquals(correctFormattedCode, formattedCode)
+    }
 
     @Test
     fun `test formatter with single space between tokens`() {
