@@ -1,7 +1,7 @@
 import org.example.token.TokenMatcher
 
-//coordina tokenization
-//obs: usaría estretegias de tokenization
+// coordina tokenization
+// obs: usaría estretegias de tokenization
 class Lexer {
     private var position = 0
     private val tokenMatcher = TokenMatcher()
@@ -21,7 +21,7 @@ class Lexer {
         if (position >= input.length) {
             return null
         }
-        val restOfString =  input.substring(position)
+        val restOfString = input.substring(position)
 
         if (restOfString[0].isWhitespace()) {
             position++

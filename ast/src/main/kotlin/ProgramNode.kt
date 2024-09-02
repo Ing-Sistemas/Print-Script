@@ -1,19 +1,14 @@
 package org.example
 
-import Token
-import org.example.token.TokenType
-
 data class ProgramNode(
     private val startIndex: Int,
     private val endIndex: Int,
     private val children: List<ASTNode>,
 ) : ASTNode {
 
-    private val token = Token(TokenType.PROGRAM, "Program")
-
     // Root
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return "Program"
     }
 
     override fun getStart(): Int {
@@ -28,4 +23,7 @@ data class ProgramNode(
         return visitor.visit(this)
     }
 
+    fun getChildren(): List<ASTNode> {
+        return children
+    }
 }

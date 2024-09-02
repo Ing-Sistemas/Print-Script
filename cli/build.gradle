@@ -1,0 +1,36 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application-conventions'
+    id 'application'
+}
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.github.ajalt.clikt:clikt:4.4.0'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    implementation project(':lexer')
+    implementation project(':parser')
+    implementation project(':interpreter')
+    implementation project(':ast')
+    implementation project(':token')
+    implementation project(':linter')
+    implementation project(':formatter')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass.set('org.example.CLIKt')
+}
+
+
+run {
+    standardInput = System.in
+}

@@ -1,10 +1,2 @@
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
-}
 rootProject.name = 'print-script'
-include 'token'
-include 'ast'
-include 'lexer'
-include 'parser'
-include 'interpreter'
-
+include ('token', 'ast', 'lexer', 'parser', 'interpreter', 'runner', 'linter', 'formatter', 'cli')

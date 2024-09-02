@@ -1,27 +1,29 @@
 package org.example
 
-import Token
-
 data class LiteralNode(
-    private val token: Token,
     private val value: String,
-    private val start: Int,
-    private val end: Int,
-    ) : ASTNode {
+    private val type: String,
+    private val startIndex: Int,
+    private val endIndex: Int,
+) : ASTNode {
 
-    override fun getToken(): Token {
-        return token
+    override fun getValue(): String {
+        return value
     }
 
     override fun getStart(): Int {
-        return start
+        return startIndex
     }
 
     override fun getEnd(): Int {
-        return end
+        return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
+    }
+
+    fun getType(): String {
+        return type
     }
 }

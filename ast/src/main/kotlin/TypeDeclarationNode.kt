@@ -1,24 +1,21 @@
 package org.example
 
-import Token
-
-
 class TypeDeclarationNode(
-    private val token: Token,
-    private val start: Int,
-    private val end: Int,
-)
-    : ASTNode {
-    override fun getToken(): Token {
-        return token
+    private val type: String, // string or number
+    private val startIndex: Int,
+    private val endIndex: Int,
+) :
+    ASTNode {
+    override fun getValue(): String {
+        return type
     }
 
     override fun getStart(): Int {
-        return start
+        return startIndex
     }
 
     override fun getEnd(): Int {
-        return end
+        return endIndex
     }
 
     override fun <T> accept(visitor: Visitor<T>): T {

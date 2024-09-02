@@ -1,18 +1,13 @@
 package org.example
 
-import Token
-import org.example.token.TokenType
-
 data class StatementNode(
+    private val statement: ASTNode,
     private val startIndex: Int,
     private val endIndex: Int,
-    private val children: List<Token>
-): ASTNode {
-
-    private val token = Token(TokenType.STATEMENT, "statement")
-
-    override fun getToken(): Token {
-        return token
+) : ASTNode {
+    // TODO REMOVE ESTA GARCHA.
+    override fun getValue(): String {
+        return "Statement"
     }
 
     override fun getStart(): Int {
@@ -25,5 +20,9 @@ data class StatementNode(
 
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
+    }
+
+    fun getStatement(): ASTNode {
+        return statement
     }
 }
