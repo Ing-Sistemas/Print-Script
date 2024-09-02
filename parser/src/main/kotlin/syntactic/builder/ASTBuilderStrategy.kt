@@ -1,7 +1,6 @@
 package org.example.parser.syntactic.builder
 
 import Token
-import org.example.ASTNode
 
 interface ASTBuilderStrategy {
     /**

@@ -1,8 +1,5 @@
 package org.example.parser.semantic
 
-import org.example.VariableDeclarationNode
-import org.example.Visitor
-
 class TypeCheck(private val resultFactory: ResultFactory) {
 
     fun checkVariableDeclaration(

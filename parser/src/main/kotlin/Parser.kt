@@ -1,7 +1,6 @@
 package org.example.parser
 
 import Token
-import org.example.ASTNode
 import org.example.parser.syntactic.SyntacticAnalyzer
 import org.example.parser.syntactic.SyntacticFail
 import org.example.parser.syntactic.SyntacticSuccess

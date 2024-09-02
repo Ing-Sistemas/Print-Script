@@ -1,9 +1,5 @@
 package org.example.parser.semantic
 
-import org.example.AssignmentNode
-import org.example.IdentifierNode
-import org.example.Visitor
-
 class StorageManager(
     private val result: ResultFactory,
 ) {

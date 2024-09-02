@@ -1,8 +1,5 @@
 package org.example.parser.semantic
 
-import org.example.BinaryNode
-import org.example.Visitor
-
 class OperationCheck(
     private val resultFactory: ResultFactory,
     private val storageManager: StorageManager,

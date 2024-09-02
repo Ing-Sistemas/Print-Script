@@ -1,7 +1,5 @@
 package org.example.parser.syntactic
 
-import org.example.ASTNode
-
 /**
  * Sealed interface for pattern matching :)
  *
