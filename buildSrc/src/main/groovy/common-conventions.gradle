@@ -41,6 +41,11 @@ dependencies {
 //    violationRules {
 //        rule {
 //            element = "BUNDLE"
+//            afterEvaluate {
+//                classDirectories.setFrom(files(classDirectories.files.collect {
+//                    fileTree(dir: it, exclude: 'org/example/formatter/**')
+//                }))
+//            }
 //            limit {
 //                counter = 'INSTRUCTION'
 //                value = 'COVEREDRATIO'
