@@ -39,7 +39,7 @@ class AssignationBuilder : ASTBuilderStrategy {
     ): AssignmentNode {
         try {
             val operator = tokens[tokenIndex + 2]
-            val valueNode = BinaryNodeBuilder().build(operator, tokens)
+            val valueNode = BinaryExpressionBuilder().build(operator, tokens)
             return AssignmentNode(
                 tokens[tokenIndex].getValue(),
                 IdentifierNode(idToken.getValue(), 0, 0),

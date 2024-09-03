@@ -3,7 +3,7 @@ package org.example.parser.syntactic.builder
 import Token
 import org.example.token.TokenType.*
 
-class CallBuilder : ASTBuilderStrategy {
+class FunctionCallBuilder : ASTBuilderStrategy {
 
     override fun build(token: Token, tokens: List<Token>): ASTNode {
         val tokenPos = tokens.indexOf(token)
@@ -13,7 +13,7 @@ class CallBuilder : ASTBuilderStrategy {
         val args = mutableListOf<ASTNode>()
         val tokensArgs = tokens.subList(tokenPos + 2, tokens.lastIndex - 1) // grabs all the arguments between the () //excluding them
         if (tokensArgs.size > 1 && isOperator(tokensArgs[1])) {
-            val ast = BinaryNodeBuilder().build(tokensArgs[1], tokensArgs)
+            val ast = BinaryExpressionBuilder().build(tokensArgs[1], tokensArgs)
             args.add(ast)
         } else {
             when (val type = tokens[tokenPos + 2].getType()) {
@@ -32,7 +32,7 @@ class CallBuilder : ASTBuilderStrategy {
         return (
             tokens[tokenPos + 1].getType() == OPENING_PARENS &&
                 tokens[tokens.lastIndex - 1].getType() == CLOSING_PARENS
-            ) // last index is ';', - 1 should be ')'
+            )
     }
 
     private fun isOperator(token: Token): Boolean {

@@ -3,7 +3,7 @@ package org.example.parser.syntactic.builder
 import Token
 import org.example.token.TokenType.*
 
-class BinaryNodeBuilder : ASTBuilderStrategy {
+class BinaryExpressionBuilder : ASTBuilderStrategy {
 
     override fun build(token: Token, tokens: List<Token>): ASTNode {
         val operatorIndex = tokens.indexOf(token)

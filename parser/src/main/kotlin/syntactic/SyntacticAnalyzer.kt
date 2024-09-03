@@ -4,7 +4,7 @@ import Token
 import org.example.*
 import org.example.parser.syntactic.builder.ASTBuilderStrategy
 import org.example.parser.syntactic.builder.AssignationBuilder
-import org.example.parser.syntactic.builder.CallBuilder
+import org.example.parser.syntactic.builder.FunctionCallBuilder
 import org.example.parser.syntactic.builder.VariableDeclarationBuilder
 import org.example.token.TokenType
 import org.example.token.TokenType.*
@@ -17,7 +17,7 @@ class SyntacticAnalyzer {
         val builderStrategy = mutableMapOf<TokenType, ASTBuilderStrategy>(
             KEYWORD to VariableDeclarationBuilder(),
             IDENTIFIER to AssignationBuilder(),
-            CALL to CallBuilder(),
+            CALL to FunctionCallBuilder(),
         )
     }
 
