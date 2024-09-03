@@ -19,6 +19,15 @@ class StorageManager(
         }
     }
 
+    fun get(key: String): Any? {
+        val value = storage[key]
+        return when {
+            value == null -> null
+            value.toIntOrNull() != null -> value.toInt()
+            else -> value
+        }
+    }
+
     fun handleAssignment(
         node: AssignmentNode,
         visitor: Visitor<ResultInformation>,
