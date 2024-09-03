@@ -10,14 +10,6 @@ import org.example.token.TokenType
 import org.example.token.TokenType.*
 
 class SyntacticAnalyzer {
-    // TODO remove TEMP_NUM
-    /**
-     * [TEMP_NUM] current temporary solution to Lexer's issue with indexes
-     *
-     * [builderStrategy] map of every builder that has as key the type of token assigned
-     *
-     * {token_type} : builder for that token
-     */
 
     companion object {
         const val TEMP_NUM = 1
@@ -28,26 +20,6 @@ class SyntacticAnalyzer {
             CALL to CallBuilder(),
         )
     }
-
-    /**
-     * [buildAST]: receives a List<Token> and builds the AST with the builders assigned for each token
-     *
-     * Returns a Program node that contains as children a list of Statements that are single nodes that point
-     * to the ASTNodes build in the previous step
-     *
-     * Example:
-     *  `ProgramNode:{
-     *      list of(
-     *      Statement : {VarDeclaration},
-     *      Statement : {println call}
-     *      )
-     *  }`
-     *
-     *
-     *  A single statement is every declaration that ends with ';'
-     *
-     *  Example => `let a:number = 12;`
-     */
 
     fun buildAST(tokens: List<Token>): SyntacticResult {
         try {
@@ -75,13 +47,6 @@ class SyntacticAnalyzer {
             return SyntacticFail(e.message ?: e.toString())
         }
     }
-
-    /**
-     * [buildStatements] receives a token list and separates each statement
-     * as a list of tokens that end with ';'
-     *
-     * returns a list containing each statement as a list
-     */
 
     private fun buildStatements(tokens: List<Token>): List<List<Token>> {
         val listIt = tokens.iterator()

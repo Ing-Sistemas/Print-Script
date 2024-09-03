@@ -4,18 +4,6 @@ import Token
 import org.example.token.TokenType.*
 
 class CallBuilder : ASTBuilderStrategy {
-    /**
-     * return a CallNode with a list of ASTs as arguments
-     * the node is a call for a specified function, such as println(), if(), for() ...
-     *
-     *          CallNode: {
-     *          args[]
-     *          }
-     *
-     *  current format follows the println(args) structure only and the given token is the `println call`
-     *
-     *  this call is set in the first index in the list, followed by the token `(`, then `args`, `)` and `;`
-     */
 
     override fun build(token: Token, tokens: List<Token>): ASTNode {
         val tokenPos = tokens.indexOf(token)
@@ -39,10 +27,6 @@ class CallBuilder : ASTBuilderStrategy {
 
         return CallNode(token.getValue(), args, 0, 0)
     }
-
-    /**
-     * checks of the call println has `(` `)`
-     */
 
     private fun hasParens(tokenPos: Int, tokens: List<Token>): Boolean {
         return (
