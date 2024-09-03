@@ -43,10 +43,12 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(unaryNode: UnaryNode): ResultInformation {
-        TODO("Not yet implemented")
+        return resultFactory.create(null, null)
     }
 
     override fun visit(callNode: CallNode): ResultInformation {
-        return resultFactory.create(null, null)
+        return callNode.getArguments().flatMap { it.accept(this).getErrors() }.let {
+            resultFactory.create(null, null, it)
+        }
     }
 }

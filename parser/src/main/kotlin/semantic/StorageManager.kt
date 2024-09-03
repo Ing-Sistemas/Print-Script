@@ -29,10 +29,6 @@ class StorageManager(
         return result.mergeResults(identifierResult, valueResult)
     }
 
-    fun getStorage(): Map<String, String> {
-        return storage
-    }
-
     private fun getTypeForVar(value: String?): String {
         return when (value?.toIntOrNull()) {
             is Int -> "LITERAL_NUMBER"

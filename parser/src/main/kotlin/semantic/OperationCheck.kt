@@ -45,13 +45,13 @@ class OperationCheck(
         right: ResultInformation,
         operation: (Int, Int) -> Int,
     ): ResultInformation {
-        val leftValue = getIntValue(left.getValue().toString(), storageManager.getStorage())
-        val rightValue = getIntValue(right.getValue().toString(), storageManager.getStorage())
-        return if (left.getType() == right.getType()) {
-            val result = operation(leftValue!!.toInt(), rightValue!!.toInt())
+        val leftValue = left.getValue().toString().toIntOrNull()
+        val rightValue = right.getValue().toString().toIntOrNull()
+        return if (leftValue != null && rightValue != null) {
+            val result = operation(leftValue, rightValue)
             resultFactory.create(result.toString(), "LITERAL_NUMBER")
         } else {
-            resultFactory.createError("Type mismatch for operation")
+            resultFactory.createError("Invalid integer values for operation")
         }
     }
 }
