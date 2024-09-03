@@ -1,6 +1,6 @@
 package org.example
 
-class Interpreter {
+class OldInterpreter {
     private val storage = mutableMapOf<String, Any>()
 
     fun interpret(node: ASTNode): Any {

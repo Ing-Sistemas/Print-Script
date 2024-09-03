@@ -5,7 +5,7 @@ import Token
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import org.example.CLIContext
-import org.example.Interpreter
+import org.example.OldInterpreter
 import org.example.parser.Parser
 import java.io.File
 
@@ -24,7 +24,7 @@ class Execute : CliktCommand(
         echo("Executing input...")
         try {
             val parser = Parser()
-            val interpreter = Interpreter()
+            val oldInterpreter = OldInterpreter()
             val tokens = mutableListOf<Token>()
 
             val bufferedReader = inputFile.bufferedReader()
@@ -35,7 +35,7 @@ class Execute : CliktCommand(
                     tokens.addAll(lineTokens)
                 }
             }
-            interpreter.interpret(parser.parse(tokens))
+            oldInterpreter.interpret(parser.parse(tokens))
         } catch (e: Exception) {
             throw CliktError(e.message)
         }

@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
-class InterpreterTests {
-    val interpreter = Interpreter()
+class OldInterpreterTests {
+    val oldInterpreter = OldInterpreter()
 
     // let a: number = 4;
 
@@ -27,7 +27,7 @@ class InterpreterTests {
 
     val statementListed = listOf<ASTNode>(statement)
     val myProgram = ProgramNode(0, 10, statementListed)
-    val storage = interpreter.getStorage()
+    val storage = oldInterpreter.getStorage()
 
     // println("hello world!")
 
@@ -71,13 +71,13 @@ class InterpreterTests {
 
     @Test
     fun testEmptyStorage() {
-        val emptyStorage = interpreter.getStorage()
+        val emptyStorage = oldInterpreter.getStorage()
         assert(emptyStorage.isEmpty())
     }
 
     @Test
     fun testStorageVarDeclaration() {
-        interpreter.interpret(myProgram)
+        oldInterpreter.interpret(myProgram)
         assert(storage.isNotEmpty())
         assert(storage.containsValue(4))
         assert(storage.containsKey("a"))
@@ -89,7 +89,7 @@ class InterpreterTests {
         val printStream = PrintStream(outputStream)
         System.setOut(printStream)
 
-        interpreter.interpret(myProgram2)
+        oldInterpreter.interpret(myProgram2)
 
         val result = outputStream.toString().trim()
         val toEqual = "'hello world!'"
@@ -102,8 +102,8 @@ class InterpreterTests {
 
     @Test
     fun testBinaryNodeOperation() {
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(myProgram3)
+        val storage = oldInterpreter.getStorage()
         assert(storage.isNotEmpty())
         assert(storage.containsValue(5))
         assert(storage.containsKey("b"))
@@ -129,8 +129,8 @@ class InterpreterTests {
         val statementListed = listOf<ASTNode>(statement)
         val myProgram = ProgramNode(0, 10, statementListed)
 
-        interpreter.interpret(myProgram)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(myProgram)
+        val storage = oldInterpreter.getStorage()
         assert(storage.isNotEmpty())
         assert(storage.containsValue("'hello'"))
         assert(storage.containsKey("c"))
@@ -162,8 +162,8 @@ class InterpreterTests {
         val statementListed = listOf<ASTNode>(statement)
         val myProgram = ProgramNode(0, 25, statementListed)
 
-        interpreter.interpret(myProgram)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(myProgram)
+        val storage = oldInterpreter.getStorage()
         assert(storage.isNotEmpty())
         assert(storage.containsValue("'hello''world'"))
         assert(storage.containsKey("d"))
@@ -197,8 +197,8 @@ class InterpreterTests {
         val statementListed3 = listOf<ASTNode>(statement3)
         val myProgram3 = ProgramNode(0, 25, statementListed3)
 
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(myProgram3)
+        val storage = oldInterpreter.getStorage()
         assert(storage.isNotEmpty())
         assert(storage.containsValue(6))
         assert(storage.containsKey("b"))
@@ -232,8 +232,8 @@ class InterpreterTests {
         val statementListed3 = listOf<ASTNode>(statement3)
         val myProgram3 = ProgramNode(0, 25, statementListed3)
 
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(myProgram3)
+        val storage = oldInterpreter.getStorage()
         assert(storage.isNotEmpty())
         assert(storage.containsValue(7))
         assert(storage.containsKey("b"))
@@ -267,8 +267,8 @@ class InterpreterTests {
         val statementListed3 = listOf<ASTNode>(statement3)
         val myProgram3 = ProgramNode(0, 25, statementListed3)
 
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(myProgram3)
+        val storage = oldInterpreter.getStorage()
         assert(storage.isNotEmpty())
         assert(storage.containsValue(5))
         assert(storage.containsKey("b"))
@@ -300,8 +300,8 @@ class InterpreterTests {
         val statementListed = listOf<ASTNode>(statement)
         val myProgram = ProgramNode(0, 25, statementListed)
 
-        interpreter.interpret(myProgram)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(myProgram)
+        val storage = oldInterpreter.getStorage()
         assert(storage.isNotEmpty())
         assert(storage.containsValue("'hello'5"))
         assert(storage.containsKey("d"))
@@ -312,9 +312,9 @@ class InterpreterTests {
         val aTokenIdentifier = Token(TokenType.IDENTIFIER, "a")
         val aIdentifierNode = IdentifierNode(aTokenIdentifier.getValue(), 0, 10)
 
-        interpreter.getStorage()["a"] = 42
+        oldInterpreter.getStorage()["a"] = 42
 
-        val result = interpreter.interpret(aIdentifierNode)
+        val result = oldInterpreter.interpret(aIdentifierNode)
 
         assert(result == 42) {
             "Expected 42 but got $result"
@@ -334,9 +334,9 @@ class InterpreterTests {
         val assignToken = Token(TokenType.ASSIGNMENT, "=")
         val assignmentNode = AssignmentNode(assignToken.getValue(), aIdentifierNode, aValueNode, 0, 15)
 
-        interpreter.interpret(assignmentNode)
-        interpreter.interpret(aValueNode)
-        val storage = interpreter.getStorage()
+        oldInterpreter.interpret(assignmentNode)
+        oldInterpreter.interpret(aValueNode)
+        val storage = oldInterpreter.getStorage()
         assert(storage.containsKey("a"))
         assert(storage["a"] == 5) {
             "Expected 5 but got ${storage["a"]}"
