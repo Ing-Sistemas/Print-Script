@@ -1,7 +1,10 @@
 package org.example.parser.syntactic.builder
 
+import ASTNode
+import Token
+
 class UnaryExpressionBuilder: ASTBuilderStrategy {
-    override fun build(token: Token, tokens: List<Token>): ASTNode {
+    override fun build(tokens: List<Token>): ASTNode {
         TODO("Not yet implemented")
     }
 

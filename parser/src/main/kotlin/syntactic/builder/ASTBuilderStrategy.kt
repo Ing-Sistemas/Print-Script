@@ -5,7 +5,7 @@ import Token
 
 interface ASTBuilderStrategy {
 
-    fun build(token: Token, tokens: List<Token>): ASTNode
+    fun build(tokens: List<Token>): ASTNode
 
     fun isValidStruct(tokens: List<Token>): Boolean
 
