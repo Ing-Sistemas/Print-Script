@@ -1,11 +1,14 @@
 package org.example.parser.semantic
 
+import org.example.parser.semantic.result.ResultFactory
+import org.example.parser.semantic.result.ResultString
+
 class TypeCheck(private val resultFactory: ResultFactory) {
 
     fun checkVariableDeclaration(
         node: VariableDeclarationNode,
-        visitor: Visitor<ResultInformation>,
-    ): ResultInformation {
+        visitor: Visitor<ResultString>,
+    ): ResultString {
         val assignmentResult = node.getAssignment().accept(visitor)
         if (assignmentResult.getErrors().isNotEmpty()) return assignmentResult
 

@@ -2,6 +2,7 @@ package semantic
 
 import org.example.*
 import org.example.parser.semantic.*
+import org.example.parser.semantic.result.ResultFactory
 
 class SemanticAnalyzer {
     private val resultFactory = ResultFactory()

@@ -1,42 +1,60 @@
 package org.example.parser.semantic
 
+import AssignmentStatement
+import IdentifierExpression
+import StoredValue
+import Visitor
+import org.example.parser.semantic.result.ResultFactory
+import org.example.parser.semantic.result.ResultInformation
+
 class StorageManager(
     private val result: ResultFactory,
 ) {
-    private val storage = mutableMapOf<String, String>()
+    private val storage = mutableMapOf<String, StoredValue>()
 
-    fun getIdentifierResult(node: IdentifierNode): ResultInformation {
-        val varName = node.getValue()
-        return if (varName in storage) {
-            val type = getTypeForVar(storage[varName])
-            result.create(varName, type)
-        } else {
-            result.create(varName, null)
+    fun getIdentifierResult(node: IdentifierExpression): ResultInformation {
+        val identifier = node.getIdentifier()
+        return if (identifier in storage) {
+            val type = DataType.STRING
+            result.createStringResult(varName, type)
+            }
+            else {
+                result.create(varName, null)
+            }
         }
     }
 
     fun handleAssignment(
-        node: AssignmentNode,
+        node: AssignmentStatement,
         visitor: Visitor<ResultInformation>,
     ): ResultInformation {
-        val identifierResult = node.getIdentifierNode().accept(visitor)
-        val valueResult = node.getValueNode().accept(visitor)
-        storage[identifierResult.getValue().toString()] = tryToInt(valueResult.getValue().toString())
+        val identifierResult = node.getIdentifier().accept(visitor)
+        val valueResult = node.getValue().accept(visitor)
+        storeVariableCorrectly(identifierResult, valueResult)
         return result.mergeResults(identifierResult, valueResult)
-    }
-
-    fun getStorage(): Map<String, String> {
-        return storage
-    }
-
-    private fun getTypeForVar(value: String?): String {
-        return when (value?.toIntOrNull()) {
-            is Int -> "LITERAL_NUMBER"
-            else -> "LITERAL_STRING"
-        }
     }
 
     private fun tryToInt(value: String): String {
         return value.toIntOrNull()?.toString() ?: value
+    }
+
+    private fun storeVariableCorrectly(
+        identifierResult: ResultInformation,
+        valueResult: ResultInformation,
+    ) {
+        val identifier = identifierResult.getValue() as String
+        val value = valueResult.getValue() as String
+        val type = valueResult.getType() as String
+        when (type) {
+            "LITERAL_STRING" -> {
+                stringStorage[identifier] = value
+            }
+            "LITERAL_NUMBER" -> {
+                doubleStorage[identifier] = value.toDouble()
+            }
+            else -> {
+                stringStorage[identifier] = tryToInt(value)
+            }
+        }
     }
 }
