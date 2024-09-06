@@ -12,7 +12,7 @@ class SemanticAnalyzer {
     private val operationCheck = OperationCheck(resultFactory)
 
     fun analyze(node: ASTNode): ASTNode {
-        val result = SemanticNodeVisitor(typeCheck, storageManager, operationCheck, resultFactory).visit(node as ProgramNode)
+        val result = SemanticNodeVisitor(typeCheck, storageManager, operationCheck, resultFactory).visit(node)
         if (result.getErrors().isNotEmpty()) {
             throw Exception("Semantic error: ${result.getErrors()}")
         }
