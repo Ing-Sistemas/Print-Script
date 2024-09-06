@@ -5,7 +5,6 @@ import Visitor
 import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
 import org.example.parser.semantic.result.ResultNumber
-import org.example.parser.semantic.result.ResultString
 
 class OperationCheck(
     private val resultFactory: ResultFactory,

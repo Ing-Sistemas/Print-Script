@@ -3,6 +3,7 @@ package org.example.parser.semantic
 import AssignmentStatement
 import IdentifierExpression
 import StoredValue
+import StringValue
 import Visitor
 import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
@@ -15,14 +16,14 @@ class StorageManager(
     fun getIdentifierResult(node: IdentifierExpression): ResultInformation {
         val identifier = node.getIdentifier()
         return if (identifier in storage) {
-            val type = DataType.STRING
-            result.createStringResult(varName, type)
-            }
-            else {
-                result.create(varName, null)
-            }
+            val value = storage[identifier]!!
+            val type = storage[identifier]!!.getType()
+            result.create(value, parseToDataType(type))
+            } else {
+            result.create(StringValue(""), null)
         }
     }
+
 
     fun handleAssignment(
         node: AssignmentStatement,
@@ -55,6 +56,15 @@ class StorageManager(
             else -> {
                 stringStorage[identifier] = tryToInt(value)
             }
+        }
+    }
+
+    private fun parseToDataType(type: String): DataType {
+        return when (type) {
+            "string" -> DataType.STRING
+            "number" -> DataType.NUMBER
+            //"boolean" -> DataType.
+            else -> DataType.STRING
         }
     }
 }

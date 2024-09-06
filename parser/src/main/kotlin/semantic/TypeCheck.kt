@@ -1,21 +1,24 @@
 package org.example.parser.semantic
 
+import VariableDeclarationStatement
+import Visitor
 import org.example.parser.semantic.result.ResultFactory
-import org.example.parser.semantic.result.ResultString
+import org.example.parser.semantic.result.ResultInformation
 
 class TypeCheck(private val resultFactory: ResultFactory) {
 
     fun checkVariableDeclaration(
-        node: VariableDeclarationNode,
-        visitor: Visitor<ResultString>,
-    ): ResultString {
-        val assignmentResult = node.getAssignment().accept(visitor)
+        node: VariableDeclarationStatement,
+        visitor: Visitor<ResultInformation>,
+    ): ResultInformation {
+        val assignmentResult = node.getAssignmentExpression()?.accept(visitor)
+            ?: return resultFactory.createError("Assignment result is null")
+
         if (assignmentResult.getErrors().isNotEmpty()) return assignmentResult
 
-        val declarationNodeType = node.getTypeDeclaration().getValue()
-        val actualType = if (assignmentResult.getType() == "LITERAL_NUMBER") "number" else "string"
+        val declarationNodeType = node.getTypeDeclarationExpression().getType()
 
-        return if (declarationNodeType != actualType) {
+        return if (declarationNodeType != assignmentResult.getType().toString()) {
             resultFactory.createError("Type mismatch for var dec")
         } else {
             resultFactory.create(assignmentResult.getValue(), assignmentResult.getType())
