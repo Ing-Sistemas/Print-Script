@@ -8,6 +8,7 @@ enum class TokenType {
     LITERAL_NUMBER,
     LITERAL_STRING,
     IDENTIFIER,
+    TYPE,
     STRING_TYPE,
     NUMBER_TYPE,
     PLUS_OPERATOR,
