@@ -3,11 +3,24 @@ sealed interface Statement: ASTNode
 class VariableDeclarationStatement(
     private val declarator: String,
     private val typeDeclarationExpression: TypeDeclarationExpression,
-    private val assignmentStatement: AssignmentStatement?,
+    private val assignmentStatement: AssignmentStatement,
 ) : Statement{
     fun getDeclarator(): String = declarator
     fun getTypeDeclarationExpression(): TypeDeclarationExpression = typeDeclarationExpression
-    fun getAssignmentExpression(): AssignmentStatement? = assignmentStatement
+    fun getAssignmentExpression(): AssignmentStatement = assignmentStatement
+    override fun <T> accept(visitor: Visitor<T>): T {
+        return visitor.visit(this)
+    }
+}
+
+class EmptyVarDeclarationStatement(
+    private val declarator: String,
+    private val typeDeclarationExpression: TypeDeclarationExpression,
+    private val identifier: IdentifierExpression
+) :Statement{
+    fun getDeclarator(): String = declarator
+    fun getTypeDeclarationExpression(): TypeDeclarationExpression = typeDeclarationExpression
+    fun getIdentifier(): IdentifierExpression = identifier
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
