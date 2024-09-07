@@ -9,4 +9,5 @@ interface ASTBuilderStrategy {
 
     fun isValidStruct(tokens: List<Token>): Boolean
 
+    fun respectsExpectedSize(size: Int): Boolean
 }
