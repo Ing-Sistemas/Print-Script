@@ -42,7 +42,7 @@ class InterpretExpression {
                 val right = node.getRight()
                 val useRight = interpret(right, storage)
                 when (node.getOperator()) {
-                    "-" -> -(useRight as Double )
+                    "-" -> -(useRight as Double)
                     else -> throw IllegalArgumentException("Invalid operator")
                 }
             }

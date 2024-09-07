@@ -194,7 +194,7 @@ class InterpreterTests {
     fun testBinaryExpressionStringAndDoubleConcatenation() {
         val left = StringLiteral("The result is: ")
         val right = NumberLiteral(42.0)
-        val binaryExpression = BinaryExpression(left, "+", right)  
+        val binaryExpression = BinaryExpression(left, "+", right)
 
         val result = interpreter.interpret(binaryExpression, storage)
         assertEquals("The result is: 42.0", result)
