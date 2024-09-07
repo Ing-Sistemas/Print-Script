@@ -1,5 +1,6 @@
 package org.example.parser.syntactic
 
+import ASTNode
 import Token
 import org.example.*
 import org.example.parser.syntactic.SyntacticAnalyzer.Companion.builderStrategy
@@ -19,7 +20,22 @@ class SyntacticAnalyzer {
         )
     }
 
+    fun build(tokens: List<Token>): SyntacticResult {
+        for (builder in builderStrategy) {
+            if(builder.isValidStruct(tokens))
+                return SyntacticSuccess(builder.build(tokens))
+        }
+        return SyntacticFail("Invalid syntactic structure at ${tokens.first().getValue()} ")
+    }
 }
+
+
+
+
+
+
+
+
 
 /*
 fun buildAST(tokens: List<Token>): SyntacticResult {
