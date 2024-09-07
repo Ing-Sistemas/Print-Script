@@ -10,7 +10,7 @@ class InterpretLiteral {
     fun interpret(node: Literal, storage: Storage): Any {
         return when (node) {
             is NumberLiteral -> {
-                return node.getValue().toInt()
+                return node.getValue()
             }
             is StringLiteral -> {
                 return node.getValue()

@@ -78,7 +78,7 @@ class InterpreterTests {
         val right = NumberLiteral(5.0)
         val unaryExpression = UnaryExpression("-", right)
         val result = interpreter.interpret(unaryExpression)
-        assertEquals(-5, result)
+        assertEquals(-5.0, result)
     }
 
     // Test para declarar una variable y verificar su almacenamiento

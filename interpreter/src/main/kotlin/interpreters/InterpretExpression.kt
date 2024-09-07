@@ -40,13 +40,14 @@ class InterpretExpression {
             }
             is UnaryExpression -> {
                 val right = node.getRight()
+                val useRight = interpret(right, storage)
                 when (node.getOperator()) {
-                    "-" -> -(right as Int)
+                    "-" -> -(useRight as Double )
                     else -> throw IllegalArgumentException("Invalid operator")
                 }
             }
             is IdentifierExpression -> {
-                return storage.getFromStorage(node.getIdentifier())!!
+                return storage.getFromStorage(node.getIdentifier())!! //error
             }
             is TypeDeclarationExpression -> {
                 return node.getType()
