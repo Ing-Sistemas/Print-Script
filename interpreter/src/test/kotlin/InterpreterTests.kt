@@ -26,7 +26,6 @@ class InterpreterTests {
         storage = Storage()
     }
 
-    // Test para literales numéricos
     @Test
     fun testNumberLiteral() {
         val numberLiteral = NumberLiteral(42.0)
@@ -34,7 +33,6 @@ class InterpreterTests {
         assertEquals(42, result)
     }
 
-    // Test para literales de string
     @Test
     fun testStringLiteral() {
         val stringLiteral = StringLiteral("hello")
@@ -42,7 +40,6 @@ class InterpreterTests {
         assertEquals("hello", result)
     }
 
-    // Test para BinaryExpression suma de enteros
     @Test
     fun testBinaryExpressionAddition() {
         val left = NumberLiteral(10.0)
@@ -52,7 +49,6 @@ class InterpreterTests {
         assertEquals(15, result)
     }
 
-    // Test para BinaryExpression resta de enteros
     @Test
     fun testBinaryExpressionSubtraction() {
         val left = NumberLiteral(10.0)
@@ -62,7 +58,6 @@ class InterpreterTests {
         assertEquals(5, result)
     }
 
-    // Test para BinaryExpression con strings
     @Test
     fun testBinaryExpressionStringConcatenation() {
         val left = StringLiteral("Hello, ")
@@ -72,7 +67,6 @@ class InterpreterTests {
         assertEquals("Hello, World!", result)
     }
 
-    // Test para UnaryExpression (negación)
     @Test
     fun testUnaryExpression() {
         val right = NumberLiteral(5.0)
@@ -81,7 +75,6 @@ class InterpreterTests {
         assertEquals(-5.0, result)
     }
 
-    // Test para declarar una variable y verificar su almacenamiento
     @Test
     fun testVariableDeclarationStatement() {
         val typeDeclaration = TypeDeclarationExpression("int")
@@ -93,7 +86,6 @@ class InterpreterTests {
         assertEquals(10, result)
     }
 
-    // Test para la asignación de una variable
     @Test
     fun testAssignmentStatement() {
         val assignment = AssignmentStatement(IdentifierExpression("x"), NumberLiteral(20.0), "=")
@@ -103,13 +95,11 @@ class InterpreterTests {
         assertEquals(20, result)
     }
 
-    // Test para FunctionCallStatement - println
     @Test
     fun testFunctionCallStatementPrintln() {
         val arguments = listOf(StringLiteral("Hello World"))
         val functionCall = FunctionCallStatement("println", arguments)
 
-        // Capturamos la salida de la función println
         val output = captureOutput {
             interpreter.interpret(functionCall)
         }
@@ -117,7 +107,6 @@ class InterpreterTests {
         assertEquals("Hello World", output.trim())
     }
 
-    // Test para la evaluación de una expresión usando un identificador
     @Test
     fun testIdentifierExpression() {
         storage.addToStorage("y", 50)
@@ -127,7 +116,6 @@ class InterpreterTests {
         assertEquals(50, result)
     }
 
-    // Test para BinaryExpression con combinación de int y string
     @Test
     fun testBinaryExpressionIntAndStringConcatenation() {
         val left = NumberLiteral(42.0)
@@ -137,7 +125,6 @@ class InterpreterTests {
         assertEquals("42 is the answer", result)
     }
 
-    // Test para UnaryExpression con operandos no válidos
     @Test
     fun testUnaryExpressionInvalidOperand() {
         val right = NumberLiteral(33.2)
@@ -148,7 +135,6 @@ class InterpreterTests {
         }
     }
 
-    // Test para función no definida
     @Test
     fun testUndefinedFunctionCall() {
         val arguments = listOf(NumberLiteral(10.0))
@@ -159,7 +145,15 @@ class InterpreterTests {
         }
     }
 
-    // Helper para capturar la salida de println
+    @Test
+    fun testBinaryExpressionWithMul() {
+        val left = NumberLiteral(8.0)
+        val right = NumberLiteral(7.0)
+        val binaryExpression = BinaryExpression(left, "*", right)
+        val result = interpreter.interpret(binaryExpression)
+        assertEquals(56.0, result)
+    }
+
     private fun captureOutput(block: () -> Unit): String {
         val outputStream = java.io.ByteArrayOutputStream()
         val printStream = java.io.PrintStream(outputStream)

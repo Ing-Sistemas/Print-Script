@@ -23,16 +23,16 @@ class InterpretExpression {
                 val operator = node.getOperator()
 
                 when {
-                    left is Int && right is Int ->
+                    left is Double && right is Double ->
                         { applyOperator(left, operator, right) }
 
                     left is String && right is String && operator == "+" ->
                         { left + right }
 
-                    left is Int && right is String && operator == "+" ->
+                    left is Double && right is String && operator == "+" ->
                         { left.toString() + right }
 
-                    left is String && right is Int && operator == "+" ->
+                    left is String && right is Double && operator == "+" ->
                         { left + right.toString() }
 
                     else -> { throw IllegalArgumentException("Invalid operands for operator: $operator") }
@@ -57,7 +57,7 @@ class InterpretExpression {
         }
     }
 
-    private fun applyOperator(left: Int, operator: String, right: Int): Int {
+    private fun applyOperator(left: Double, operator: String, right: Double): Double {
         return when (operator) {
             "+" -> left + right
             "-" -> left - right
