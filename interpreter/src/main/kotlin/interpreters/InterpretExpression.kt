@@ -1,28 +1,25 @@
-package org.example.visitor
+package interpreters
 
 import BinaryExpression
 import Expression
 import IdentifierExpression
-import Literal
 import NumberLiteral
-import Statement
 import StringLiteral
 import TypeDeclarationExpression
 import UnaryExpression
-import Visitor
+import utils.Storage
 
-class InterpreterVisitor : Visitor<Any> {
-    val storage = mutableMapOf<String, Any>()
+class InterpretExpression {
 
-    override fun visit(expression: Expression): Any {
-        return evaluateNode(expression)
+    fun interpret(node: Expression, storage: Storage): Any {
+        return evaluateNode(node, storage)
     }
 
-    private fun evaluateNode(node: Any): Any {
+    private fun evaluateNode(node: Expression, storage: Storage): Any {
         return when (node) {
             is BinaryExpression -> {
-                val left = evaluateNode(node.getLeft().accept(this))
-                val right = evaluateNode(node.getRight().accept(this))
+                val left = evaluateNode(node.getLeft(), storage)
+                val right = evaluateNode(node.getRight(), storage)
                 val operator = node.getOperator()
 
                 when {
@@ -42,21 +39,20 @@ class InterpreterVisitor : Visitor<Any> {
                 }
             }
             is UnaryExpression -> {
-                val right = node.getRight().accept(this)
+                val right = node.getRight()
                 when (node.getOperator()) {
                     "-" -> -(right as Int)
                     else -> throw IllegalArgumentException("Invalid operator")
                 }
             }
             is IdentifierExpression -> {
-                return storage[node.getIdentifier()]!!
+                return storage.getFromStorage(node.getIdentifier())!!
             }
             is TypeDeclarationExpression -> {
                 return node.getType()
             }
-            is NumberLiteral -> visit(node)
-            is StringLiteral -> visit(node)
-            else -> {}
+            is NumberLiteral -> InterpretLiteral().interpret(node, storage)
+            is StringLiteral -> InterpretLiteral().interpret(node, storage)
         }
     }
 
@@ -68,17 +64,5 @@ class InterpreterVisitor : Visitor<Any> {
             "/" -> left / right
             else -> { throw IllegalArgumentException() }
         }
-    }
-
-    override fun visit(literal: Literal): Any {
-        return when (literal) {
-            is NumberLiteral -> literal.getValue()
-            is StringLiteral -> literal.getValue()
-            else -> {}
-        }
-    }
-
-    override fun visit(statement: Statement): Any {
-        TODO("Not yet implemented")
     }
 }

@@ -1,7 +1,25 @@
-package org.example.interpreters
+package interpreters
 
-import Visitor
+import ASTNode
+import Expression
+import Literal
+import Statement
+import utils.Storage
 
-interface Interpreter {
-    fun <T> accept(visitor: Visitor<T>): T
+class Interpreter {
+    private val storage = Storage()
+
+    fun interpret(node: ASTNode): Any {
+        return when (node) {
+            is Literal -> {
+                InterpretLiteral().interpret(node, storage)
+            }
+            is Expression -> {
+                InterpretExpression().interpret(node, storage)
+            }
+            is Statement -> {
+                InterpretStatement().interpret(node, storage)
+            }
+        }
+    }
 }
