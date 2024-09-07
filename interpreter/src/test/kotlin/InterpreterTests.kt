@@ -29,14 +29,14 @@ class InterpreterTests {
     @Test
     fun testNumberLiteral() {
         val numberLiteral = NumberLiteral(42.0)
-        val result = interpreter.interpret(numberLiteral)
+        val result = interpreter.interpret(numberLiteral, storage)
         assertEquals(42.0, result)
     }
 
     @Test
     fun testStringLiteral() {
         val stringLiteral = StringLiteral("hello")
-        val result = interpreter.interpret(stringLiteral)
+        val result = interpreter.interpret(stringLiteral, storage)
         assertEquals("hello", result)
     }
 
@@ -45,7 +45,7 @@ class InterpreterTests {
         val left = NumberLiteral(10.0)
         val right = NumberLiteral(5.0)
         val binaryExpression = BinaryExpression(left, "+", right)
-        val result = interpreter.interpret(binaryExpression)
+        val result = interpreter.interpret(binaryExpression, storage)
         assertEquals(15.0, result)
     }
 
@@ -54,7 +54,7 @@ class InterpreterTests {
         val left = NumberLiteral(10.0)
         val right = NumberLiteral(5.0)
         val binaryExpression = BinaryExpression(left, "-", right)
-        val result = interpreter.interpret(binaryExpression)
+        val result = interpreter.interpret(binaryExpression, storage)
         assertEquals(5.0, result)
     }
 
@@ -63,7 +63,7 @@ class InterpreterTests {
         val left = StringLiteral("Hello, ")
         val right = StringLiteral("World!")
         val binaryExpression = BinaryExpression(left, "+", right)
-        val result = interpreter.interpret(binaryExpression)
+        val result = interpreter.interpret(binaryExpression, storage)
         assertEquals("Hello, World!", result)
     }
 
@@ -71,7 +71,7 @@ class InterpreterTests {
     fun testUnaryExpression() {
         val right = NumberLiteral(5.0)
         val unaryExpression = UnaryExpression("-", right)
-        val result = interpreter.interpret(unaryExpression)
+        val result = interpreter.interpret(unaryExpression, storage)
         assertEquals(-5.0, result)
     }
 
@@ -81,16 +81,16 @@ class InterpreterTests {
         val assignment = AssignmentStatement(IdentifierExpression("x"), NumberLiteral(10.0), "=")
         val variableDeclaration = VariableDeclarationStatement("x", typeDeclaration, assignment)
 
-        interpreter.interpret(variableDeclaration)
+        interpreter.interpret(variableDeclaration, storage)
         val result = storage.getFromStorage("x")
+        println(result)
         assertEquals(10.0, result)
     }
 
     @Test
     fun testAssignmentStatement() {
         val assignment = AssignmentStatement(IdentifierExpression("x"), NumberLiteral(20.0), "=")
-
-        interpreter.interpret(assignment)
+        interpreter.interpret(assignment, storage)
         val result = storage.getFromStorage("x")
         assertEquals(20.0, result)
     }
@@ -101,7 +101,7 @@ class InterpreterTests {
         val functionCall = FunctionCallStatement("println", arguments)
 
         val output = captureOutput {
-            interpreter.interpret(functionCall)
+            interpreter.interpret(functionCall, storage)
         }
 
         assertEquals("Hello World", output.trim())
@@ -112,8 +112,8 @@ class InterpreterTests {
         storage.addToStorage("y", 50)
         val identifier = IdentifierExpression("y")
 
-        val result = interpreter.interpret(identifier)
-        assertEquals(50.0, result)
+        val result = interpreter.interpret(identifier, storage)
+        assertEquals(50, result)
     }
 
     @Test
@@ -121,7 +121,7 @@ class InterpreterTests {
         val left = NumberLiteral(42.0)
         val right = StringLiteral(" is the answer")
         val binaryExpression = BinaryExpression(left, "+", right)
-        val result = interpreter.interpret(binaryExpression)
+        val result = interpreter.interpret(binaryExpression, storage)
         assertEquals("42.0 is the answer", result)
     }
 
@@ -131,7 +131,7 @@ class InterpreterTests {
         val unaryExpression = UnaryExpression("+", right)
 
         assertThrows(IllegalArgumentException::class.java) {
-            interpreter.interpret(unaryExpression)
+            interpreter.interpret(unaryExpression, storage)
         }
     }
 
@@ -141,7 +141,7 @@ class InterpreterTests {
         val functionCall = FunctionCallStatement("undefinedFunction", arguments)
 
         assertThrows(IllegalArgumentException::class.java) {
-            interpreter.interpret(functionCall)
+            interpreter.interpret(functionCall, storage)
         }
     }
 
@@ -150,8 +150,54 @@ class InterpreterTests {
         val left = NumberLiteral(8.0)
         val right = NumberLiteral(7.0)
         val binaryExpression = BinaryExpression(left, "*", right)
-        val result = interpreter.interpret(binaryExpression)
+        val result = interpreter.interpret(binaryExpression, storage)
         assertEquals(56.0, result)
+    }
+
+    @Test
+    fun testNestedBinaryExpressionsAdditionAndMultiplication() {
+        val left = NumberLiteral(2.0)
+        val right = NumberLiteral(3.0)
+        val addition = BinaryExpression(left, "+", right)
+
+        val secondRight = NumberLiteral(4.0)
+        val multiplication = BinaryExpression(addition, "*", secondRight)
+
+        val result = interpreter.interpret(multiplication, storage)
+        assertEquals(20.0, result)
+    }
+
+    @Test
+    fun testNestedBinaryExpressionsSubtractionAndDivision() {
+        val left = NumberLiteral(10.0)
+        val right = NumberLiteral(2.0)
+        val division = BinaryExpression(left, "/", right)
+
+        val secondLeft = NumberLiteral(15.0)
+        val subtraction = BinaryExpression(secondLeft, "-", division)
+
+        val result = interpreter.interpret(subtraction, storage)
+        assertEquals(10.0, result)
+    }
+
+    @Test
+    fun testComplexBinaryExpressions() {
+        val first = BinaryExpression(NumberLiteral(5.0), "+", NumberLiteral(10.0))
+        val second = BinaryExpression(NumberLiteral(20.0), "-", NumberLiteral(5.0))
+        val third = BinaryExpression(first, "*", second)
+
+        val result = interpreter.interpret(third, storage)
+        assertEquals(225.0, result)
+    }
+
+    @Test
+    fun testBinaryExpressionStringAndDoubleConcatenation() {
+        val left = StringLiteral("The result is: ")
+        val right = NumberLiteral(42.0)
+        val binaryExpression = BinaryExpression(left, "+", right)  
+
+        val result = interpreter.interpret(binaryExpression, storage)
+        assertEquals("The result is: 42.0", result)
     }
 
     private fun captureOutput(block: () -> Unit): String {

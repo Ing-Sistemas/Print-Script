@@ -47,7 +47,7 @@ class InterpretExpression {
                 }
             }
             is IdentifierExpression -> {
-                return storage.getFromStorage(node.getIdentifier())!! //error
+                storage.getFromStorage(node.getIdentifier())!!
             }
             is TypeDeclarationExpression -> {
                 return node.getType()

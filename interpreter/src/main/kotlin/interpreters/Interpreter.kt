@@ -7,9 +7,8 @@ import Statement
 import utils.Storage
 
 class Interpreter {
-    private val storage = Storage()
 
-    fun interpret(node: ASTNode): Any {
+    fun interpret(node: ASTNode, storage: Storage): Any {
         return when (node) {
             is Literal -> {
                 InterpretLiteral().interpret(node, storage)

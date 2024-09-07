@@ -5,6 +5,7 @@ import FunctionCallStatement
 import Statement
 import VariableDeclarationStatement
 import org.example.output.Printer
+import output.Conditional
 import utils.Storage
 
 class InterpretStatement {
@@ -19,19 +20,26 @@ class InterpretStatement {
             is FunctionCallStatement -> {
                 val functionName = node.getFunctionName()
                 val arguments = node.getArguments()
-                if (functionName == "println") {
-                    for (argument in arguments) {
-                        Printer().output(InterpretExpression().interpret(argument, storage))
+                when (functionName) {
+                    "println" -> {
+                        for (argument in arguments) {
+                            Printer().output(InterpretExpression().interpret(argument, storage))
+                        }
                     }
-                } else {
-                    throw (IllegalArgumentException("Function $functionName is not defined"))
+                    "if" -> {
+                        for (argument in arguments) {
+                            Conditional().output(InterpretExpression().interpret(argument, storage))
+                        }
+                    }
+                    else -> {
+                        throw (IllegalArgumentException("Function $functionName is not defined"))
+                    }
                 }
             }
             is AssignmentStatement -> {
-                val identifier = node.getIdentifier()
-                val saveIdentifier = InterpretExpression().interpret(identifier, storage)
+                val identifier = node.getIdentifier().getIdentifier()
                 val value = InterpretExpression().interpret(node.getValue(), storage)
-                return storage.addToStorage(saveIdentifier.toString(), value)
+                return storage.addToStorage(identifier, value)
             }
         }
     }
