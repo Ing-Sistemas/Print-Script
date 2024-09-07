@@ -30,7 +30,7 @@ class InterpreterTests {
     fun testNumberLiteral() {
         val numberLiteral = NumberLiteral(42.0)
         val result = interpreter.interpret(numberLiteral)
-        assertEquals(42, result)
+        assertEquals(42.0, result)
     }
 
     @Test
@@ -46,7 +46,7 @@ class InterpreterTests {
         val right = NumberLiteral(5.0)
         val binaryExpression = BinaryExpression(left, "+", right)
         val result = interpreter.interpret(binaryExpression)
-        assertEquals(15, result)
+        assertEquals(15.0, result)
     }
 
     @Test
@@ -55,7 +55,7 @@ class InterpreterTests {
         val right = NumberLiteral(5.0)
         val binaryExpression = BinaryExpression(left, "-", right)
         val result = interpreter.interpret(binaryExpression)
-        assertEquals(5, result)
+        assertEquals(5.0, result)
     }
 
     @Test
@@ -77,13 +77,13 @@ class InterpreterTests {
 
     @Test
     fun testVariableDeclarationStatement() {
-        val typeDeclaration = TypeDeclarationExpression("int")
+        val typeDeclaration = TypeDeclarationExpression("number")
         val assignment = AssignmentStatement(IdentifierExpression("x"), NumberLiteral(10.0), "=")
         val variableDeclaration = VariableDeclarationStatement("x", typeDeclaration, assignment)
 
         interpreter.interpret(variableDeclaration)
         val result = storage.getFromStorage("x")
-        assertEquals(10, result)
+        assertEquals(10.0, result)
     }
 
     @Test
@@ -92,7 +92,7 @@ class InterpreterTests {
 
         interpreter.interpret(assignment)
         val result = storage.getFromStorage("x")
-        assertEquals(20, result)
+        assertEquals(20.0, result)
     }
 
     @Test
@@ -113,7 +113,7 @@ class InterpreterTests {
         val identifier = IdentifierExpression("y")
 
         val result = interpreter.interpret(identifier)
-        assertEquals(50, result)
+        assertEquals(50.0, result)
     }
 
     @Test
@@ -122,7 +122,7 @@ class InterpreterTests {
         val right = StringLiteral(" is the answer")
         val binaryExpression = BinaryExpression(left, "+", right)
         val result = interpreter.interpret(binaryExpression)
-        assertEquals("42 is the answer", result)
+        assertEquals("42.0 is the answer", result)
     }
 
     @Test
