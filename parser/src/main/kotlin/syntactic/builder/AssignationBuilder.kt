@@ -1,6 +1,5 @@
 package org.example.parser.syntactic.builder
 
-import ASTNode
 import AssignmentStatement
 import Token
 
@@ -10,10 +9,6 @@ class AssignationBuilder : ASTBuilderStrategy {
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun respectsExpectedSize(size: Int): Boolean {
         TODO("Not yet implemented")
     }
 

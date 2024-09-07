@@ -12,10 +12,6 @@ class BinaryExpressionBuilder : ASTBuilderStrategy {
         TODO("Not yet implemented")
     }
 
-    override fun respectsExpectedSize(size: Int): Boolean {
-        TODO("Not yet implemented")
-    }
-
 }
 
 //override fun build(token: Token, tokens: List<Token>): AssignmentNode {

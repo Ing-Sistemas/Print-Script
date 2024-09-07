@@ -1,7 +1,5 @@
 package org.example.parser.syntactic.builder
 
-import ASTNode
-import AssignmentStatement
 import Token
 import TypeDeclarationExpression
 import VariableDeclarationStatement
@@ -28,14 +26,10 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        if (!respectsExpectedSize(tokens.size)) return false
+        if (!respectsExpectedSize(tokens.size, expectedSize)) return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
                 (expectedType == TYPE && (token.getType() == STRING_TYPE || token.getType() == NUMBER_TYPE))
         }
-    }
-
-    override fun respectsExpectedSize(size: Int): Boolean {
-        return size > expectedSize //needs to be > than expected in order to "contain" expected tokens
     }
 }

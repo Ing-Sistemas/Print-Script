@@ -11,8 +11,4 @@ class UnaryExpressionBuilder: ASTBuilderStrategy {
     override fun isValidStruct(tokens: List<Token>): Boolean {
         TODO("Not yet implemented")
     }
-
-    override fun respectsExpectedSize(size: Int): Boolean {
-        TODO("Not yet implemented")
-    }
 }
