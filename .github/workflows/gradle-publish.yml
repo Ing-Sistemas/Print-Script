@@ -1,13 +1,11 @@
-name: Gradle Package
+name: Publish packages
 
 on:
     push:
         branches:
             - main
-
 jobs:
-    build:
-
+    publish:
         runs-on: ubuntu-latest
         permissions:
             contents: read
