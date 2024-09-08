@@ -200,6 +200,122 @@ class InterpreterTests {
         assertEquals("The result is: 42.0", result)
     }
 
+    @Test
+    fun testEmptyStorage() {
+        val emptyStorage = storage.getStorage()
+        assert(emptyStorage.isEmpty())
+    }
+
+    @Test
+    fun testStringConcatenationNameAndLastName() {
+        val nameDeclaration = VariableDeclarationStatement(
+            "name",
+            TypeDeclarationExpression("string"),
+            AssignmentStatement(IdentifierExpression("name"), StringLiteral("Joe"), "="),
+        )
+
+        val lastNameDeclaration = VariableDeclarationStatement(
+            "lastName",
+            TypeDeclarationExpression("string"),
+            AssignmentStatement(IdentifierExpression("lastName"), StringLiteral("Doe"), "="),
+        )
+
+        val concatenationExpression = BinaryExpression(
+            IdentifierExpression("name"),
+            "+",
+            BinaryExpression(StringLiteral(" "), "+", IdentifierExpression("lastName")),
+        )
+
+        val printStatement = FunctionCallStatement("println", listOf(concatenationExpression))
+
+        interpreter.interpret(nameDeclaration, storage)
+        interpreter.interpret(lastNameDeclaration, storage)
+
+        val output = captureOutput {
+            interpreter.interpret(printStatement, storage)
+        }
+
+        assertEquals("Joe Doe", output.trim())
+    }
+
+    @Test
+    fun testDivisionAndConcatenationResult() {
+        val aDeclaration = VariableDeclarationStatement(
+            "a",
+            TypeDeclarationExpression("number"),
+            AssignmentStatement(IdentifierExpression("a"), NumberLiteral(12.0), "="),
+        )
+
+        val bDeclaration = VariableDeclarationStatement(
+            "b",
+            TypeDeclarationExpression("number"),
+            AssignmentStatement(IdentifierExpression("b"), NumberLiteral(4.0), "="),
+        )
+
+        val cDeclaration = VariableDeclarationStatement(
+            "c",
+            TypeDeclarationExpression("number"),
+            AssignmentStatement(IdentifierExpression("c"), BinaryExpression(IdentifierExpression("a"), "/", IdentifierExpression("b")), "="),
+        )
+
+        val concatenationExpression = BinaryExpression(
+            StringLiteral("Result: "),
+            "+",
+            IdentifierExpression("c"),
+        )
+
+        val printStatement = FunctionCallStatement("println", listOf(concatenationExpression))
+
+        interpreter.interpret(aDeclaration, storage)
+        interpreter.interpret(bDeclaration, storage)
+        interpreter.interpret(cDeclaration, storage)
+
+        val output = captureOutput {
+            interpreter.interpret(printStatement, storage)
+        }
+
+        assertEquals("Result: 3.0", output.trim())
+    }
+
+    @Test
+    fun testReassignmentAndDivisionWithVariable() {
+        val aDeclaration = VariableDeclarationStatement(
+            "a",
+            TypeDeclarationExpression("number"),
+            AssignmentStatement(IdentifierExpression("a"), NumberLiteral(12.0), "="),
+        )
+
+        val bDeclaration = VariableDeclarationStatement(
+            "b",
+            TypeDeclarationExpression("number"),
+            AssignmentStatement(IdentifierExpression("b"), NumberLiteral(4.0), "="),
+        )
+
+        val reassignment = AssignmentStatement(
+            IdentifierExpression("a"),
+            BinaryExpression(IdentifierExpression("a"), "/", IdentifierExpression("b")),
+            "=",
+        )
+
+        val concatenationExpression = BinaryExpression(
+            StringLiteral("Result: "),
+            "+",
+            IdentifierExpression("a"),
+        )
+
+        val printStatement = FunctionCallStatement("println", listOf(concatenationExpression))
+
+        interpreter.interpret(aDeclaration, storage)
+        interpreter.interpret(bDeclaration, storage)
+        interpreter.interpret(reassignment, storage)
+
+        val output = captureOutput {
+            interpreter.interpret(printStatement, storage)
+        }
+
+        assertEquals("Result: 3.0", output.trim())
+    }
+
     private fun captureOutput(block: () -> Unit): String {
         val outputStream = java.io.ByteArrayOutputStream()
         val printStream = java.io.PrintStream(outputStream)
