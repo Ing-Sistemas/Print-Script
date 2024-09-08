@@ -39,7 +39,7 @@ class StorageManager(
         identifierResult: ResultInformation,
         valueResult: ResultInformation,
     ) {
-        val identifier = identifierResult.getValue<StringValue>().toString()
+        val identifier = identifierResult.getValue<String>()
         storage[identifier] = valueResult.getValue()
     }
 
