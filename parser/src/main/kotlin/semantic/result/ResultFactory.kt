@@ -1,7 +1,7 @@
 package org.example.parser.semantic.result
 
 import BooleanValue
-import DoubleValue
+import NumberValue
 import StoredValue
 import StringValue
 import org.example.parser.semantic.DataType
@@ -12,7 +12,7 @@ class ResultFactory {
         println("arransamsam")
         return when (value) {
             is StringValue -> createStringResult(value.value, type, errors)
-            is DoubleValue -> createNumberResult(value.value, type, errors)
+            is NumberValue -> createNumberResult(value.value, type, errors)
             is BooleanValue -> createBooleanResult(value.value, type, errors)
             else -> throw IllegalArgumentException("Unsupported value type")
         }
@@ -22,7 +22,7 @@ class ResultFactory {
         return ResultString(value, type, errors)
     }
 
-    fun createNumberResult(value: Double, type: DataType, errors: List<String> = emptyList()): ResultInformation {
+    fun createNumberResult(value: Number, type: DataType, errors: List<String> = emptyList()): ResultInformation {
         return ResultNumber(value, type, errors)
     }
 

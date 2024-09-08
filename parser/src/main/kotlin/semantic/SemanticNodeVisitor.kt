@@ -3,12 +3,12 @@ package org.example.parser.semantic
 import ASTNode
 import AssignmentStatement
 import BinaryExpression
-import DoubleValue
 import Expression
 import FunctionCallStatement
 import IdentifierExpression
 import Literal
 import NumberLiteral
+import NumberValue
 import Statement
 import StoredValue
 import StringLiteral
@@ -17,7 +17,6 @@ import TypeDeclarationExpression
 import UnaryExpression
 import VariableDeclarationStatement
 import Visitor
-import org.example.*
 import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
 
@@ -65,7 +64,7 @@ class SemanticNodeVisitor(
     }
 
     private fun visit(literalNode: NumberLiteral): ResultInformation {
-        return resultFactory.create(DoubleValue(literalNode.getValue()), DataType.NUMBER)
+        return resultFactory.create(NumberValue(literalNode.getValue()), DataType.NUMBER)
     }
     private fun visit(literalNode: StringLiteral): ResultInformation {
         return resultFactory.create(StringValue(literalNode.getValue()), DataType.STRING)
@@ -116,7 +115,7 @@ class SemanticNodeVisitor(
     private fun convertToDefaultValues(type: DataType): StoredValue {
         return when (type) {
             DataType.STRING -> StringValue("")
-            DataType.NUMBER -> DoubleValue(0.0)
+            DataType.NUMBER -> NumberValue(0.0)
         }
     }
 }

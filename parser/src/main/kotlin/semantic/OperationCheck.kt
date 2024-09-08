@@ -1,7 +1,7 @@
 package org.example.parser.semantic
 
 import BinaryExpression
-import DoubleValue
+import NumberValue
 import Visitor
 import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
@@ -49,7 +49,7 @@ class OperationCheck(
         val rightValue = right.getValue<Double>()
         return if (left.getType() == right.getType()) {
             val result = operation(leftValue, rightValue)
-            resultFactory.create(DoubleValue(result), left.getType())
+            resultFactory.create(NumberValue(result), left.getType())
         } else {
             resultFactory.createError("Type mismatch for operation")
         }
