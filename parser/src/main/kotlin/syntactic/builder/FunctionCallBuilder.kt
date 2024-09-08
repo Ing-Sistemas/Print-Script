@@ -2,8 +2,15 @@ package org.example.parser.syntactic.builder
 
 import ASTNode
 import Token
+import org.example.token.TokenType.*
+import org.example.token.TokenType.IDENTIFIER
 
 class FunctionCallBuilder : ASTBuilderStrategy {
+    private val expectedStruct= listOf(
+        CALL,
+        OPENING_PARENS,
+        CLOSING_PARENS
+    )
     override fun build(tokens: List<Token>): ASTNode {
         TODO("Not yet implemented")
     }
