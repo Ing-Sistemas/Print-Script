@@ -1,10 +1,14 @@
 package org.example.parser.syntactic.builder
 
 import ASTNode
+import Expression
 import Token
 
 class BinaryExpressionHelper  {
 
+    fun buildBinaryExpression(tokens : List<Token>) : Expression {
+        TODO()
+    }
 
 }
 
