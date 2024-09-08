@@ -24,7 +24,6 @@ class StorageManager(
         }
     }
 
-
     fun handleAssignment(
         node: AssignmentStatement,
         visitor: Visitor<ResultInformation>,
@@ -32,7 +31,7 @@ class StorageManager(
         val identifierResult = node.getIdentifier().accept(visitor)
         val valueResult = node.getValue().accept(visitor)
         storeVariableCorrectly(identifierResult, valueResult)
-        return result.mergeResults(identifierResult, valueResult)
+        return valueResult
     }
 
     private fun storeVariableCorrectly(
@@ -47,7 +46,7 @@ class StorageManager(
         return when (type) {
             "string" -> DataType.STRING
             "number" -> DataType.NUMBER
-            //"boolean" -> DataType.
+            "boolean" -> DataType.BOOLEAN
             else -> DataType.STRING
         }
     }

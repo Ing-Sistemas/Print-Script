@@ -6,7 +6,7 @@ data class StringValue(val value: String, val isMutable: Boolean = true) : Store
     override fun getType() = "string"
 }
 
-data class NumberValue(val value: Number, val isMutable: Boolean = true) : StoredValue {
+data class NumberValue(val value: Double, val isMutable: Boolean = true) : StoredValue {
     override fun getType() = "number"
 }
 

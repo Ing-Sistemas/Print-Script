@@ -3,6 +3,7 @@ package org.example.parser.semantic
 import ASTNode
 import AssignmentStatement
 import BinaryExpression
+import BooleanValue
 import Expression
 import FunctionCallStatement
 import IdentifierExpression
@@ -116,6 +117,7 @@ class SemanticNodeVisitor(
         return when (type) {
             DataType.STRING -> StringValue("")
             DataType.NUMBER -> NumberValue(0.0)
+            DataType.BOOLEAN -> BooleanValue(false)
         }
     }
 }

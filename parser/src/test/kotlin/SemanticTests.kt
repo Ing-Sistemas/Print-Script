@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import semantic.SemanticAnalyzer
 
 
@@ -49,10 +50,10 @@ class SemanticTests {
 
     @Test
     fun `test complex binary operation`() {
-        val identifierX = IdentifierExpression("x")
         val numberFive = NumberLiteral(5.0)
+        val numberTwo = NumberLiteral(2.0)
         val additionExpression = BinaryExpression(
-            left = identifierX,
+            left = numberTwo,
             operator = "+",
             right = numberFive
         )
@@ -63,7 +64,6 @@ class SemanticTests {
             operator = "*",
             right = numberTen
         )
-
         assertDoesNotThrow {semanticAnalyzer.analyze(multiplicationExpression)}
     }
 
@@ -83,6 +83,26 @@ class SemanticTests {
             equalOperand = "="
         )
         assertDoesNotThrow { semanticAnalyzer.analyze(assignmentStatement) }
+    }
+
+    @Test
+    fun `test wrongfully made binary expression x + number, with x as string`() {
+        val identifierX = IdentifierExpression("x")
+        val numberFive = NumberLiteral(5.0)
+        val additionExpression = BinaryExpression(
+            left = identifierX,
+            operator = "+",
+            right = numberFive
+        )
+
+        val numberTen = NumberLiteral(10.0)
+        val multiplicationExpression = BinaryExpression(
+            left = additionExpression,
+            operator = "*",
+            right = numberTen
+        )
+
+        assertThrows<ClassCastException> {semanticAnalyzer.analyze(multiplicationExpression)}
     }
 
 }

@@ -3,7 +3,7 @@ package org.example.parser.semantic.result
 import org.example.parser.semantic.DataType
 
 class ResultNumber (
-    private val value: Number,
+    private val value: Double,
     private val type: DataType,
     private val errors: List<String>,
 ): ResultInformation {

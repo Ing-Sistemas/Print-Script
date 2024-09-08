@@ -9,7 +9,6 @@ import org.example.parser.semantic.DataType
 class ResultFactory {
 
     fun create(value: StoredValue, type: DataType, errors: List<String> = emptyList()): ResultInformation {
-        println("arransamsam")
         return when (value) {
             is StringValue -> createStringResult(value.value, type, errors)
             is NumberValue -> createNumberResult(value.value, type, errors)
@@ -22,7 +21,7 @@ class ResultFactory {
         return ResultString(value, type, errors)
     }
 
-    fun createNumberResult(value: Number, type: DataType, errors: List<String> = emptyList()): ResultInformation {
+    fun createNumberResult(value: Double, type: DataType, errors: List<String> = emptyList()): ResultInformation {
         return ResultNumber(value, type, errors)
     }
 
