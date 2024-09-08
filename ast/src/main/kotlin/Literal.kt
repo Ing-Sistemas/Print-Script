@@ -3,12 +3,12 @@ sealed interface Literal: Expression {
 }
 
 class NumberLiteral(
-    private val value: Double
+    private val value: Number
 ) : Literal {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
-    fun getValue(): Double = value
+    fun getValue(): Number = value
 }
 
 class StringLiteral(
