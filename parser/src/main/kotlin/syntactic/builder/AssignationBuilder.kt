@@ -1,17 +1,33 @@
 package org.example.parser.syntactic.builder
 
 import AssignmentStatement
+import IdentifierExpression
+import Literal
+import NumberLiteral
 import Token
+import UnaryExpression
+import org.example.token.TokenType.*
 
 class AssignationBuilder : ASTBuilderStrategy {
+    private val expectedStruct= listOf(
+        IDENTIFIER,
+        ASSIGNMENT
+    )
+
     override fun build(tokens: List<Token>): AssignmentStatement {
-        TODO("Not yet implemented")
+        val identifier = IdentifierExpression(tokens[expectedStruct.indexOf(IDENTIFIER)].getValue())
+        return AssignmentStatement(
+            identifier,
+            ExpressionBuilder().build(tokens.subList(2, tokens.lastIndex)),
+            "=")
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        TODO("Not yet implemented")
+        if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
+        return tokens.zip(expectedStruct).all { (token, expectedType) ->
+            token.getType() == expectedType
+        }
     }
-
 }
 //override fun build(token: Token, tokens: List<Token>): AssignmentNode {
 //        val tokenIndex = tokens.indexOf(token)

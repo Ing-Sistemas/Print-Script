@@ -9,7 +9,6 @@ import VariableDeclarationStatement
 import org.example.token.TokenType.*
 
 class EmptyVarDecBuilder: ASTBuilderStrategy {
-    private val expectedSize = 5
     private val expectedStruct= listOf(
         KEYWORD,
         IDENTIFIER,
@@ -29,7 +28,7 @@ class EmptyVarDecBuilder: ASTBuilderStrategy {
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        if (!respectsExpectedSize(tokens.size, expectedSize)) return false
+        if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
                 (expectedType == TYPE && (token.getType() == STRING_TYPE || token.getType() == NUMBER_TYPE))

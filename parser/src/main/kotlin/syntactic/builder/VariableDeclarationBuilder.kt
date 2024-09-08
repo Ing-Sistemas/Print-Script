@@ -6,7 +6,6 @@ import VariableDeclarationStatement
 import org.example.token.TokenType.*
 
 class VariableDeclarationBuilder : ASTBuilderStrategy {
-    private val expectedSize = 7
     private val expectedStruct= listOf(
         KEYWORD,
         IDENTIFIER,
@@ -21,15 +20,20 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         return VariableDeclarationStatement(
             declarator,
             TypeDeclarationExpression(type),
-            AssignationBuilder().build(tokens)
+            AssignationBuilder().build(filterTokens(tokens))
         )
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        if (!respectsExpectedSize(tokens.size, expectedSize)) return false
+        if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
                 (expectedType == TYPE && (token.getType() == STRING_TYPE || token.getType() == NUMBER_TYPE))
         }
+    }
+
+    private fun filterTokens(tokens: List<Token>): List<Token> {
+        val indexesToRemove = setOf(expectedStruct.indexOf(KEYWORD), expectedStruct.indexOf(COLON), expectedStruct.indexOf(TYPE))
+        return tokens.filterIndexed { index, _ -> index !in indexesToRemove }
     }
 }
