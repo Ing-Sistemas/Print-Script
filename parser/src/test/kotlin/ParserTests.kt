@@ -114,23 +114,73 @@ class ParserTests {
     // todo add operation tests for + - * /
 
     @Test
-    fun `Crate Operations For Every Operator`() {
+    fun `Crate Operations For Sum Operator`() {
         val tokens = listOf<Token>(
             Token(CALL, "println"),
             Token(OPENING_PARENS, "("),
             Token(LITERAL_NUMBER, "2"),
             Token(PLUS_OPERATOR, "+"),
             Token(LITERAL_NUMBER, "9"),
-            Token(MULTIPLY_OPERATOR, "*"),
-            Token(LITERAL_NUMBER, "2"),
-            Token(DIVIDE_OPERATOR, "/"),
-            Token(LITERAL_NUMBER, "2"),
-            Token(MINUS_OPERATOR, "-"),
-            Token(LITERAL_NUMBER, "2"),
             Token(CLOSING_PARENS, ")"),
             Token(SEMICOLON, ";"),
         )
-        val ast = Parser().parse(tokens)
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `Crate Operations For Substractin Operator`() {
+        val tokens = listOf<Token>(
+            Token(CALL, "println"),
+            Token(OPENING_PARENS, "("),
+            Token(LITERAL_NUMBER, "2"),
+            Token(PLUS_OPERATOR, "-"),
+            Token(LITERAL_NUMBER, "9"),
+            Token(CLOSING_PARENS, ")"),
+            Token(SEMICOLON, ";"),
+        )
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `Crate Operations For Multiply Operator`() {
+        val tokens = listOf<Token>(
+            Token(CALL, "println"),
+            Token(OPENING_PARENS, "("),
+            Token(LITERAL_NUMBER, "2"),
+            Token(PLUS_OPERATOR, "*"),
+            Token(LITERAL_NUMBER, "9"),
+            Token(CLOSING_PARENS, ")"),
+            Token(SEMICOLON, ";"),
+        )
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `Crate Operations For Divide Operator`() {
+        val tokens = listOf<Token>(
+            Token(CALL, "println"),
+            Token(OPENING_PARENS, "("),
+            Token(LITERAL_NUMBER, "2"),
+            Token(PLUS_OPERATOR, "/"),
+            Token(LITERAL_NUMBER, "9"),
+            Token(CLOSING_PARENS, ")"),
+            Token(SEMICOLON, ";"),
+        )
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `Successful Binary Node Visit`() {
+        val jsonTester = JsonTester()
+        val tokens = listOf<Token>(
+            Token(CALL, "println"),
+            Token(OPENING_PARENS, "("),
+            Token(LITERAL_NUMBER, "2"),
+            Token(PLUS_OPERATOR, "+"),
+            Token(LITERAL_NUMBER, "3"),
+            Token(CLOSING_PARENS, ")"),
+            Token(SEMICOLON, ";"),
+        )
         assertDoesNotThrow { Parser().parse(tokens) }
     }
 }

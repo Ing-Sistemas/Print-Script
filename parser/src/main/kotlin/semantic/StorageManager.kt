@@ -19,6 +19,15 @@ class StorageManager(
         }
     }
 
+    fun get(key: String): Any? {
+        val value = storage[key]
+        return when {
+            value == null -> null
+            value.toIntOrNull() != null -> value.toInt()
+            else -> value
+        }
+    }
+
     fun handleAssignment(
         node: AssignmentNode,
         visitor: Visitor<ResultInformation>,
@@ -27,10 +36,6 @@ class StorageManager(
         val valueResult = node.getValueNode().accept(visitor)
         storage[identifierResult.getValue().toString()] = tryToInt(valueResult.getValue().toString())
         return result.mergeResults(identifierResult, valueResult)
-    }
-
-    fun getStorage(): Map<String, String> {
-        return storage
     }
 
     private fun getTypeForVar(value: String?): String {
