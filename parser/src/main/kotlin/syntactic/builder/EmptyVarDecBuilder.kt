@@ -29,7 +29,7 @@ class EmptyVarDecBuilder: ASTBuilderStrategy {
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
         if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
-        if(tokens[expectedStruct.size].getType() == ASSIGNMENT) return false
+        if(tokens[expectedStruct.size - 1].getType() == ASSIGNMENT) return false //-1 takes in account the ;
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
                 (expectedType == TYPE && (token.getType() == STRING_TYPE || token.getType() == NUMBER_TYPE))
