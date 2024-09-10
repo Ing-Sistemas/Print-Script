@@ -40,16 +40,16 @@ class ExpressionBuilder: ASTBuilderStrategy {
     }
 
     private fun parseExpression(precedence: Int, tokensToParse : ListIterator<Token>): Expression? {
+        // weird to use var, but necessary for contemplating cases with binary exp
         var left = parseInitialToken(tokensToParse) ?: return null
-
         while (tokensToParse.hasNext()) {
             val operator = peek(tokensToParse) ?: break
 
             val operatorPrecedence = PRECEDENCE[operator.getType()] ?: break
-            if (operatorPrecedence < precedence) break
+            if (operatorPrecedence <= precedence) break
 
-            tokensToParse.next()
-            val right = parseExpression(operatorPrecedence + 1, tokensToParse) ?: return null
+             tokensToParse.next()
+            val right = parseExpression(operatorPrecedence , tokensToParse) ?: return null
             left = BinaryExpression(left, operator.getValue(), right)
         }
         return left
@@ -60,24 +60,25 @@ class ExpressionBuilder: ASTBuilderStrategy {
 
         return when (token.getType()) {
             LITERAL_NUMBER -> {
-                tokensToParse.next()
+                tokensToParse.next()//moves the iterator pointer
                 NumberLiteral(token.getValue().toDouble())
             }
             IDENTIFIER -> {
-                tokensToParse.next()
+                tokensToParse.next()//same this as previous man
                 IdentifierExpression(token.getValue())
             }
             MINUS_OPERATOR -> {
-                val operator =tokensToParse.next()
-                val operand = parseExpression(PRECEDENCE[MINUS_OPERATOR]!! + 1,tokensToParse )
+                val operator = tokensToParse.next() //grabs the operator
+                val operand = parseExpression(PRECEDENCE[MINUS_OPERATOR]!! + 1,tokensToParse )//grabs operand
                 UnaryExpression(operator.getValue(), operand!!)
+                //operator operand example -> - x
             }
             OPENING_PARENS -> {
-                tokensToParse.next()
-                val expr = parseExpression( 0,tokensToParse )
+                tokensToParse.next()// consumes the opening parenthesis
+                val expr = parseExpression( 0,tokensToParse )//build the expression inside parens
 
-                val closingParen = peek(tokensToParse)
-                if (closingParen == null || closingParen.getType() != CLOSING_PARENS) {
+                val closingParen = tokensToParse.next() //ensure that the parens are closed
+                if (closingParen.getType() != CLOSING_PARENS) {
                     throw Exception("Unbalanced parenthesis.")
                 }
                 expr
