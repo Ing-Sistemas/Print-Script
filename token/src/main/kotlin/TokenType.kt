@@ -19,6 +19,8 @@ enum class TokenType {
     CALL,
     OPENING_PARENS,
     CLOSING_PARENS,
+    OPENING_CURLY_BRACKS,
+    CLOSING_CURLY_BRACKS,
     PROGRAM,
     STATEMENT,
 }

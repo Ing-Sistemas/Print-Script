@@ -1,9 +1,7 @@
 package org.example.token
 
 import org.example.token.stategy.*
-import stategy.CallStrategy
-import stategy.ClosingParensStrategy
-import stategy.OpeningParensStrategy
+import stategy.*
 import stategy.operators.DivideTokenStrategy
 import stategy.operators.MinusTokenStrategy
 import stategy.operators.MultiplyTokenStrategy
@@ -27,6 +25,8 @@ class TokenMatcher {
         StringTokenStrategy(),
         OpeningParensStrategy(),
         ClosingParensStrategy(),
+        OpeningCurlyBracks(),
+        ClosingCurlyBracks(),
         PlusTokenStrategy(),
         MinusTokenStrategy(),
         DivideTokenStrategy(),

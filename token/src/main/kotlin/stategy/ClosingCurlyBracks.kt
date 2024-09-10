@@ -1,17 +1,16 @@
 package stategy
 
 import Token
-import TokenRegex
 import org.example.token.TokenType
 import org.example.token.stategy.TokenMatch
 import org.example.token.stategy.TokenStrategy
 
-class ClosingParensStrategy : TokenStrategy {
+class ClosingCurlyBracks: TokenStrategy {
     override fun match(input: String, position: Int): TokenMatch? {
-        val match = TokenRegex.closingParens.find(input, position)
+        val match = TokenRegex.closingCurlyBrackets.find(input, position)
         return if (match != null && match.range.first == position) {
             val nextPosition = position + match.value.length
-            TokenMatch(Token(TokenType.CLOSING_PARENS, match.value), nextPosition)
+            TokenMatch(Token(TokenType.CLOSING_CURLY_BRACKS, match.value), nextPosition)
         } else { null }
     }
 }
