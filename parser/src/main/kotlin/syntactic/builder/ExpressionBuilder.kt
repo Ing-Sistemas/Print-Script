@@ -5,6 +5,7 @@ import BinaryExpression
 import Expression
 import IdentifierExpression
 import NumberLiteral
+import StringLiteral
 import Token
 import UnaryExpression
 import org.example.token.TokenType.*
@@ -48,7 +49,7 @@ class ExpressionBuilder: ASTBuilderStrategy {
             val operatorPrecedence = PRECEDENCE[operator.getType()] ?: break
             if (operatorPrecedence <= precedence) break
 
-             tokensToParse.next()
+            tokensToParse.next()
             val right = parseExpression(operatorPrecedence , tokensToParse) ?: return null
             left = BinaryExpression(left, operator.getValue(), right)
         }
@@ -59,6 +60,10 @@ class ExpressionBuilder: ASTBuilderStrategy {
         val token = peek(tokensToParse)?: return null
 
         return when (token.getType()) {
+            LITERAL_STRING -> {
+                tokensToParse.next()
+                StringLiteral(token.getValue())
+            }
             LITERAL_NUMBER -> {
                 tokensToParse.next()//moves the iterator pointer
                 NumberLiteral(token.getValue().toDouble())
