@@ -1,4 +1,5 @@
 {
     "caseConfiguration": "snake_case",
-    "restrictPrintln": true
+    "restrictPrintln": true,
+    "readInput": true
 }
