@@ -1,11 +1,9 @@
 package org.example.parser.syntactic.builder
 
-import ASTNode
 import EmptyVarDeclarationStatement
 import IdentifierExpression
 import Token
 import TypeDeclarationExpression
-import VariableDeclarationStatement
 import org.example.token.TokenType.*
 
 class EmptyVarDecBuilder: ASTBuilderStrategy {
@@ -22,8 +20,8 @@ class EmptyVarDecBuilder: ASTBuilderStrategy {
         val identifier = tokens[expectedStruct.indexOf(IDENTIFIER)].getValue()
         return EmptyVarDeclarationStatement(
             declarator,
-            TypeDeclarationExpression(type),
-            IdentifierExpression(identifier)
+            TypeDeclarationExpression(type,),
+            IdentifierExpression(identifier,),
         )
     }
 

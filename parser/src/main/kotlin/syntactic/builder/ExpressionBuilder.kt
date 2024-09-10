@@ -53,7 +53,7 @@ class ExpressionBuilder: ASTBuilderStrategy {
 
             tokensToParse.next()
             val right = parseExpression(operatorPrecedence , tokensToParse) ?: return null
-            left = BinaryExpression(left, operator.getValue(), right)
+            left = BinaryExpression(left, operator.getValue(), right,)
         }
         return left
     }
@@ -64,24 +64,24 @@ class ExpressionBuilder: ASTBuilderStrategy {
         return when (token.getType()) {
             BOOLEAN -> {
                 tokensToParse.next()
-                BooleanLiteral(token.getValue().toBoolean())
+                BooleanLiteral(token.getValue().toBoolean(),)
             }
             LITERAL_STRING -> {
                 tokensToParse.next()
-                StringLiteral(token.getValue())
+                StringLiteral(token.getValue(),)
             }
             LITERAL_NUMBER -> {
                 tokensToParse.next()//moves the iterator pointer
-                NumberLiteral(token.getValue().toDouble())
+                NumberLiteral(token.getValue().toDouble(),)
             }
             IDENTIFIER -> {
                 tokensToParse.next()//same this as previous man
-                IdentifierExpression(token.getValue())
+                IdentifierExpression(token.getValue(),)
             }
             MINUS_OPERATOR -> {
                 val operator = tokensToParse.next() //grabs the operator
                 val operand = parseExpression(PRECEDENCE[MINUS_OPERATOR]!! + 1,tokensToParse )//grabs operand
-                UnaryExpression(operator.getValue(), operand!!)
+                UnaryExpression(operator.getValue(), operand!!,)
                 //operator operand example -> - x
             }
             OPENING_PARENS -> {

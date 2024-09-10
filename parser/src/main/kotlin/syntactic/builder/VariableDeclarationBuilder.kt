@@ -19,8 +19,8 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         val type = tokens[expectedStruct.indexOf(TYPE)].getValue()
         return VariableDeclarationStatement(
             declarator,
-            TypeDeclarationExpression(type),
-            AssignationBuilder().build(filterTokens(tokens))
+            TypeDeclarationExpression(type,),
+            AssignationBuilder().build(filterTokens(tokens)),
         )
     }
 

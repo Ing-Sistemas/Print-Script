@@ -1,5 +1,6 @@
 package stategy
 
+import Position
 import Token
 import TokenRegex
 import org.example.token.TokenType
@@ -11,7 +12,7 @@ class ClosingParensStrategy : TokenStrategy {
         val match = TokenRegex.closingParens.find(input, position)
         return if (match != null && match.range.first == position) {
             val nextPosition = position + match.value.length
-            TokenMatch(Token(TokenType.CLOSING_PARENS, match.value), nextPosition)
+            TokenMatch(Token(TokenType.CLOSING_PARENS, match.value, Position(position, LinePlaceHolder.TEMP_POS)), nextPosition)
         } else { null }
     }
 }

@@ -2,10 +2,7 @@ package org.example.parser.syntactic.builder
 
 import AssignmentStatement
 import IdentifierExpression
-import Literal
-import NumberLiteral
 import Token
-import UnaryExpression
 import org.example.token.TokenType.*
 
 class AssignationBuilder : ASTBuilderStrategy {
@@ -15,12 +12,12 @@ class AssignationBuilder : ASTBuilderStrategy {
     )
 
     override fun build(tokens: List<Token>): AssignmentStatement {
-        val identifier = IdentifierExpression(tokens[expectedStruct.indexOf(IDENTIFIER)].getValue())
+        val identifier = IdentifierExpression(tokens[expectedStruct.indexOf(IDENTIFIER)].getValue(),)
         val assignment = tokens[expectedStruct.indexOf(ASSIGNMENT)].getValue()
         return AssignmentStatement(
             identifier,
             ExpressionBuilder().build(tokens.subList(2, tokens.lastIndex)),
-            assignment
+            assignment,
         )
     }
 

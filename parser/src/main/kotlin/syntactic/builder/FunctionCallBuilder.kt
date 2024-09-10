@@ -1,14 +1,11 @@
 package org.example.parser.syntactic.builder
 
 import ASTNode
-import Expression
 import FunctionCallStatement
 import Token
 import org.example.parser.syntactic.SyntacticAnalyzer
-import org.example.parser.syntactic.SyntacticFail
 import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType.*
-import org.example.token.TokenType.IDENTIFIER
 
 class FunctionCallBuilder : ASTBuilderStrategy {
 
@@ -65,6 +62,6 @@ class FunctionCallBuilder : ASTBuilderStrategy {
                 body.add(result.astNode)
             } else throw Exception("Failed to parse function call")
         }
-        return FunctionCallStatement(funCallToken.getValue(), listOf(args), body)
+        return FunctionCallStatement(funCallToken.getValue(), listOf(args), body,)
     }
 }
