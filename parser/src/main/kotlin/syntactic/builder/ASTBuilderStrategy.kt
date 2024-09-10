@@ -1,13 +1,15 @@
 package org.example.parser.syntactic.builder
 
+import ASTNode
 import Token
 
 interface ASTBuilderStrategy {
-    /**
-     * builders look for the index of the given token and start building the AST according to a predefined structure.
-     *
-     * This structure is defined using the indexes relative to the given token
-     */
 
-    fun build(token: Token, tokens: List<Token>): ASTNode
+    fun build(tokens: List<Token>): ASTNode
+
+    fun isValidStruct(tokens: List<Token>): Boolean
+
+    fun respectsExpectedSize(size: Int, expectedSize:Int): Boolean {
+        return size >= expectedSize //needs to be >= than expected in order to "contain" expected tokens
+    }
 }

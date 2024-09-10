@@ -1,32 +1,35 @@
 package org.example.parser.syntactic.builder
 
+import EmptyVarDeclarationStatement
+import IdentifierExpression
 import Token
 import TypeDeclarationExpression
-import VariableDeclarationStatement
 import org.example.token.TokenType.*
 
-class VariableDeclarationBuilder : ASTBuilderStrategy {
+class EmptyVarDecBuilder: ASTBuilderStrategy {
     private val expectedStruct= listOf(
         KEYWORD,
         IDENTIFIER,
         COLON,
         TYPE, // STRING_TYPE , NUMBER_TYPE or BOOLEAN_TYPE
-        ASSIGNMENT
     )
 
-    override fun build(tokens: List<Token>): VariableDeclarationStatement {
+    override fun build(tokens: List<Token>): EmptyVarDeclarationStatement {
         val declarator = tokens[expectedStruct.indexOf(KEYWORD)]
         val type = tokens[expectedStruct.indexOf(TYPE)]
-        return VariableDeclarationStatement(
+        val identifierToken = tokens[expectedStruct.indexOf(IDENTIFIER)]
+        return EmptyVarDeclarationStatement(
             declarator.getValue(),
+            IdentifierExpression(identifierToken.getValue(), identifierToken.getPosition()),
             TypeDeclarationExpression(type.getValue(),type.getPosition()),
-            AssignationBuilder().build(filterTokens(tokens)),
             declarator.getPosition()
         )
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
         if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
+        if(tokens[expectedStruct.size - 1].getType() == ASSIGNMENT) return false //-1 takes in account the ;
+        if(tokens[expectedStruct.indexOf(KEYWORD)].getValue() != "let") return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
                 (expectedType == TYPE && (token.getType() == STRING_TYPE ||
@@ -34,10 +37,5 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
                     token.getType() == BOOLEAN_TYPE
                     ))
         }
-    }
-
-    private fun filterTokens(tokens: List<Token>): List<Token> {
-        val indexesToRemove = setOf(expectedStruct.indexOf(KEYWORD), expectedStruct.indexOf(COLON), expectedStruct.indexOf(TYPE))
-        return tokens.filterIndexed { index, _ -> index !in indexesToRemove }
     }
 }
