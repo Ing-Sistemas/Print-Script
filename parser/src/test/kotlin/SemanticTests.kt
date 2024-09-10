@@ -102,7 +102,7 @@ class SemanticTests {
             right = numberTen
         )
 
-        assertThrows<ClassCastException> {semanticAnalyzer.analyze(multiplicationExpression)}
+        assertThrows<Error> {semanticAnalyzer.analyze(multiplicationExpression)}
     }
 
 }
