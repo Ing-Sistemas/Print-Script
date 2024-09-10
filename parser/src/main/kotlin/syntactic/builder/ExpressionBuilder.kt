@@ -75,7 +75,11 @@ class ExpressionBuilder: ASTBuilderStrategy {
             OPENING_PARENS -> {
                 tokensToParse.next()
                 val expr = parseExpression( 0,tokensToParse )
-                tokensToParse.next()
+
+                val closingParen = peek(tokensToParse)
+                if (closingParen == null || closingParen.getType() != CLOSING_PARENS) {
+                    throw Exception("Unbalanced parenthesis.")
+                }
                 expr
             }
             else -> null
