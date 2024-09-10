@@ -1,6 +1,6 @@
 object TokenRegex {
     val identifierRegex = Regex("[a-zA-Z_][a-zA-Z_0-9]*")
-    val keywordRegex = Regex("\\b(let|var)\\b")
+    val keywordRegex = Regex("\\b(let|const)\\b")
     val plusOperatorRegex = Regex("\\+")
     val minusOperatorRegex = Regex("-")
     val multiplyOperatorRegex = Regex("\\*")
