@@ -1,42 +1,53 @@
 package org.example.parser.semantic
 
+import AssignmentStatement
+import IdentifierExpression
+import StoredValue
+import StringValue
+import Visitor
+import org.example.parser.semantic.result.ResultFactory
+import org.example.parser.semantic.result.ResultInformation
+
 class StorageManager(
     private val result: ResultFactory,
 ) {
-    private val storage = mutableMapOf<String, String>()
+    private val storage = mutableMapOf<String, StoredValue>()
 
-    fun getIdentifierResult(node: IdentifierNode): ResultInformation {
-        val varName = node.getValue()
-        return if (varName in storage) {
-            val type = getTypeForVar(storage[varName])
-            result.create(varName, type)
-        } else {
-            result.create(varName, null)
+    fun getIdentifierResult(node: IdentifierExpression): ResultInformation {
+        val identifier = node.getIdentifier()
+        return if (identifier in storage) {
+            val value = StringValue(identifier)
+            val type = storage[identifier]!!.getType()
+            result.create(value, parseToDataType(type))
+            } else {
+            result.create(StringValue(identifier), DataType.STRING)
         }
     }
 
     fun handleAssignment(
-        node: AssignmentNode,
+        node: AssignmentStatement,
         visitor: Visitor<ResultInformation>,
     ): ResultInformation {
-        val identifierResult = node.getIdentifierNode().accept(visitor)
-        val valueResult = node.getValueNode().accept(visitor)
-        storage[identifierResult.getValue().toString()] = tryToInt(valueResult.getValue().toString())
-        return result.mergeResults(identifierResult, valueResult)
+        val identifierResult = node.getIdentifier().accept(visitor)
+        val valueResult = node.getValue().accept(visitor)
+        storeVariableCorrectly(identifierResult, valueResult)
+        return valueResult
     }
 
-    fun getStorage(): Map<String, String> {
-        return storage
+    private fun storeVariableCorrectly(
+        identifierResult: ResultInformation,
+        valueResult: ResultInformation,
+    ) {
+        val identifier = identifierResult.getValue<String>()
+        storage[identifier] = valueResult.getValue()
     }
 
-    private fun getTypeForVar(value: String?): String {
-        return when (value?.toIntOrNull()) {
-            is Int -> "LITERAL_NUMBER"
-            else -> "LITERAL_STRING"
+    private fun parseToDataType(type: String): DataType {
+        return when (type) {
+            "string" -> DataType.STRING
+            "number" -> DataType.NUMBER
+            "boolean" -> DataType.BOOLEAN
+            else -> DataType.STRING
         }
-    }
-
-    private fun tryToInt(value: String): String {
-        return value.toIntOrNull()?.toString() ?: value
     }
 }

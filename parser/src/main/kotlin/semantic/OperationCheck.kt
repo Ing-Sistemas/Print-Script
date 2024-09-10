@@ -1,17 +1,23 @@
 package org.example.parser.semantic
 
+import BinaryExpression
+import NumberValue
+import Visitor
+import org.example.parser.semantic.result.ResultFactory
+import org.example.parser.semantic.result.ResultInformation
+import org.example.parser.semantic.result.ResultNumber
+
 class OperationCheck(
     private val resultFactory: ResultFactory,
-    private val storageManager: StorageManager,
 ) {
 
     fun checkBinaryOperation(
-        node: BinaryNode,
+        node: BinaryExpression,
         visitor: Visitor<ResultInformation>,
     ): ResultInformation {
         val left = node.getLeft().accept(visitor)
         val right = node.getRight().accept(visitor)
-        return performOperation(left, right, node.getValue())
+        return performOperation(left, right, node.getOperator())
     }
 
     private fun performOperation(
@@ -20,33 +26,30 @@ class OperationCheck(
         operator: String,
     ): ResultInformation {
         return when (operator) {
-            "+" -> resultFactory.create(left.getValue() + right.getValue(), null)
-            "-" -> handleOperation(left, right, Int::minus)
-            "/" -> handleOperation(left, right, Int::div)
-            "*" -> handleOperation(left, right, Int::times)
+            "+" -> {
+                if (left.getType() == DataType.STRING || right.getType() == DataType.STRING) {
+                    resultFactory.createStringResult(left.getValue<String>() + right.getValue<String>(), DataType.STRING)
+                } else {
+                    resultFactory.createNumberResult(left.getValue<Double>() + right.getValue<Double>(), DataType.NUMBER)
+                }
+            }
+            "-" -> handleOperation(left as ResultNumber, right as ResultNumber, Double::minus)
+            "/" -> handleOperation(left as ResultNumber, right as ResultNumber, Double::div)
+            "*" -> handleOperation(left as ResultNumber, right as ResultNumber, Double::times)
             else -> resultFactory.createError("Invalid operator specified")
-        }
-    }
-
-    private fun getIntValue(key: String, map: Map<String, Any>): Int? {
-        val value = map[key]
-        return when (value) {
-            is Int -> value
-            is String -> value.toIntOrNull() // string to int
-            else -> null // Return null > no int/string
         }
     }
 
     private fun handleOperation(
         left: ResultInformation,
         right: ResultInformation,
-        operation: (Int, Int) -> Int,
+        operation: (Double, Double) -> Double,
     ): ResultInformation {
-        val leftValue = getIntValue(left.getValue().toString(), storageManager.getStorage())
-        val rightValue = getIntValue(right.getValue().toString(), storageManager.getStorage())
+        val leftValue = left.getValue<Double>()
+        val rightValue = right.getValue<Double>()
         return if (left.getType() == right.getType()) {
-            val result = operation(leftValue!!.toInt(), rightValue!!.toInt())
-            resultFactory.create(result.toString(), "LITERAL_NUMBER")
+            val result = operation(leftValue, rightValue)
+            resultFactory.create(NumberValue(result), left.getType())
         } else {
             resultFactory.createError("Type mismatch for operation")
         }
