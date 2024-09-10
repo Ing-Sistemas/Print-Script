@@ -12,6 +12,8 @@ object TokenRegex {
     val closingCurlyBrackets = Regex("}")
     val stringTypeRegex = Regex("string")
     val numberTypeRegex = Regex("number")
+    val booleanTypeRegex = Regex("boolean")
+    val booleanRegex = Regex("true|false")
     val assignmentRegex = Regex("=")
     val semicolonRegex = Regex(";")
     val colonRegex = Regex(":")

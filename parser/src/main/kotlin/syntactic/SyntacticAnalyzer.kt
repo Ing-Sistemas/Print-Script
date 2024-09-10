@@ -6,8 +6,8 @@ import org.example.parser.syntactic.builder.*
 class SyntacticAnalyzer {
     companion object {
         val builderStrategy = listOf<ASTBuilderStrategy>(
-            EmptyVarDecBuilder(),
             VariableDeclarationBuilder(),
+            EmptyVarDecBuilder(),
             FunctionCallBuilder(),
             AssignationBuilder(),
             ExpressionBuilder()

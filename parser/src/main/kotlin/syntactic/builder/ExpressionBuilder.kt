@@ -2,6 +2,7 @@ package org.example.parser.syntactic.builder
 
 
 import BinaryExpression
+import BooleanLiteral
 import Expression
 import IdentifierExpression
 import NumberLiteral
@@ -28,6 +29,7 @@ class ExpressionBuilder: ASTBuilderStrategy {
         IDENTIFIER,
         LITERAL_NUMBER,
         LITERAL_STRING,
+        BOOLEAN,
     )
 
     override fun build(tokens: List<Token>): Expression {
@@ -60,6 +62,10 @@ class ExpressionBuilder: ASTBuilderStrategy {
         val token = peek(tokensToParse)?: return null
 
         return when (token.getType()) {
+            BOOLEAN -> {
+                tokensToParse.next()
+                BooleanLiteral(token.getValue().toBoolean())
+            }
             LITERAL_STRING -> {
                 tokensToParse.next()
                 StringLiteral(token.getValue())

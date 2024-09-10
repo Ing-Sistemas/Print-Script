@@ -10,7 +10,7 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         KEYWORD,
         IDENTIFIER,
         COLON,
-        TYPE, // STRING_TYPE or NUMBER_TYPE
+        TYPE, // STRING_TYPE , NUMBER_TYPE or BOOLEAN_TYPE
         ASSIGNMENT
     )
 
@@ -28,7 +28,10 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
-                (expectedType == TYPE && (token.getType() == STRING_TYPE || token.getType() == NUMBER_TYPE))
+                (expectedType == TYPE && (token.getType() == STRING_TYPE ||
+                    token.getType() == NUMBER_TYPE ||
+                    token.getType() == BOOLEAN_TYPE
+                    ))
         }
     }
 

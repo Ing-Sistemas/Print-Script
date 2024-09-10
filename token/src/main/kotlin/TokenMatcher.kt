@@ -19,6 +19,8 @@ class TokenMatcher {
         AssignmentTokenStrategy(),
         SemicolonTokenStrategy(),
         NumberTypeTokenStrategy(),
+        BooleanTypeStrategy(),
+        BooleanTokenStrategy(),
         StringTypeTokenStrategy(),
         ColonTokenStrategy(),
         NumberTokenStrategy(),

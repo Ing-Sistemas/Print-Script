@@ -1,3 +1,4 @@
+import kotlin.Boolean
 
 sealed interface Literal: Expression {
 }
@@ -18,4 +19,12 @@ class StringLiteral(
         return visitor.visit(this)
     }
     fun getValue(): String = value
+}
+class BooleanLiteral( //named like this to avoid clash with Boolean class
+    private val value: Boolean
+):Expression{
+    override fun <T> accept(visitor: Visitor<T>): T {
+        return visitor.visit(this)
+    }
+    fun getValue(): Boolean = value
 }
