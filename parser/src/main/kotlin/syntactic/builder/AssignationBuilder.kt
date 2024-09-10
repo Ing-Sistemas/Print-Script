@@ -12,12 +12,14 @@ class AssignationBuilder : ASTBuilderStrategy {
     )
 
     override fun build(tokens: List<Token>): AssignmentStatement {
-        val identifier = IdentifierExpression(tokens[expectedStruct.indexOf(IDENTIFIER)].getValue(),)
-        val assignment = tokens[expectedStruct.indexOf(ASSIGNMENT)].getValue()
+
+        val identifierToken = tokens[expectedStruct.indexOf(IDENTIFIER)]
+        val assignment = tokens[expectedStruct.indexOf(ASSIGNMENT)]
         return AssignmentStatement(
-            identifier,
+            IdentifierExpression(identifierToken.getValue(),identifierToken.getPosition()),
+            assignment.getValue(),
             ExpressionBuilder().build(tokens.subList(2, tokens.lastIndex)),
-            assignment,
+            assignment.getPosition()
         )
     }
 

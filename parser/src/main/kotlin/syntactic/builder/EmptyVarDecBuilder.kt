@@ -15,13 +15,14 @@ class EmptyVarDecBuilder: ASTBuilderStrategy {
     )
 
     override fun build(tokens: List<Token>): EmptyVarDeclarationStatement {
-        val declarator = tokens[expectedStruct.indexOf(KEYWORD)].getValue()
-        val type = tokens[expectedStruct.indexOf(TYPE)].getValue()
-        val identifier = tokens[expectedStruct.indexOf(IDENTIFIER)].getValue()
+        val declarator = tokens[expectedStruct.indexOf(KEYWORD)]
+        val type = tokens[expectedStruct.indexOf(TYPE)]
+        val identifierToken = tokens[expectedStruct.indexOf(IDENTIFIER)]
         return EmptyVarDeclarationStatement(
-            declarator,
-            TypeDeclarationExpression(type,),
-            IdentifierExpression(identifier,),
+            declarator.getValue(),
+            IdentifierExpression(identifierToken.getValue(), identifierToken.getPosition()),
+            TypeDeclarationExpression(type.getValue(),type.getPosition()),
+            declarator.getPosition()
         )
     }
 

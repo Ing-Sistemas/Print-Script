@@ -62,6 +62,6 @@ class FunctionCallBuilder : ASTBuilderStrategy {
                 body.add(result.astNode)
             } else throw Exception("Failed to parse function call")
         }
-        return FunctionCallStatement(funCallToken.getValue(), listOf(args), body,)
+        return FunctionCallStatement(funCallToken.getValue(), listOf(args), body,funCallToken.getPosition())
     }
 }

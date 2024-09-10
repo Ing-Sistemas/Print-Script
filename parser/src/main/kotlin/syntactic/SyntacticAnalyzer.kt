@@ -19,6 +19,6 @@ class SyntacticAnalyzer {
             if(builder.isValidStruct(tokens))
                 return SyntacticSuccess(builder.build(tokens))
         }
-        return SyntacticFail("Invalid syntactic structure at ${tokens.first().getValue()} ")
+        return SyntacticFail("Invalid syntactic structure at ${tokens.first().getValue()} in: ${tokens.first().getPosition().getLine()} ")
     }
 }

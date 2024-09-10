@@ -15,12 +15,13 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
     )
 
     override fun build(tokens: List<Token>): VariableDeclarationStatement {
-        val declarator = tokens[expectedStruct.indexOf(KEYWORD)].getValue()
-        val type = tokens[expectedStruct.indexOf(TYPE)].getValue()
+        val declarator = tokens[expectedStruct.indexOf(KEYWORD)]
+        val type = tokens[expectedStruct.indexOf(TYPE)]
         return VariableDeclarationStatement(
-            declarator,
-            TypeDeclarationExpression(type,),
+            declarator.getValue(),
+            TypeDeclarationExpression(type.getValue(),type.getPosition()),
             AssignationBuilder().build(filterTokens(tokens)),
+            declarator.getPosition()
         )
     }
 
