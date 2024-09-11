@@ -1,11 +1,16 @@
 package org.example
 
+import AssignmentStatement
 import BinaryExpression
 import FunctionCallStatement
+import IdentifierExpression
 import NumberLiteral
+import NumberValue
 import Position
 import StringLiteral
+import TypeDeclarationExpression
 import UnaryExpression
+import VariableDeclarationStatement
 import interpreters.Interpreter
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -74,22 +79,22 @@ class InterpreterTests {
 
     @Test
     fun testVariableDeclarationStatement() {
-//        val typeDeclaration = TypeDeclarationExpression("number", Position(1, 1))
-//        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 5)), "=", NumberLiteral(10.0, Position(1, 10)), Position(1, 7))
-//        val variableDeclaration = VariableDeclarationStatement("x", typeDeclaration, assignment, Position(1, 1))
-//
-//        interpreter.interpret(variableDeclaration, storage)
-//        val result = storage.getFromStorage("x")
-//        println(result)
-//        assertEquals(10.0, result)
+        val typeDeclaration = TypeDeclarationExpression("number", Position(1, 1))
+        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 5)), "=", NumberLiteral(10.0, Position(1, 10)), Position(1, 7))
+        val variableDeclaration = VariableDeclarationStatement("x", typeDeclaration, assignment, Position(1, 1))
+
+        interpreter.interpret(variableDeclaration, storage)
+        val result = storage.getFromStorage("x")
+        println(result)
+        assertEquals(NumberValue(10.0), result)
     }
 
     @Test
     fun testAssignmentStatement() {
-//        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
-//        interpreter.interpret(assignment, storage)
-//        val result = storage.getFromStorage("x")
-//        assertEquals(20.0, result)
+        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
+        interpreter.interpret(assignment, storage)
+        val result = storage.getFromStorage("x")
+        assertEquals(NumberValue(20.0), result)
     }
 
     @Test
@@ -106,11 +111,11 @@ class InterpreterTests {
 
     @Test
     fun testIdentifierExpression() {
-//        storage.addToStorage("y", 50.0 as StoredValue)
-//        val identifier = IdentifierExpression("y", Position(1, 1))
-//
-//        val result = interpreter.interpret(identifier, storage)
-//        assertEquals(50, result)
+        storage.addToStorage("y", NumberValue(50.0))
+        val identifier = IdentifierExpression("y", Position(1, 1))
+
+        val result = interpreter.interpret(identifier, storage)
+        assertEquals(NumberValue(50.0), result)
     }
 
     @Test
