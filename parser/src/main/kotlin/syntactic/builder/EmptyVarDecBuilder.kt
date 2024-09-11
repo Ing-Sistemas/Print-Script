@@ -6,8 +6,8 @@ import Token
 import TypeDeclarationExpression
 import org.example.token.TokenType.*
 
-class EmptyVarDecBuilder: ASTBuilderStrategy {
-    private val expectedStruct= listOf(
+class EmptyVarDecBuilder : ASTBuilderStrategy {
+    private val expectedStruct = listOf(
         KEYWORD,
         IDENTIFIER,
         COLON,
@@ -21,21 +21,24 @@ class EmptyVarDecBuilder: ASTBuilderStrategy {
         return EmptyVarDeclarationStatement(
             declarator.getValue(),
             IdentifierExpression(identifierToken.getValue(), identifierToken.getPosition()),
-            TypeDeclarationExpression(type.getValue(),type.getPosition()),
-            declarator.getPosition()
+            TypeDeclarationExpression(type.getValue(), type.getPosition()),
+            declarator.getPosition(),
         )
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
         if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
-        if(tokens[expectedStruct.size - 1].getType() == ASSIGNMENT) return false //-1 takes in account the ;
-        if(tokens[expectedStruct.indexOf(KEYWORD)].getValue() != "let") return false
+        if (tokens[expectedStruct.size - 1].getType() == ASSIGNMENT) return false // -1 takes in account the ;
+        if (tokens[expectedStruct.indexOf(KEYWORD)].getValue() != "let") return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
-                (expectedType == TYPE && (token.getType() == STRING_TYPE ||
-                    token.getType() == NUMBER_TYPE ||
-                    token.getType() == BOOLEAN_TYPE
-                    ))
+                (
+                    expectedType == TYPE && (
+                        token.getType() == STRING_TYPE ||
+                            token.getType() == NUMBER_TYPE ||
+                            token.getType() == BOOLEAN_TYPE
+                        )
+                    )
         }
     }
 }

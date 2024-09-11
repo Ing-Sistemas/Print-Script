@@ -6,7 +6,7 @@ class ResultBoolean(
     private val value: Boolean,
     private val type: DataType,
     private val errors: List<String>,
-): ResultInformation {
+) : ResultInformation {
     override fun <T> getValue(): T {
         return value as T
     }
@@ -18,5 +18,4 @@ class ResultBoolean(
     override fun getErrors(): List<String> {
         return errors
     }
-
 }

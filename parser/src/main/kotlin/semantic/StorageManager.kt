@@ -19,7 +19,7 @@ class StorageManager(
             val value = StringValue(identifier)
             val type = storage[identifier]!!.getType()
             result.create(value, parseToDataType(type))
-            } else {
+        } else {
             result.create(StringValue(identifier), DataType.STRING)
         }
     }

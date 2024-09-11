@@ -10,7 +10,6 @@ class ParserTests {
         val code = "let myVar: string = 'hola';"
         val tokens = Lexer().tokenize(code)
         assertDoesNotThrow { Parser().parse(tokens) }
-
     }
 
     @Test

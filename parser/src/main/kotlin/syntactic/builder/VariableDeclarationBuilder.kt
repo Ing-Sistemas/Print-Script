@@ -6,12 +6,12 @@ import VariableDeclarationStatement
 import org.example.token.TokenType.*
 
 class VariableDeclarationBuilder : ASTBuilderStrategy {
-    private val expectedStruct= listOf(
+    private val expectedStruct = listOf(
         KEYWORD,
         IDENTIFIER,
         COLON,
         TYPE, // STRING_TYPE , NUMBER_TYPE or BOOLEAN_TYPE
-        ASSIGNMENT
+        ASSIGNMENT,
     )
 
     override fun build(tokens: List<Token>): VariableDeclarationStatement {
@@ -19,9 +19,9 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         val type = tokens[expectedStruct.indexOf(TYPE)]
         return VariableDeclarationStatement(
             declarator.getValue(),
-            TypeDeclarationExpression(type.getValue(),type.getPosition()),
+            TypeDeclarationExpression(type.getValue(), type.getPosition()),
             AssignationBuilder().build(filterTokens(tokens)),
-            declarator.getPosition()
+            declarator.getPosition(),
         )
     }
 
@@ -29,10 +29,13 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||
-                (expectedType == TYPE && (token.getType() == STRING_TYPE ||
-                    token.getType() == NUMBER_TYPE ||
-                    token.getType() == BOOLEAN_TYPE
-                    ))
+                (
+                    expectedType == TYPE && (
+                        token.getType() == STRING_TYPE ||
+                            token.getType() == NUMBER_TYPE ||
+                            token.getType() == BOOLEAN_TYPE
+                        )
+                    )
         }
     }
 

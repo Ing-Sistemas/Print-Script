@@ -1,16 +1,11 @@
 package org.example
 
-import AssignmentStatement
 import BinaryExpression
 import FunctionCallStatement
-import IdentifierExpression
 import NumberLiteral
 import Position
-import StoredValue
 import StringLiteral
-import TypeDeclarationExpression
 import UnaryExpression
-import VariableDeclarationStatement
 import interpreters.Interpreter
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach

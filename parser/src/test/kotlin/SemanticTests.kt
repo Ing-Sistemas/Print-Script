@@ -1,10 +1,10 @@
-//import org.junit.jupiter.api.Assertions.*
-//import org.junit.jupiter.api.Test
-//import org.junit.jupiter.api.assertThrows
-//import semantic.SemanticAnalyzer
+// import org.junit.jupiter.api.Assertions.*
+// import org.junit.jupiter.api.Test
+// import org.junit.jupiter.api.assertThrows
+// import semantic.SemanticAnalyzer
 //
 //
-//class SemanticTests {
+// class SemanticTests {
 //
 //    private val semanticAnalyzer = SemanticAnalyzer()
 //
@@ -105,4 +105,4 @@
 //        assertThrows<Error> {semanticAnalyzer.analyze(multiplicationExpression)}
 //    }
 //
-//}
+// }

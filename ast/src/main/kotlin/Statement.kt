@@ -1,11 +1,11 @@
-sealed interface Statement: ASTNode
+sealed interface Statement : ASTNode
 
 class VariableDeclarationStatement(
     private val declarator: String,
     private val typeDeclarationExpression: TypeDeclarationExpression,
     private val assignmentStatement: AssignmentStatement,
-    private val position: Position
-) : Statement{
+    private val position: Position,
+) : Statement {
     fun getDeclarator(): String = declarator
     fun getTypeDeclarationExpression(): TypeDeclarationExpression = typeDeclarationExpression
     fun getAssignmentExpression(): AssignmentStatement = assignmentStatement
@@ -19,8 +19,8 @@ class EmptyVarDeclarationStatement(
     private val declarator: String,
     private val identifier: IdentifierExpression,
     private val typeDeclarationExpression: TypeDeclarationExpression,
-    private val position: Position
-) :Statement{
+    private val position: Position,
+) : Statement {
     fun getDeclarator(): String = declarator
     fun getTypeDeclarationExpression(): TypeDeclarationExpression = typeDeclarationExpression
     fun getIdentifier(): IdentifierExpression = identifier
@@ -34,8 +34,8 @@ class FunctionCallStatement(
     private val functionName: String,
     private val arguments: List<Expression>,
     private val block: List<ASTNode>?,
-    private val position: Position
-): Statement{
+    private val position: Position,
+) : Statement {
     fun getFunctionName(): String = functionName
     fun getArguments(): List<Expression> = arguments
     fun getBody(): List<ASTNode>? = block
@@ -49,11 +49,11 @@ class AssignmentStatement(
     private val identifier: IdentifierExpression,
     private val equalOperand: String,
     private val value: Expression,
-    private val position: Position
-): Statement{
+    private val position: Position,
+) : Statement {
     fun getIdentifier(): IdentifierExpression = identifier
     fun getValue(): Expression = value
-    fun getEqualOperator(): String  = equalOperand
+    fun getEqualOperator(): String = equalOperand
     fun getPosition(): Position = position
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)

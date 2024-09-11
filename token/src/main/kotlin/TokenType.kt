@@ -21,5 +21,5 @@ enum class TokenType {
     OPENING_CURLY_BRACKS,
     CLOSING_CURLY_BRACKS,
     BOOLEAN_TYPE,
-    BOOLEAN
+    BOOLEAN,
 }

@@ -11,15 +11,16 @@ class SyntacticAnalyzer {
             EmptyVarDecBuilder(),
             FunctionCallBuilder(),
             AssignationBuilder(),
-            ExpressionBuilder()
+            ExpressionBuilder(),
         )
     }
 
     fun build(tokens: List<Token>): SyntacticResult {
         if (tokens[tokens.lastIndex].getType() != TokenType.SEMICOLON) return SyntacticFail("Missing ';' at pos: ${tokens.last().getPosition().getColumn()}")
         for (builder in builderStrategy) {
-            if(builder.isValidStruct(tokens))
+            if (builder.isValidStruct(tokens)) {
                 return SyntacticSuccess(builder.build(tokens))
+            }
         }
         return SyntacticFail("Invalid syntactic structure at ${tokens.first().getValue()} in: ${tokens.first().getPosition().getLine()} ")
     }

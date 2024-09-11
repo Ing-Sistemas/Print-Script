@@ -6,7 +6,7 @@ import org.example.token.TokenType
 import org.example.token.stategy.TokenMatch
 import org.example.token.stategy.TokenStrategy
 
-class OpeningCurlyBracks: TokenStrategy {
+class OpeningCurlyBracks : TokenStrategy {
     override fun match(input: String, position: Int): TokenMatch? {
         val match = TokenRegex.openingCurlyBrackets.find(input, position)
         return if (match != null && match.range.first == position) {

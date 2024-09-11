@@ -1,13 +1,13 @@
 
-sealed interface Expression: ASTNode {
-    //fun evaluate(): Any?
+sealed interface Expression : ASTNode {
+    // fun evaluate(): Any?
 }
 
 class BinaryExpression(
     private val left: Expression,
     private val operator: String,
     private val right: Expression,
-    private val position: Position
+    private val position: Position,
 ) : Expression {
 
     override fun <T> accept(visitor: Visitor<T>): T {
@@ -22,8 +22,8 @@ class BinaryExpression(
 class UnaryExpression(
     private val operator: String,
     private val right: Expression,
-    private val position: Position
-): Expression {
+    private val position: Position,
+) : Expression {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
@@ -33,9 +33,9 @@ class UnaryExpression(
 }
 
 class IdentifierExpression(
-    private val identifier: String, //name of identifier
-    private val position: Position
-):Expression {
+    private val identifier: String, // name of identifier
+    private val position: Position,
+) : Expression {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
@@ -44,9 +44,9 @@ class IdentifierExpression(
 }
 
 class TypeDeclarationExpression(
-    private val type: String,//string, number or boolean
-    private val position: Position
-): Expression{
+    private val type: String, // string, number or boolean
+    private val position: Position,
+) : Expression {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }

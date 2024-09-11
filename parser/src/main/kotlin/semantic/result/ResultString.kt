@@ -6,7 +6,7 @@ class ResultString(
     private val value: String,
     private val type: DataType,
     private val errors: List<String>,
-): ResultInformation {
+) : ResultInformation {
     override fun <T> getValue(): T {
         return value as T
     }

@@ -1,6 +1,6 @@
 import org.example.token.TokenType
 
-class Token(private val tokenType: TokenType, private val value: String,private val position: Position) {
+class Token(private val tokenType: TokenType, private val value: String, private val position: Position) {
 
     fun getValue(): String {
         return value

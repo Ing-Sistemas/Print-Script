@@ -1,11 +1,10 @@
 import kotlin.Boolean
 
-sealed interface Literal: Expression {
-}
+sealed interface Literal : Expression
 
 class NumberLiteral(
     private val value: Double,
-    private val position: Position
+    private val position: Position,
 ) : Literal {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
@@ -16,18 +15,18 @@ class NumberLiteral(
 
 class StringLiteral(
     private val value: String,
-    private val position: Position
-): Literal{
+    private val position: Position,
+) : Literal {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
     fun getValue(): String = value
     fun getPosition(): Position = position
 }
-class BooleanLiteral( //named like this to avoid clash with Boolean class
+class BooleanLiteral( // named like this to avoid clash with Boolean class
     private val value: Boolean,
-    private val position: Position
-): Literal{
+    private val position: Position,
+) : Literal {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }

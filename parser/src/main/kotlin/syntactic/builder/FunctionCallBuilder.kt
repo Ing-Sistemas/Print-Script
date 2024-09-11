@@ -28,9 +28,8 @@ class FunctionCallBuilder : ASTBuilderStrategy {
     }
 
     private fun parseFunCall(tokens: ListIterator<Token>): FunctionCallStatement {
-
         val funCallToken = tokens.next()
-        tokens.next()//consume (
+        tokens.next() // consume (
 
         val arguments = mutableListOf<Token>()
         while (tokens.hasNext()) {
@@ -40,7 +39,9 @@ class FunctionCallBuilder : ASTBuilderStrategy {
             }
             if (token.getType() != CLOSING_PARENS) {
                 arguments.add(token)
-            } else continue
+            } else {
+                continue
+            }
         }
         val args = ExpressionBuilder().build(arguments)
 
@@ -50,7 +51,7 @@ class FunctionCallBuilder : ASTBuilderStrategy {
             while (tokens.hasNext()) {
                 val nextToken = tokens.next()
                 if (nextToken.getType() == CLOSING_CURLY_BRACKS) {
-                    if(tokens.hasNext()) {
+                    if (tokens.hasNext()) {
                         tokens.next()
                     }
                     break
@@ -60,8 +61,10 @@ class FunctionCallBuilder : ASTBuilderStrategy {
             val result = SyntacticAnalyzer().build(bodyList)
             if (result is SyntacticSuccess) {
                 body.add(result.astNode)
-            } else throw Exception("Failed to parse function call")
+            } else {
+                throw Exception("Failed to parse function call")
+            }
         }
-        return FunctionCallStatement(funCallToken.getValue(), listOf(args), body,funCallToken.getPosition())
+        return FunctionCallStatement(funCallToken.getValue(), listOf(args), body, funCallToken.getPosition())
     }
 }
