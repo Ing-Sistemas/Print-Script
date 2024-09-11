@@ -1,6 +1,5 @@
 package interpreters
 
-import ASTNode
 import AssignmentStatement
 import EmptyVarDeclarationStatement
 import FunctionCallStatement

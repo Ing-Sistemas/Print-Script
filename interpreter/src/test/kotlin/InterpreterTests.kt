@@ -91,7 +91,7 @@ class InterpreterTests {
 
     @Test
     fun testAssignmentStatement() {
-        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)),  Position(1, 3))
+        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
         interpreter.interpret(assignment, storage)
         val result = storage.getFromStorage("x")
         assertEquals(20.0, result)
@@ -100,7 +100,7 @@ class InterpreterTests {
     @Test
     fun testFunctionCallStatementPrintln() {
         val arguments = listOf(StringLiteral("Hello World", Position(1, 10)))
-        val functionCall = FunctionCallStatement("println", arguments, emptyList(),  Position(1, 1))
+        val functionCall = FunctionCallStatement("println", arguments, emptyList(), Position(1, 1))
 
         val output = captureOutput {
             interpreter.interpret(functionCall, storage)
@@ -140,7 +140,7 @@ class InterpreterTests {
     @Test
     fun testUndefinedFunctionCall() {
         val arguments = listOf(NumberLiteral(10.0, Position(1, 10)))
-        val functionCall = FunctionCallStatement("undefinedFunction", arguments, emptyList(),  Position(1, 1))
+        val functionCall = FunctionCallStatement("undefinedFunction", arguments, emptyList(), Position(1, 1))
 
         assertThrows(IllegalArgumentException::class.java) {
             interpreter.interpret(functionCall, storage)

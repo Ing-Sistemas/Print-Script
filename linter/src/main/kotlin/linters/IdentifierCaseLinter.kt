@@ -19,8 +19,10 @@ class IdentifierCaseLinter(private val caseConfiguration: CaseConfiguration) : L
 
         tokens.filter { it.getType() == TokenType.IDENTIFIER }.forEach { token ->
             if (!regex.matches(token.getValue())) {
-                errors.add("Identifier ${token.getValue()} does not match the ${caseConfiguration.value} convention in " +
-                    "line: ${token.getPosition().getLine()} column: ${token.getPosition().getColumn()}")
+                errors.add(
+                    "Identifier ${token.getValue()} does not match the ${caseConfiguration.value} convention in " +
+                        "line: ${token.getPosition().getLine()} column: ${token.getPosition().getColumn()}",
+                )
             }
         }
         return errors
