@@ -2,6 +2,7 @@ package org.example.parser.syntactic
 
 import Token
 import org.example.parser.syntactic.builder.*
+import org.example.token.TokenType
 
 class SyntacticAnalyzer {
     companion object {
@@ -15,6 +16,7 @@ class SyntacticAnalyzer {
     }
 
     fun build(tokens: List<Token>): SyntacticResult {
+        if (tokens[tokens.lastIndex].getType() != TokenType.SEMICOLON) return SyntacticFail("Missing ';' at pos: ${tokens.last().getPosition().getColumn()}")
         for (builder in builderStrategy) {
             if(builder.isValidStruct(tokens))
                 return SyntacticSuccess(builder.build(tokens))
