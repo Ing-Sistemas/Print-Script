@@ -27,7 +27,7 @@ class StringLiteral(
 class BooleanLiteral( //named like this to avoid clash with Boolean class
     private val value: Boolean,
     private val position: Position
-):Expression{
+): Literal{
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
