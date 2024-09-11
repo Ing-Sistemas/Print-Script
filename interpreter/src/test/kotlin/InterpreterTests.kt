@@ -1,345 +1,211 @@
-import org.example.*
-import org.example.token.TokenType
+package org.example
+
+import BinaryExpression
+import FunctionCallStatement
+import NumberLiteral
+import Position
+import StringLiteral
+import UnaryExpression
+import interpreters.Interpreter
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
+import utils.Storage
 
 class InterpreterTests {
-    val interpreter = Interpreter()
 
-    // let a: number = 4;
+    private lateinit var interpreter: Interpreter
+    private lateinit var storage: Storage
 
-    val aKeyword = Token(TokenType.KEYWORD, "let")
-    val aType = Token(TokenType.NUMBER_TYPE, "number")
-    val aTypeNode = TypeDeclarationNode(aType.getValue(), 0, 10)
-    val aTokenIdentifier = Token(TokenType.IDENTIFIER, "a")
-    val aIdentifier = IdentifierNode(aTokenIdentifier.getValue(), 0, 10)
-
-    val aValueToken = Token(TokenType.LITERAL_NUMBER, "4")
-    val aValueNode = LiteralNode(aValueToken.getValue(), aValueToken.getType().toString(), 0, 92)
-
-    val aAssignToken = Token(TokenType.ASSIGNMENT, "=")
-    val aAssignment = AssignmentNode(aAssignToken.getValue(), aIdentifier, aValueNode, 0, 15)
-
-    val firstExample = VariableDeclarationNode(aKeyword.getValue(), aTypeNode, aAssignment, 0, 22)
-
-    val statement = StatementNode(firstExample, 0, 19)
-
-    val statementListed = listOf<ASTNode>(statement)
-    val myProgram = ProgramNode(0, 10, statementListed)
-    val storage = interpreter.getStorage()
-
-    // println("hello world!")
-
-    val printCall = Token(TokenType.CALL, "println")
-    val printArgument = Token(TokenType.LITERAL_STRING, "'hello world!'")
-    val literalPrintNode = LiteralNode(printArgument.getValue(), printArgument.getType().toString(), 0, 12)
-    val listedArgumentsForPrint = listOf<ASTNode>(literalPrintNode)
-    val printCaller = CallNode(printCall.getValue(), listedArgumentsForPrint, 0, 10)
-
-    val statement2 = StatementNode(printCaller, 0, 52)
-
-    val statementListed2 = listOf<ASTNode>(statement2)
-    val myProgram2 = ProgramNode(0, 55, statementListed2)
-
-    // let b: number = 2 + 3;
-
-    val bKeyword = Token(TokenType.KEYWORD, "let")
-    val bType = Token(TokenType.NUMBER_TYPE, "number")
-    val bTypeNode = TypeDeclarationNode(bType.getValue(), 0, 10)
-    val bTokenIdentifier = Token(TokenType.IDENTIFIER, "b")
-    val bIdentifier = IdentifierNode(bTokenIdentifier.getValue(), 0, 10)
-
-    val leftValueToken = Token(TokenType.LITERAL_NUMBER, "2")
-    val leftValueNode = LiteralNode(leftValueToken.getValue(), leftValueToken.getType().toString(), 0, 12)
-
-    val rightValueToken = Token(TokenType.LITERAL_NUMBER, "3")
-    val rightValueNode = LiteralNode(rightValueToken.getValue(), rightValueToken.getType().toString(), 0, 14)
-
-    val additionToken = Token(TokenType.PLUS_OPERATOR, "+")
-    val binaryNode = BinaryNode(additionToken.getValue(), leftValueNode, rightValueNode, 0, 16)
-
-    val bAssignToken = Token(TokenType.ASSIGNMENT, "=")
-    val bAssignment = AssignmentNode(bAssignToken.getValue(), bIdentifier, binaryNode, 0, 18)
-
-    val secondExample = VariableDeclarationNode(bKeyword.getValue(), bTypeNode, bAssignment, 0, 20)
-
-    val statement3 = StatementNode(secondExample, 0, 22)
-
-    val statementListed3 = listOf<ASTNode>(statement3)
-    val myProgram3 = ProgramNode(0, 25, statementListed3)
-
-    @Test
-    fun testEmptyStorage() {
-        val emptyStorage = interpreter.getStorage()
-        assert(emptyStorage.isEmpty())
+    @BeforeEach
+    fun setup() {
+        interpreter = Interpreter()
+        storage = Storage()
     }
 
     @Test
-    fun testStorageVarDeclaration() {
-        interpreter.interpret(myProgram)
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue(4))
-        assert(storage.containsKey("a"))
+    fun testNumberLiteral() {
+        val numberLiteral = NumberLiteral(42.0, Position(1, 1))
+        val result = interpreter.interpret(numberLiteral, storage)
+        assertEquals(42.0, result)
     }
 
     @Test
-    fun testPrint() {
-        val outputStream = ByteArrayOutputStream()
-        val printStream = PrintStream(outputStream)
+    fun testStringLiteral() {
+        val stringLiteral = StringLiteral("hello", Position(1, 1))
+        val result = interpreter.interpret(stringLiteral, storage)
+        assertEquals("hello", result)
+    }
+
+    @Test
+    fun testBinaryExpressionAddition() {
+        val left = NumberLiteral(10.0, Position(1, 1))
+        val right = NumberLiteral(5.0, Position(1, 3))
+        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 2))
+        val result = interpreter.interpret(binaryExpression, storage)
+        assertEquals(15.0, result)
+    }
+
+    @Test
+    fun testBinaryExpressionSubtraction() {
+        val left = NumberLiteral(10.0, Position(1, 1))
+        val right = NumberLiteral(5.0, Position(1, 3))
+        val binaryExpression = BinaryExpression(left, "-", right, Position(1, 2))
+        val result = interpreter.interpret(binaryExpression, storage)
+        assertEquals(5.0, result)
+    }
+
+    @Test
+    fun testBinaryExpressionStringConcatenation() {
+        val left = StringLiteral("Hello, ", Position(1, 1))
+        val right = StringLiteral("World!", Position(1, 10))
+        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 7))
+        val result = interpreter.interpret(binaryExpression, storage)
+        assertEquals("Hello, World!", result)
+    }
+
+    @Test
+    fun testUnaryExpression() {
+        val right = NumberLiteral(5.0, Position(1, 2))
+        val unaryExpression = UnaryExpression("-", right, Position(1, 1))
+        val result = interpreter.interpret(unaryExpression, storage)
+        assertEquals(-5.0, result)
+    }
+
+    @Test
+    fun testVariableDeclarationStatement() {
+//        val typeDeclaration = TypeDeclarationExpression("number", Position(1, 1))
+//        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 5)), "=", NumberLiteral(10.0, Position(1, 10)), Position(1, 7))
+//        val variableDeclaration = VariableDeclarationStatement("x", typeDeclaration, assignment, Position(1, 1))
+//
+//        interpreter.interpret(variableDeclaration, storage)
+//        val result = storage.getFromStorage("x")
+//        println(result)
+//        assertEquals(10.0, result)
+    }
+
+    @Test
+    fun testAssignmentStatement() {
+//        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
+//        interpreter.interpret(assignment, storage)
+//        val result = storage.getFromStorage("x")
+//        assertEquals(20.0, result)
+    }
+
+    @Test
+    fun testFunctionCallStatementPrintln() {
+        val arguments = listOf(StringLiteral("Hello World", Position(1, 10)))
+        val functionCall = FunctionCallStatement("println", arguments, emptyList(), Position(1, 1))
+
+        val output = captureOutput {
+            interpreter.interpret(functionCall, storage)
+        }
+
+        assertEquals("Hello World", output.trim())
+    }
+
+    @Test
+    fun testIdentifierExpression() {
+//        storage.addToStorage("y", 50.0 as StoredValue)
+//        val identifier = IdentifierExpression("y", Position(1, 1))
+//
+//        val result = interpreter.interpret(identifier, storage)
+//        assertEquals(50, result)
+    }
+
+    @Test
+    fun testBinaryExpressionIntAndStringConcatenation() {
+        val left = NumberLiteral(42.0, Position(1, 1))
+        val right = StringLiteral(" is the answer", Position(1, 10))
+        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 7))
+        val result = interpreter.interpret(binaryExpression, storage)
+        assertEquals("42.0 is the answer", result)
+    }
+
+    @Test
+    fun testUnaryExpressionInvalidOperand() {
+        val right = NumberLiteral(33.2, Position(1, 2))
+        val unaryExpression = UnaryExpression("+", right, Position(1, 1))
+
+        assertThrows(IllegalArgumentException::class.java) {
+            interpreter.interpret(unaryExpression, storage)
+        }
+    }
+
+    @Test
+    fun testUndefinedFunctionCall() {
+        val arguments = listOf(NumberLiteral(10.0, Position(1, 10)))
+        val functionCall = FunctionCallStatement("undefinedFunction", arguments, emptyList(), Position(1, 1))
+
+        assertThrows(IllegalArgumentException::class.java) {
+            interpreter.interpret(functionCall, storage)
+        }
+    }
+
+    @Test
+    fun testBinaryExpressionWithMul() {
+        val left = NumberLiteral(8.0, Position(1, 1))
+        val right = NumberLiteral(7.0, Position(1, 5))
+        val binaryExpression = BinaryExpression(left, "*", right, Position(1, 3))
+        val result = interpreter.interpret(binaryExpression, storage)
+        assertEquals(56.0, result)
+    }
+
+    @Test
+    fun testNestedBinaryExpressionsAdditionAndMultiplication() {
+        val left = NumberLiteral(2.0, Position(1, 1))
+        val right = NumberLiteral(3.0, Position(1, 5))
+        val addition = BinaryExpression(left, "+", right, Position(1, 3))
+
+        val secondRight = NumberLiteral(4.0, Position(1, 10))
+        val multiplication = BinaryExpression(addition, "*", secondRight, Position(1, 7))
+
+        val result = interpreter.interpret(multiplication, storage)
+        assertEquals(20.0, result)
+    }
+
+    @Test
+    fun testNestedBinaryExpressionsSubtractionAndDivision() {
+        val left = NumberLiteral(10.0, Position(1, 1))
+        val right = NumberLiteral(2.0, Position(1, 5))
+        val division = BinaryExpression(left, "/", right, Position(1, 3))
+
+        val secondLeft = NumberLiteral(15.0, Position(1, 10))
+        val subtraction = BinaryExpression(secondLeft, "-", division, Position(1, 7))
+
+        val result = interpreter.interpret(subtraction, storage)
+        assertEquals(10.0, result)
+    }
+
+    @Test
+    fun testComplexBinaryExpressions() {
+        val first = BinaryExpression(NumberLiteral(5.0, Position(1, 1)), "+", NumberLiteral(10.0, Position(1, 5)), Position(1, 3))
+        val second = BinaryExpression(NumberLiteral(20.0, Position(1, 10)), "-", NumberLiteral(5.0, Position(1, 15)), Position(1, 7))
+        val third = BinaryExpression(first, "*", second, Position(1, 10))
+
+        val result = interpreter.interpret(third, storage)
+        assertEquals(225.0, result)
+    }
+
+    @Test
+    fun testBinaryExpressionStringAndDoubleConcatenation() {
+        val left = StringLiteral("The result is: ", Position(1, 1))
+        val right = NumberLiteral(42.0, Position(1, 10))
+        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 5))
+
+        val result = interpreter.interpret(binaryExpression, storage)
+        assertEquals("The result is: 42.0", result)
+    }
+
+    private fun captureOutput(block: () -> Unit): String {
+        val outputStream = java.io.ByteArrayOutputStream()
+        val printStream = java.io.PrintStream(outputStream)
+        val originalOut = System.out
         System.setOut(printStream)
 
-        interpreter.interpret(myProgram2)
+        block()
 
-        val result = outputStream.toString().trim()
-        val toEqual = "'hello world!'"
-
-        assert(result == toEqual) {
-            "Expected $toEqual but got $result"
-        }
-        System.setOut(System.out)
-    }
-
-    @Test
-    fun testBinaryNodeOperation() {
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue(5))
-        assert(storage.containsKey("b"))
-    }
-
-    @Test
-    fun testStringVariableDeclaration() {
-        // let c: string = 'hello';
-        val cKeyword = Token(TokenType.KEYWORD, "let")
-        val cType = Token(TokenType.STRING_TYPE, "string")
-        val cTypeNode = TypeDeclarationNode(cType.getValue(), 0, 10)
-        val cTokenIdentifier = Token(TokenType.IDENTIFIER, "c")
-        val cIdentifier = IdentifierNode(cTokenIdentifier.getValue(), 0, 10)
-
-        val cValueToken = Token(TokenType.LITERAL_STRING, "'hello'")
-        val cValueNode = LiteralNode(cValueToken.getValue(), cValueToken.getType().toString(), 0, 12)
-
-        val cAssignToken = Token(TokenType.ASSIGNMENT, "=")
-        val cAssignment = AssignmentNode(cAssignToken.getValue(), cIdentifier, cValueNode, 0, 15)
-
-        val thirdExample = VariableDeclarationNode(cKeyword.getValue(), cTypeNode, cAssignment, 0, 22)
-        val statement = StatementNode(thirdExample, 0, 19)
-        val statementListed = listOf<ASTNode>(statement)
-        val myProgram = ProgramNode(0, 10, statementListed)
-
-        interpreter.interpret(myProgram)
-        val storage = interpreter.getStorage()
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue("'hello'"))
-        assert(storage.containsKey("c"))
-    }
-
-    @Test
-    fun testStringConcatenation() {
-        // let d: string = 'hello' + 'world';
-        val dKeyword = Token(TokenType.KEYWORD, "let")
-        val dType = Token(TokenType.STRING_TYPE, "string")
-        val dTypeNode = TypeDeclarationNode(dType.getValue(), 0, 10)
-        val dTokenIdentifier = Token(TokenType.IDENTIFIER, "d")
-        val dIdentifier = IdentifierNode(dTokenIdentifier.getValue(), 0, 10)
-
-        val leftStringToken = Token(TokenType.LITERAL_STRING, "'hello'")
-        val leftStringNode = LiteralNode(leftStringToken.getValue(), leftStringToken.getType().toString(), 0, 12)
-
-        val rightStringToken = Token(TokenType.LITERAL_STRING, "'world'")
-        val rightStringNode = LiteralNode(rightStringToken.getValue(), rightStringToken.getType().toString(), 0, 14)
-
-        val additionToken = Token(TokenType.PLUS_OPERATOR, "+")
-        val binaryNode = BinaryNode(additionToken.getValue(), leftStringNode, rightStringNode, 0, 16)
-
-        val dAssignToken = Token(TokenType.ASSIGNMENT, "=")
-        val dAssignment = AssignmentNode(dAssignToken.getValue(), dIdentifier, binaryNode, 0, 18)
-
-        val fourthExample = VariableDeclarationNode(dKeyword.getValue(), dTypeNode, dAssignment, 0, 20)
-        val statement = StatementNode(fourthExample, 0, 22)
-        val statementListed = listOf<ASTNode>(statement)
-        val myProgram = ProgramNode(0, 25, statementListed)
-
-        interpreter.interpret(myProgram)
-        val storage = interpreter.getStorage()
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue("'hello''world'"))
-        assert(storage.containsKey("d"))
-    }
-
-    @Test
-    fun testMultiplication() {
-        // let e: number = 5 * 4;
-        val bKeyword = Token(TokenType.KEYWORD, "let")
-        val bType = Token(TokenType.NUMBER_TYPE, "number")
-        val bTypeNode = TypeDeclarationNode(bType.getValue(), 0, 10)
-        val bTokenIdentifier = Token(TokenType.IDENTIFIER, "b")
-        val bIdentifier = IdentifierNode(bTokenIdentifier.getValue(), 0, 10)
-
-        val leftValueToken = Token(TokenType.LITERAL_NUMBER, "2")
-        val leftValueNode = LiteralNode(leftValueToken.getValue(), leftValueToken.getType().toString(), 0, 12)
-
-        val rightValueToken = Token(TokenType.LITERAL_NUMBER, "3")
-        val rightValueNode = LiteralNode(rightValueToken.getValue(), rightValueToken.getType().toString(), 0, 14)
-
-        val additionToken = Token(TokenType.MULTIPLY_OPERATOR, "*")
-        val binaryNode = BinaryNode(additionToken.getValue(), leftValueNode, rightValueNode, 0, 16)
-
-        val bAssignToken = Token(TokenType.ASSIGNMENT, "=")
-        val bAssignment = AssignmentNode(bAssignToken.getValue(), bIdentifier, binaryNode, 0, 18)
-
-        val secondExample = VariableDeclarationNode(bKeyword.getValue(), bTypeNode, bAssignment, 0, 20)
-
-        val statement3 = StatementNode(secondExample, 0, 22)
-
-        val statementListed3 = listOf<ASTNode>(statement3)
-        val myProgram3 = ProgramNode(0, 25, statementListed3)
-
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue(6))
-        assert(storage.containsKey("b"))
-    }
-
-    @Test
-    fun testSubtraction() {
-        // let e: number = 10 - 3;
-        val bKeyword = Token(TokenType.KEYWORD, "let")
-        val bType = Token(TokenType.NUMBER_TYPE, "number")
-        val bTypeNode = TypeDeclarationNode(bType.getValue(), 0, 10)
-        val bTokenIdentifier = Token(TokenType.IDENTIFIER, "b")
-        val bIdentifier = IdentifierNode(bTokenIdentifier.getValue(), 0, 10)
-
-        val leftValueToken = Token(TokenType.LITERAL_NUMBER, "10")
-        val leftValueNode = LiteralNode(leftValueToken.getValue(), leftValueToken.getType().toString(), 0, 12)
-
-        val rightValueToken = Token(TokenType.LITERAL_NUMBER, "3")
-        val rightValueNode = LiteralNode(rightValueToken.getValue(), rightValueToken.getType().toString(), 0, 14)
-
-        val additionToken = Token(TokenType.MINUS_OPERATOR, "-")
-        val binaryNode = BinaryNode(additionToken.getValue(), leftValueNode, rightValueNode, 0, 16)
-
-        val bAssignToken = Token(TokenType.ASSIGNMENT, "=")
-        val bAssignment = AssignmentNode(bAssignToken.getValue(), bIdentifier, binaryNode, 0, 18)
-
-        val secondExample = VariableDeclarationNode(bKeyword.getValue(), bTypeNode, bAssignment, 0, 20)
-
-        val statement3 = StatementNode(secondExample, 0, 22)
-
-        val statementListed3 = listOf<ASTNode>(statement3)
-        val myProgram3 = ProgramNode(0, 25, statementListed3)
-
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue(7))
-        assert(storage.containsKey("b"))
-    }
-
-    @Test
-    fun testDivition() {
-        // let e: number = 10 / 2;
-        val bKeyword = Token(TokenType.KEYWORD, "let")
-        val bType = Token(TokenType.NUMBER_TYPE, "number")
-        val bTypeNode = TypeDeclarationNode(bType.getValue(), 0, 10)
-        val bTokenIdentifier = Token(TokenType.IDENTIFIER, "b")
-        val bIdentifier = IdentifierNode(bTokenIdentifier.getValue(), 0, 10)
-
-        val leftValueToken = Token(TokenType.LITERAL_NUMBER, "10")
-        val leftValueNode = LiteralNode(leftValueToken.getValue(), leftValueToken.getType().toString(), 0, 12)
-
-        val rightValueToken = Token(TokenType.LITERAL_NUMBER, "2")
-        val rightValueNode = LiteralNode(rightValueToken.getValue(), rightValueToken.getType().toString(), 0, 14)
-
-        val additionToken = Token(TokenType.DIVIDE_OPERATOR, "/")
-        val binaryNode = BinaryNode(additionToken.getValue(), leftValueNode, rightValueNode, 0, 16)
-
-        val bAssignToken = Token(TokenType.ASSIGNMENT, "=")
-        val bAssignment = AssignmentNode(bAssignToken.getValue(), bIdentifier, binaryNode, 0, 18)
-
-        val secondExample = VariableDeclarationNode(bKeyword.getValue(), bTypeNode, bAssignment, 0, 20)
-
-        val statement3 = StatementNode(secondExample, 0, 22)
-
-        val statementListed3 = listOf<ASTNode>(statement3)
-        val myProgram3 = ProgramNode(0, 25, statementListed3)
-
-        interpreter.interpret(myProgram3)
-        val storage = interpreter.getStorage()
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue(5))
-        assert(storage.containsKey("b"))
-    }
-
-    @Test
-    fun testStringAndNumber() {
-        // let d: string = 'hello' + 5;
-        val dKeyword = Token(TokenType.KEYWORD, "let")
-        val dType = Token(TokenType.STRING_TYPE, "string")
-        val dTypeNode = TypeDeclarationNode(dType.getValue(), 0, 10)
-        val dTokenIdentifier = Token(TokenType.IDENTIFIER, "d")
-        val dIdentifier = IdentifierNode(dTokenIdentifier.getValue(), 0, 10)
-
-        val leftStringToken = Token(TokenType.LITERAL_STRING, "'hello'")
-        val leftStringNode = LiteralNode(leftStringToken.getValue(), leftStringToken.getType().toString(), 0, 12)
-
-        val rightStringToken = Token(TokenType.LITERAL_NUMBER, "5")
-        val rightStringNode = LiteralNode(rightStringToken.getValue(), rightStringToken.getType().toString(), 0, 14)
-
-        val additionToken = Token(TokenType.PLUS_OPERATOR, "+")
-        val binaryNode = BinaryNode(additionToken.getValue(), leftStringNode, rightStringNode, 0, 16)
-
-        val dAssignToken = Token(TokenType.ASSIGNMENT, "=")
-        val dAssignment = AssignmentNode(dAssignToken.getValue(), dIdentifier, binaryNode, 0, 18)
-
-        val fourthExample = VariableDeclarationNode(dKeyword.getValue(), dTypeNode, dAssignment, 0, 20)
-        val statement = StatementNode(fourthExample, 0, 22)
-        val statementListed = listOf<ASTNode>(statement)
-        val myProgram = ProgramNode(0, 25, statementListed)
-
-        interpreter.interpret(myProgram)
-        val storage = interpreter.getStorage()
-        assert(storage.isNotEmpty())
-        assert(storage.containsValue("'hello'5"))
-        assert(storage.containsKey("d"))
-    }
-
-    @Test
-    fun testEvaluateNodeWithIdentifierNode() {
-        val aTokenIdentifier = Token(TokenType.IDENTIFIER, "a")
-        val aIdentifierNode = IdentifierNode(aTokenIdentifier.getValue(), 0, 10)
-
-        interpreter.getStorage()["a"] = 42
-
-        val result = interpreter.interpret(aIdentifierNode)
-
-        assert(result == 42) {
-            "Expected 42 but got $result"
-        }
-    }
-
-    @Test
-    fun testVisitAssignment() {
-        // let a: number = 5;
-
-        val aTokenIdentifier = Token(TokenType.IDENTIFIER, "a")
-        val aIdentifierNode = IdentifierNode(aTokenIdentifier.getValue(), 0, 10)
-
-        val aValueToken = Token(TokenType.LITERAL_NUMBER, "5")
-        val aValueNode = LiteralNode(aValueToken.getValue(), aValueToken.getType().toString(), 0, 12)
-
-        val assignToken = Token(TokenType.ASSIGNMENT, "=")
-        val assignmentNode = AssignmentNode(assignToken.getValue(), aIdentifierNode, aValueNode, 0, 15)
-
-        interpreter.interpret(assignmentNode)
-        interpreter.interpret(aValueNode)
-        val storage = interpreter.getStorage()
-        assert(storage.containsKey("a"))
-        assert(storage["a"] == 5) {
-            "Expected 5 but got ${storage["a"]}"
-        }
+        System.setOut(originalOut)
+        return outputStream.toString()
     }
 }

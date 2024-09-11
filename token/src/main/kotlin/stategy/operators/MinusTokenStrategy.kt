@@ -1,5 +1,7 @@
 package stategy.operators
 
+import LinePlaceHolder
+import Position
 import Token
 import TokenRegex
 import org.example.token.TokenType
@@ -11,7 +13,7 @@ class MinusTokenStrategy : TokenStrategy {
         val match = TokenRegex.minusOperatorRegex.find(input, position)
         return if (match != null && match.range.first == position) {
             val nextPosition = position + match.value.length
-            TokenMatch(Token(TokenType.MINUS_OPERATOR, match.value), nextPosition)
+            TokenMatch(Token(TokenType.MINUS_OPERATOR, match.value, Position(position, LinePlaceHolder.TEMP_POS)), nextPosition)
         } else { null }
     }
 }
