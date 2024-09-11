@@ -13,13 +13,10 @@ class Runner {
 
     fun run(code: String): Any {
         val tokens = lexer.tokenize(code)
-        // println(tokens[12].getType())
+
         val ast = parser.parse(tokens)
         val interpreted = oldInterpreter.interpret(ast, storage)
-        // val storage = interpreter.getStorage()
-        // println(storage)
-        // println(storage["a"])
-        // println(storage["c"])
+
         return interpreted
     }
 }
