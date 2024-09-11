@@ -34,8 +34,26 @@ dependencies {
             attribute(Bundling.BUNDLING_ATTRIBUTE, getObjects().named(Bundling, Bundling.EXTERNAL))
         }
     }
-    implementation 'com.google.code.gson:gson:2.11.0'
 }
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Ing-Sistemas/Print-Script")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
 
 //jacocoTestCoverageVerification {
 //    violationRules {
@@ -55,34 +73,34 @@ dependencies {
 //    }
 //}
 
-tasks.register("lintCheck", JavaExec) {
-    group = "verification"
-    description = "Check Kotlin code style."
-    classpath = configurations.ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    args('src/**/*.kt', '**/*.kts', '!build/**')
-}
-
-tasks.named("check") {
-    dependsOn tasks.named("lintCheck")
-    dependsOn tasks.named("jacocoTestCoverageVerification")
-}
-
-tasks.register("formatApply", JavaExec) {
-    group = "formatting"
-    description = "Fix Kotlin code style deviations."
-    classpath = configurations.ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
-    args('-F', 'src/**/*.kt', '**/*.kts', '!build/**')
-}
-
-jacocoTestReport {
-    dependsOn test
-
-    reports {
-        xml.required = false
-        csv.required = false
-        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    tasks.register("lintCheck", JavaExec) {
+        group = "verification"
+        description = "Check Kotlin code style."
+        classpath = configurations.ktlint
+        mainClass.set("com.pinterest.ktlint.Main")
+        args('src/**/*.kt', '**/*.kts', '!build/**')
     }
-}
+
+    tasks.named("check") {
+        dependsOn tasks.named("lintCheck")
+        dependsOn tasks.named("jacocoTestCoverageVerification")
+    }
+
+    tasks.register("formatApply", JavaExec) {
+        group = "formatting"
+        description = "Fix Kotlin code style deviations."
+        classpath = configurations.ktlint
+        mainClass.set("com.pinterest.ktlint.Main")
+        jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
+        args('-F', 'src/**/*.kt', '**/*.kts', '!build/**')
+    }
+
+    jacocoTestReport {
+        dependsOn test
+
+        reports {
+            xml.required = false
+            csv.required = false
+            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        }
+    }
