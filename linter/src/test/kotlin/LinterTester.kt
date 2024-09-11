@@ -24,7 +24,7 @@ class LinterTester {
         val listToken = Lexer().tokenize(input)
         val analyzer = linter.analyze(listToken)
         assert(analyzer.isNotEmpty())
-        assert(analyzer[0] == "Cannot use println with val_derrama")
+        assert(analyzer[0] == "Cannot use println with val_derrama in line: 51 column: 1")
     }
 
     @Test
@@ -36,7 +36,7 @@ class LinterTester {
         val listToken = Lexer().tokenize(input)
         val analyzer = linter.analyze(listToken)
         assert(analyzer.isNotEmpty())
-        assert(analyzer[0] == "Identifier val_derrama does not match the camelCase convention")
+        assert(analyzer[0] == "Identifier val_derrama does not match the camelCase convention in line: 4 column: 1")
     }
 
     @Test
@@ -48,7 +48,7 @@ class LinterTester {
         val listToken = Lexer().tokenize(input)
         val analyzer = linter.analyze(listToken)
         assert(analyzer.isNotEmpty())
-        assert(analyzer[0] == "Identifier val_derrama does not match the camelCase convention")
-        assert(analyzer[2] == "Cannot use println with val_derrama")
+        assert(analyzer[0] == "Identifier val_derrama does not match the camelCase convention in line: 4 column: 1")
+        assert(analyzer[2] == "Cannot use println with val_derrama in line: 51 column: 1")
     }
 }

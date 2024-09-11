@@ -1,5 +1,6 @@
 package interpreters
 
+import BooleanLiteral
 import Literal
 import NumberLiteral
 import StringLiteral
@@ -13,6 +14,9 @@ class InterpretLiteral {
                 return node.getValue()
             }
             is StringLiteral -> {
+                return node.getValue()
+            }
+            is BooleanLiteral -> {
                 return node.getValue()
             }
         }
