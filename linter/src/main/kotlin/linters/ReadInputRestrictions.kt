@@ -1,17 +1,16 @@
 package linters
 
 import Token
-import configurations.CaseConfiguration
 import interfaces.Linter
 
-class ReadInputRestrictions(private val caseConfiguration: CaseConfiguration) : Linter {
+class ReadInputRestrictions () : Linter {
     override fun lint(tokens: List<Token>): List<String> {
         val errors = mutableListOf<String>()
 
         tokens.forEach {token ->
             if (token.getValue() == "readInput") {
                 val utilToken = tokens[tokens.indexOf(token) + 2]
-                if (utilToken.isLiteralOrIdentifier()) {
+                if (!utilToken.isIdentifierOrLiteral()) {
                     errors.add("Cannot use readInput with ${utilToken.getValue()} in " +
                         "line: ${utilToken.getPosition().getLine()} column: ${utilToken.getPosition().getColumn()}")
                 }
@@ -19,7 +18,11 @@ class ReadInputRestrictions(private val caseConfiguration: CaseConfiguration) : 
         }
         return errors
     }
-    private fun Token.isLiteralOrIdentifier(): Boolean {
-        return this.getType().name == "LITERAL" || this.getType().name == "IDENTIFIER"
+    private fun Token.isIdentifierOrLiteral(): Boolean {
+        return this.getType().name == "LITERAL_NUMBER" || this.getType().name == "LITERAL_STRING"
+            || this.getType().name == "IDENTIFIER"
     }
 }
+// readInput solo con identifier o literal
+//if true -> readInput is restricted
+//if false -> readInput is not restricted
