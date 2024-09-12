@@ -55,23 +55,23 @@ publishing {
 }
 
 
-//jacocoTestCoverageVerification {
-//    violationRules {
-//        rule {
-//            element = "BUNDLE"
-//            afterEvaluate {
-//                classDirectories.setFrom(files(classDirectories.files.collect {
-//                    fileTree(dir: it, exclude: 'org/example/formatter/**')
-//                }))
-//            }
-//            limit {
-//                counter = 'INSTRUCTION'
-//                value = 'COVEREDRATIO'
-//                minimum = 0.8
-//            }
-//        }
-//    }
-//}
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = "BUNDLE"
+            afterEvaluate {
+                classDirectories.setFrom(files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: 'org/example/formatter/**')
+                }))
+            }
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.8
+            }
+        }
+    }
+}
 
 tasks.register("lintCheck", JavaExec) {
     group = "verification"

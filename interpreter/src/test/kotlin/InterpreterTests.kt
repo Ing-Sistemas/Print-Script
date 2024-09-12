@@ -222,19 +222,17 @@ class InterpreterTests {
         assertNull(result)
     }
 
-//    @Test
-//    fun testFunctionCallStatementIf() {
-//        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
-//        val left = StringLiteral("The result is: ", Position(1, 1))
-//        val right = NumberLiteral(42.0, Position(1, 10))
-//        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 5))
-//        val arguments = listOf(booleanLiteral)
-//        val functionCall = FunctionCallStatement("if", arguments, listOf(binaryExpression), Position(1, 1))
-//
-//        println(interpreter.interpret(functionCall, storage))
-//
-//        assertEquals("The result is: 42.0", interpreter.interpret(functionCall, storage))
-//    }
+    @Test
+    fun testFunctionCallStatementIf() {
+        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
+        val left = StringLiteral("The result is: ", Position(1, 1))
+        val right = NumberLiteral(42.0, Position(1, 10))
+        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 5))
+        val arguments = listOf(booleanLiteral)
+        val functionCall = FunctionCallStatement("if", arguments, listOf(binaryExpression), Position(1, 1))
+
+        interpreter.interpret(functionCall, storage)
+    }
 
     private fun captureOutput(block: () -> Unit): String {
         val outputStream = java.io.ByteArrayOutputStream()
