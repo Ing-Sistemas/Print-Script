@@ -25,7 +25,6 @@ class InterpretStatement {
             is FunctionCallStatement -> {
                 val functionName = node.getFunctionName()
                 val arguments = node.getArguments()
-                val body = node.getBody() // ver si no es null
                 when (functionName) {
                     "println" -> {
                         for (argument in arguments) {
@@ -40,11 +39,18 @@ class InterpretStatement {
                         val condition = InterpretExpression().interpret(arguments[0], storage) as Boolean
 
                         if (condition) {
+                            val body = node.getBody()
                             body?.forEach { astNode ->
                                 Interpreter().interpret(astNode, storage)
                             }
                         } else {
-                            println("Condition is false, skipping body.")
+                            interpret(node, storage) // here it should continue but IDK how tho
+                        }
+                    }
+                    "else" -> {
+                        val body = node.getBody()
+                        body?.forEach { astNode ->
+                            Interpreter().interpret(astNode, storage)
                         }
                     }
 
@@ -61,7 +67,10 @@ class InterpretStatement {
                 return storage.addToStorage(identifier, valueToUse)
             }
 
-            is EmptyVarDeclarationStatement -> TODO("guardar la variable completa")
+            is EmptyVarDeclarationStatement -> {
+                val declarator = node.getDeclarator()
+                storage.addToStorage(declarator, null)
+            }
         }!!
     }
 
