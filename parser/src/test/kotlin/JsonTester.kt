@@ -3,12 +3,11 @@ import com.google.gson.ToNumberPolicy
 import java.io.InputStreamReader
 
 class JsonTester {
-    fun testJson(resultAST: ASTNode, pathForExpected: String): Boolean {
+    fun testJson(resultAST: ASTNode, fileName: String): Boolean {
         val gson = GsonBuilder().setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE).create()
-
         var expectedJson = ""
         val classLoader = Thread.currentThread().contextClassLoader
-        val inputStream = classLoader.getResourceAsStream(pathForExpected)
+        val inputStream = classLoader.getResourceAsStream("golden/$fileName.json")
         inputStream?.let {
             val reader = InputStreamReader(it)
             val jsonElement = gson.fromJson(reader, Any::class.java)

@@ -1,0 +1,35 @@
+{
+  "functionName": "if",
+  "arguments": [
+    {
+      "identifier": "a",
+      "position": {
+        "column": 3,
+        "line": 1
+      }
+    }
+  ],
+  "block": [
+    {
+      "functionName": "println",
+      "arguments": [
+        {
+          "value": "hola",
+          "position": {
+            "column": 14,
+            "line": 1
+          }
+        }
+      ],
+      "block": [],
+      "position": {
+        "column": 6,
+        "line": 1
+      }
+    }
+  ],
+  "position": {
+    "column": 0,
+    "line": 1
+  }
+}

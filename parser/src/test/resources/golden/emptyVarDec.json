@@ -1,0 +1,21 @@
+{
+  "declarator": "let",
+  "identifier": {
+    "identifier": "a",
+    "position": {
+      "column": 4,
+      "line": 1
+    }
+  },
+  "typeDeclarationExpression": {
+    "type": "string",
+    "position": {
+      "column": 6,
+      "line": 1
+    }
+  },
+  "position": {
+    "column": 0,
+    "line": 1
+  }
+}
