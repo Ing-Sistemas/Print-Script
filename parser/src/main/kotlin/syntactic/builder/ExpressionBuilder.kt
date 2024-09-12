@@ -20,7 +20,6 @@ class ExpressionBuilder : ASTBuilderStrategy {
         DIVIDE_OPERATOR to 2,
     )
 
-
     private val expectedTypes = listOf(
         MINUS_OPERATOR,
         DIVIDE_OPERATOR,

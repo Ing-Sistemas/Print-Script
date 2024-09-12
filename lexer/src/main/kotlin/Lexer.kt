@@ -1,6 +1,5 @@
 import org.example.token.TokenMatcher
 
-
 class Lexer {
     private var position = 0
     private val tokenMatcher = TokenMatcher()

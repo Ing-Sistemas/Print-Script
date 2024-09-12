@@ -103,7 +103,7 @@ class SemanticNodeVisitor(
             return resultFactory.createError("Error in function call arguments")
         }
         return resultFactory.create(StringValue(""), DataType.STRING)
-        //check if inside the condition there's a bool
+        // check if inside the condition there's a bool
     }
 
     private fun convertToDataType(value: Any): DataType {
