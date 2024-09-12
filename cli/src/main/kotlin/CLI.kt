@@ -6,7 +6,7 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.double
-import org.example.commands.Analyse
+import org.example.commands.Analyze
 import org.example.commands.Execute
 import org.example.commands.Format
 import org.example.commands.Validate
@@ -46,6 +46,6 @@ data class CLIContext(
 fun main(args: Array<String>) {
     val cli = CLI()
     cli
-        .subcommands(Execute(), Analyse(), Format(), Validate())
+        .subcommands(Execute(), Analyze(), Format(), Validate())
         .main(args)
 }

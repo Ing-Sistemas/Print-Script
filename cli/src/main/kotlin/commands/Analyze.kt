@@ -9,9 +9,9 @@ import linters.StaticCodeAnalyzer
 import org.example.CLIContext
 import java.io.File
 
-class Analyse : CliktCommand(
+class Analyze : CliktCommand(
     name = "analyse",
-    help = "Analyse a file",
+    help = "Analyze a file",
 ) {
 
     override fun run() {
