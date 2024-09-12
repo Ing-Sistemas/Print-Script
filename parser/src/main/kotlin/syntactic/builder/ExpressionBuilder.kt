@@ -11,15 +11,15 @@ import UnaryExpression
 import org.example.token.TokenType.*
 
 class ExpressionBuilder : ASTBuilderStrategy {
-    companion object {
-        // importancia para dar prioridad al cada opp
-        val PRECEDENCE = mapOf(
-            PLUS_OPERATOR to 1,
-            MINUS_OPERATOR to 1,
-            MULTIPLY_OPERATOR to 2,
-            DIVIDE_OPERATOR to 2,
-        )
-    }
+
+    // importancia para dar prioridad al cada opp
+    private val precedence = mapOf(
+        PLUS_OPERATOR to 1,
+        MINUS_OPERATOR to 1,
+        MULTIPLY_OPERATOR to 2,
+        DIVIDE_OPERATOR to 2,
+    )
+
 
     private val expectedTypes = listOf(
         MINUS_OPERATOR,
@@ -48,7 +48,7 @@ class ExpressionBuilder : ASTBuilderStrategy {
         while (tokensToParse.hasNext()) {
             val operator = peek(tokensToParse) ?: break
 
-            val operatorPrecedence = PRECEDENCE[operator.getType()] ?: break
+            val operatorPrecedence = this.precedence[operator.getType()] ?: break
             if (operatorPrecedence <= precedence) break
 
             tokensToParse.next()
@@ -80,7 +80,7 @@ class ExpressionBuilder : ASTBuilderStrategy {
             }
             MINUS_OPERATOR -> {
                 val operator = tokensToParse.next() // grabs the operator
-                val operand = parseExpression(PRECEDENCE[MINUS_OPERATOR]!! + 1, tokensToParse) // grabs operand
+                val operand = parseExpression(precedence[MINUS_OPERATOR]!! + 1, tokensToParse) // grabs operand
                 UnaryExpression(operator.getValue(), operand!!, operator.getPosition())
                 // operator operand example -> - x
             }
