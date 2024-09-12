@@ -5,15 +5,13 @@ import org.example.parser.syntactic.builder.*
 import org.example.token.TokenType
 
 class SyntacticAnalyzer {
-    companion object {
-        val builderStrategy = listOf<ASTBuilderStrategy>(
-            VariableDeclarationBuilder(),
-            EmptyVarDecBuilder(),
-            FunctionCallBuilder(),
-            AssignationBuilder(),
-            ExpressionBuilder(),
-        )
-    }
+    private val builderStrategy = listOf<ASTBuilderStrategy>(
+        VariableDeclarationBuilder(),
+        EmptyVarDecBuilder(),
+        FunctionCallBuilder(),
+        AssignationBuilder(),
+        ExpressionBuilder(),
+    )
 
     fun build(tokens: List<Token>): SyntacticResult {
         if (tokens[tokens.lastIndex].getType() != TokenType.SEMICOLON) return SyntacticFail("Missing ';' at pos: ${tokens.last().getPosition().getColumn()}")
