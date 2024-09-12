@@ -18,9 +18,9 @@ class InterpretExpression {
 
     private fun evaluateNode(node: Expression, storage: Storage): Any {
         return when (node) {
+            is BooleanLiteral -> InterpretLiteral().interpret(node, storage)
             is NumberLiteral -> InterpretLiteral().interpret(node, storage)
             is StringLiteral -> InterpretLiteral().interpret(node, storage)
-            is BooleanLiteral -> InterpretLiteral().interpret(node, storage)
             is BinaryExpression -> {
                 val left = evaluateNode(node.getLeft(), storage)
                 val right = evaluateNode(node.getRight(), storage)

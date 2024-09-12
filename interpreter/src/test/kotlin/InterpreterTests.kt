@@ -2,6 +2,8 @@ package org.example
 
 import AssignmentStatement
 import BinaryExpression
+import BooleanLiteral
+import EmptyVarDeclarationStatement
 import FunctionCallStatement
 import IdentifierExpression
 import NumberLiteral
@@ -40,6 +42,13 @@ class InterpreterTests {
         val stringLiteral = StringLiteral("hello", Position(1, 1))
         val result = interpreter.interpret(stringLiteral, storage)
         assertEquals("hello", result)
+    }
+
+    @Test
+    fun testBooleanLiteral() {
+        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
+        val result = interpreter.interpret(booleanLiteral, storage)
+        assertEquals(true, result)
     }
 
     @Test
@@ -201,6 +210,31 @@ class InterpreterTests {
         val result = interpreter.interpret(binaryExpression, storage)
         assertEquals("The result is: 42.0", result)
     }
+
+    @Test
+    fun testEmptyVariableDeclarationStatement() {
+        val typeDeclaration = TypeDeclarationExpression("number", Position(1, 1))
+        val identifier = IdentifierExpression("x", Position(1, 5))
+        val emptyVariableDeclaration = EmptyVarDeclarationStatement("x", identifier, typeDeclaration, Position(1, 1))
+
+        interpreter.interpret(emptyVariableDeclaration, storage)
+        val result = storage.getFromStorage("x")
+        assertNull(result)
+    }
+
+//    @Test
+//    fun testFunctionCallStatementIf() {
+//        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
+//        val left = StringLiteral("The result is: ", Position(1, 1))
+//        val right = NumberLiteral(42.0, Position(1, 10))
+//        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 5))
+//        val arguments = listOf(booleanLiteral)
+//        val functionCall = FunctionCallStatement("if", arguments, listOf(binaryExpression), Position(1, 1))
+//
+//        println(interpreter.interpret(functionCall, storage))
+//
+//        assertEquals("The result is: 42.0", interpreter.interpret(functionCall, storage))
+//    }
 
     private fun captureOutput(block: () -> Unit): String {
         val outputStream = java.io.ByteArrayOutputStream()
