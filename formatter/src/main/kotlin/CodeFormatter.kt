@@ -2,14 +2,10 @@ package org.example
 
 import org.example.config.FormatterConfig
 import org.example.config.JsonReader
+import org.example.rules.*
 import java.io.File
 
 class CodeFormatter {
-    // lee el json de la config y dependiendo de que value
-    // encuentra entra en un if o en el else (pq muchas son booleanas)
-    // write into file (override previous)
-    // todo leer el .txt con el codigo a formatear
-
     fun format(codeFilePath: String, configFilePath: String) {
         val config = JsonReader().convertJsonIntoFormatterConfig(configFilePath)
         val code = File(codeFilePath).readText()
@@ -18,36 +14,16 @@ class CodeFormatter {
     }
 
     private fun formatCode(code: String, config: FormatterConfig): String {
-        var formattedCode = code
+        val rules = mutableListOf<CodeFormatRule>()
 
-        if (config.spaceBeforeColon) {
-            formattedCode = formattedCode.replace(Regex("([^\\s]):"), "$1 :")
-        }
+        if (config.spaceBeforeColon) rules.add(SpaceBeforeColonRule())
+        if (config.spaceAfterColon) rules.add(SpaceAfterColon())
+        if (config.spaceAroundEquals) rules.add(SpaceAroundEquals())
+        if (config.lineJumpBeforePrintln > 0) rules.add(LineJumpBeforePrintln(config.lineJumpBeforePrintln))
+        if (config.lineJumpAfterSemicolon) rules.add(LineJumpAfterSemicolon())
+        if (config.singleSpaceBetweenTokens) rules.add(SingleSpaceBetweenTokens())
+        if (config.spaceAroundOperators) rules.add(SpaceAroundOperator())
 
-        if (config.spaceAfterColon) {
-            formattedCode = formattedCode.replace(Regex(":([^\\s])"), ": $1")
-        }
-
-        if (config.spaceAroundEquals) {
-            formattedCode = formattedCode.replace(Regex("([^\\s])=([^\\s])"), "$1 = $2")
-        }
-
-        if (config.lineJumpBeforePrintln > 0) {
-            formattedCode = formattedCode.replace(Regex("(?<!\\n)(.*)(println\\(.*\\))"), "$1\n".repeat(config.lineJumpBeforePrintln) + "$2")
-        }
-
-        if (config.lineJumpAfterSemicolon) {
-            formattedCode = formattedCode.replace(Regex(";[ \t]*\n?"), ";\n")
-        }
-
-        if (config.singleSpaceBetweenTokens) {
-            formattedCode = formattedCode.replace(Regex("\\s+"), " ")
-        }
-
-        if (config.spaceAroundOperators) {
-            formattedCode = formattedCode.replace(Regex("([^\\s])([+\\-*/])([^\\s])"), "$1 $2 $3")
-        }
-
-        return formattedCode
+        return rules.fold(code) { acc, rule -> rule.apply(acc) }
     }
 }
