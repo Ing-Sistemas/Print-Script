@@ -1,0 +1,28 @@
+{
+  "identifier": {
+    "identifier": "a",
+    "position": {
+      "column": 0,
+      "line": 1
+    }
+  },
+  "equalOperand": "\u003d",
+  "value": {
+    "operator": "-",
+    "right": {
+      "identifier": "x",
+      "position": {
+        "column": 5,
+        "line": 1
+      }
+    },
+    "position": {
+      "column": 4,
+      "line": 1
+    }
+  },
+  "position": {
+    "column": 2,
+    "line": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "functionName": "println",
+  "arguments": [
+    {
+      "value": 12.0,
+      "position": {
+        "column": 8,
+        "line": 1
+      }
+    }
+  ],
+  "block": [],
+  "position": {
+    "column": 0,
+    "line": 1
+  }
+}
