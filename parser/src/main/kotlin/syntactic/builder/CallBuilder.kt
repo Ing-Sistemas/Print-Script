@@ -1,11 +1,7 @@
-package org.example.parser.syntactic.builder
+package org.example.syntactic.builder
 
-import Token
-import org.example.ASTNode
-import org.example.CallNode
-import org.example.IdentifierNode
-import org.example.LiteralNode
-import org.example.token.TokenType.*
+import org.example.*
+import org.example.TokenType.*
 
 class CallBuilder : ASTBuilderStrategy {
     /**

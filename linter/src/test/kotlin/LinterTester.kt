@@ -1,5 +1,6 @@
 import configurations.ConfigLoader
 import linters.StaticCodeAnalyzer
+import org.example.Lexer
 import org.junit.jupiter.api.Test
 
 class LinterTester {

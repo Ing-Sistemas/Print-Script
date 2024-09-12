@@ -1,13 +1,11 @@
-package org.example.parser.syntactic
+package org.example.syntactic
 
-import Token
 import org.example.*
-import org.example.parser.syntactic.builder.ASTBuilderStrategy
-import org.example.parser.syntactic.builder.AssignationBuilder
-import org.example.parser.syntactic.builder.CallBuilder
-import org.example.parser.syntactic.builder.VariableDeclarationBuilder
-import org.example.token.TokenType
-import org.example.token.TokenType.*
+import org.example.TokenType.*
+import org.example.syntactic.builder.ASTBuilderStrategy
+import org.example.syntactic.builder.AssignationBuilder
+import org.example.syntactic.builder.CallBuilder
+import org.example.syntactic.builder.VariableDeclarationBuilder
 
 class SyntacticAnalyzer {
     // TODO remove TEMP_NUM

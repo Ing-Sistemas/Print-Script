@@ -1,4 +1,4 @@
-package org.example.parser.semantic
+package org.example.semantic
 
 class ResultInformation(
     private val value: String?,

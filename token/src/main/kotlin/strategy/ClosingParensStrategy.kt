@@ -1,10 +1,8 @@
-package stategy
+package org.example.strategy
 
-import Token
-import TokenRegex
-import org.example.token.TokenType
-import org.example.token.stategy.TokenMatch
-import org.example.token.stategy.TokenStrategy
+import org.example.Token
+import org.example.TokenRegex
+import org.example.TokenType
 
 class ClosingParensStrategy : TokenStrategy {
     override fun match(input: String, position: Int): TokenMatch? {

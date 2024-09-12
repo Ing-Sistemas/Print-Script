@@ -1,11 +1,9 @@
-package org.example.parser
+package org.example
 
-import Token
-import org.example.ASTNode
-import org.example.parser.syntactic.SyntacticAnalyzer
-import org.example.parser.syntactic.SyntacticFail
-import org.example.parser.syntactic.SyntacticSuccess
-import semantic.SemanticAnalyzer
+import org.example.semantic.SemanticAnalyzer
+import org.example.syntactic.SyntacticAnalyzer
+import org.example.syntactic.SyntacticFail
+import org.example.syntactic.SyntacticSuccess
 
 /**
  * The Parser class joins both analysers in a single class

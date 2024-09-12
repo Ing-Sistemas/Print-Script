@@ -1,8 +1,5 @@
 package org.example
 
-import Lexer
-import org.example.parser.Parser
-
 class Runner {
     private val lexer = Lexer()
     private val parser = Parser()

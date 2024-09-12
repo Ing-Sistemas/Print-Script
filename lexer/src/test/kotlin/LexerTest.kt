@@ -1,4 +1,6 @@
-import org.example.token.TokenType
+
+import org.example.Lexer
+import org.example.TokenType
 import org.junit.jupiter.api.Test
 
 class LexerTest {

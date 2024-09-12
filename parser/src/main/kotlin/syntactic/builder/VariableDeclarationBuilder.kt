@@ -1,10 +1,6 @@
-package org.example.parser.syntactic.builder
+package org.example.syntactic.builder
 
-import Token
-import org.example.ASTNode
-import org.example.TypeDeclarationNode
-import org.example.VariableDeclarationNode
-import org.example.token.TokenType
+import org.example.*
 
 class VariableDeclarationBuilder : ASTBuilderStrategy {
     /**

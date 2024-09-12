@@ -1,7 +1,7 @@
-package semantic
+package org.example.semantic
 
-import org.example.*
-import org.example.parser.semantic.*
+import org.example.ASTNode
+import org.example.ProgramNode
 
 class SemanticAnalyzer {
     private val resultFactory = ResultFactory()

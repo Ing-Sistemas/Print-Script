@@ -1,13 +1,10 @@
-package org.example.token
+package org.example
 
-import org.example.token.stategy.*
-import stategy.CallStrategy
-import stategy.ClosingParensStrategy
-import stategy.OpeningParensStrategy
-import stategy.operators.DivideTokenStrategy
-import stategy.operators.MinusTokenStrategy
-import stategy.operators.MultiplyTokenStrategy
-import stategy.operators.PlusTokenStrategy
+import org.example.strategy.*
+import org.example.strategy.operators.DivideTokenStrategy
+import org.example.strategy.operators.MinusTokenStrategy
+import org.example.strategy.operators.MultiplyTokenStrategy
+import org.example.strategy.operators.PlusTokenStrategy
 
 class TokenMatcher {
     /**
@@ -42,9 +39,7 @@ class TokenMatcher {
     fun match(input: String, position: Int): TokenMatch? {
         for (strategy in strategies) {
             val isMatch = strategy.match(input, position)
-            if (isMatch != null) {
-                return isMatch
-            }
+            if (isMatch != null) return isMatch
         }
         return null
     }

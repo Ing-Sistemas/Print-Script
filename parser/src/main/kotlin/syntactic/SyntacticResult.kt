@@ -1,4 +1,4 @@
-package org.example.parser.syntactic
+package org.example.syntactic
 
 import org.example.ASTNode
 

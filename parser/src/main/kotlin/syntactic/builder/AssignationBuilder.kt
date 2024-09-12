@@ -1,11 +1,6 @@
-package org.example.parser.syntactic.builder
+package org.example.syntactic.builder
 
-import Token
-import org.example.ASTNode
-import org.example.AssignmentNode
-import org.example.IdentifierNode
-import org.example.LiteralNode
-import org.example.token.TokenType.*
+import org.example.*
 import java.lang.Exception
 
 class AssignationBuilder : ASTBuilderStrategy {
@@ -28,9 +23,9 @@ class AssignationBuilder : ASTBuilderStrategy {
         val previousToken = tokens[tokenIndex - 1]
 
         return when (previousToken.getType()) {
-            IDENTIFIER -> handleBinaryValue(tokenIndex, tokens)
-            NUMBER_TYPE -> handleValDeclaration(tokenIndex, tokens)
-            STRING_TYPE -> handleValDeclaration(tokenIndex, tokens)
+            TokenType.IDENTIFIER -> handleBinaryValue(tokenIndex, tokens)
+            TokenType.NUMBER_TYPE -> handleValDeclaration(tokenIndex, tokens)
+            TokenType.STRING_TYPE -> handleValDeclaration(tokenIndex, tokens)
             else -> { error("wrong token type ${previousToken.getType()}") }
         }
     }
@@ -89,9 +84,9 @@ class AssignationBuilder : ASTBuilderStrategy {
 
     private fun buildValueLeaf(valueToken: Token): ASTNode {
         return when (valueToken.getType()) {
-            IDENTIFIER -> IdentifierNode(valueToken.getValue(), 0, 0)
-            LITERAL_NUMBER -> LiteralNode(valueToken.getValue(), valueToken.getType().name, 0, 0)
-            LITERAL_STRING -> LiteralNode(valueToken.getValue(), valueToken.getType().name, 0, 0)
+            TokenType.IDENTIFIER -> IdentifierNode(valueToken.getValue(), 0, 0)
+            TokenType.LITERAL_NUMBER -> LiteralNode(valueToken.getValue(), valueToken.getType().name, 0, 0)
+            TokenType.LITERAL_STRING -> LiteralNode(valueToken.getValue(), valueToken.getType().name, 0, 0)
             else -> { error("wrong token type ${valueToken.getType()}") }
         }
     }

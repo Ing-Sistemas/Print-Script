@@ -1,6 +1,6 @@
-package org.example.token.stategy
+package org.example.strategy
 
-import Token
+import org.example.Token
 
 interface TokenStrategy {
     fun match(input: String, position: Int): TokenMatch?

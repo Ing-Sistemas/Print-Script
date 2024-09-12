@@ -1,6 +1,6 @@
 package interfaces
 
-import Token
+import org.example.Token
 
 interface Linter {
 

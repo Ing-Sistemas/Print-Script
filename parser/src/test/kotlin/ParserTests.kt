@@ -1,5 +1,6 @@
-import org.example.parser.Parser
-import org.example.token.TokenType.*
+import org.example.Parser
+import org.example.Token
+import org.example.TokenType.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows

@@ -1,8 +1,8 @@
-package org.example.token.stategy
+package org.example.strategy
 
-import Token
-import TokenRegex
-import org.example.token.TokenType
+import org.example.Token
+import org.example.TokenRegex
+import org.example.TokenType
 
 class StringTypeTokenStrategy : TokenStrategy {
     override fun match(input: String, position: Int): TokenMatch? {

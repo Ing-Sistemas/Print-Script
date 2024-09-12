@@ -1,8 +1,8 @@
 package linters
 
-import Token
 import configurations.Configuration
 import interfaces.Linter
+import org.example.Token
 
 class StaticCodeAnalyzer(configuration: Configuration) {
 

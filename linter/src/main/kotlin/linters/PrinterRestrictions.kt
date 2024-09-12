@@ -1,7 +1,7 @@
 package linters
 
-import Token
 import interfaces.Linter
+import org.example.Token
 
 class PrinterRestrictions : Linter {
     override fun lint(tokens: List<Token>): List<String> {

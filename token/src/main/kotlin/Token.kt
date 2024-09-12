@@ -1,4 +1,4 @@
-import org.example.token.TokenType
+package org.example
 
 class Token(private val tokenType: TokenType, private val value: String) {
 

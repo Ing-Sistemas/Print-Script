@@ -1,9 +1,9 @@
 package linters
 
-import Token
 import configurations.CaseConfiguration
 import interfaces.Linter
-import org.example.token.TokenType
+import org.example.Token
+import org.example.TokenType.*
 
 class IdentifierCaseLinter(private val caseConfiguration: CaseConfiguration) : Linter {
     override fun lint(tokens: List<Token>): List<String> {
@@ -17,7 +17,7 @@ class IdentifierCaseLinter(private val caseConfiguration: CaseConfiguration) : L
             }
         }
 
-        tokens.filter { it.getType() == TokenType.IDENTIFIER }.forEach { token ->
+        tokens.filter { it.getType() == IDENTIFIER }.forEach { token ->
             if (!regex.matches(token.getValue())) {
                 errors.add("Identifier ${token.getValue()} does not match the ${caseConfiguration.value} convention")
             }

@@ -1,4 +1,4 @@
-package org.example.parser.semantic
+package org.example.semantic
 
 import org.example.AssignmentNode
 import org.example.IdentifierNode

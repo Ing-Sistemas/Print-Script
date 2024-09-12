@@ -1,4 +1,5 @@
 package configurations
+
 import com.google.gson.*
 import java.io.FileReader
 import java.lang.reflect.Type
@@ -19,7 +20,7 @@ object ConfigLoader {
 class CaseConfigurationDeserializer : JsonDeserializer<CaseConfiguration> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): CaseConfiguration {
         val value = json.asString
-        return CaseConfiguration.values().firstOrNull { it.value == value }
+        return CaseConfiguration.entries.firstOrNull { it.value == value }
             ?: throw JsonParseException("Invalid case configuration: $value")
     }
 }

@@ -1,4 +1,4 @@
-package org.example.parser.semantic
+package org.example.semantic
 
 class ResultFactory {
     fun create(value: String?, type: String?, errors: List<String> = emptyList()): ResultInformation {

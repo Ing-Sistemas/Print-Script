@@ -1,12 +1,12 @@
 package org.example.commands
 
-import Lexer
-import Token
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import configurations.ConfigLoader
 import linters.StaticCodeAnalyzer
 import org.example.CLIContext
+import org.example.Lexer
+import org.example.Token
 import java.io.File
 
 class Analyse : CliktCommand(
