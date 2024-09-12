@@ -94,7 +94,7 @@ class SemanticNodeVisitor(
     }
 
     private fun visit(unaryNode: UnaryExpression): ResultInformation {
-        TODO("Not yet implemented")
+        TODO("ver si tiene un - y q sea number type, ver si es necesario pq no tiene necesidad")
     }
 
     private fun visit(callNode: FunctionCallStatement): ResultInformation {
@@ -103,6 +103,7 @@ class SemanticNodeVisitor(
             return resultFactory.createError("Error in function call arguments")
         }
         return resultFactory.create(StringValue(""), DataType.STRING)
+        //check if inside the condition there's a bool
     }
 
     private fun convertToDataType(value: Any): DataType {

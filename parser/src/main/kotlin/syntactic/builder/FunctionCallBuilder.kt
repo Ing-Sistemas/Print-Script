@@ -19,7 +19,7 @@ class FunctionCallBuilder : ASTBuilderStrategy {
 
     override fun build(tokens: List<Token>): FunctionCallStatement {
         val tokenIterator = tokens.listIterator()
-        return parseFunCall(tokenIterator) ?: throw Exception("Failed to parse function call")
+        return parseFunCall(tokenIterator)
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

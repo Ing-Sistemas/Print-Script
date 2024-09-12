@@ -73,34 +73,53 @@ publishing {
 //    }
 //}
 
-    tasks.register("lintCheck", JavaExec) {
-        group = "verification"
-        description = "Check Kotlin code style."
-        classpath = configurations.ktlint
-        mainClass.set("com.pinterest.ktlint.Main")
-        args('src/**/*.kt', '**/*.kts', '!build/**')
-    }
+tasks.register("lintCheck", JavaExec) {
+    group = "verification"
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    mainClass.set("com.pinterest.ktlint.Main")
+    args('src/**/*.kt', '**/*.kts', '!build/**')
+}
 
-    tasks.named("check") {
-        dependsOn tasks.named("lintCheck")
-        dependsOn tasks.named("jacocoTestCoverageVerification")
-    }
+tasks.named("check") {
+    dependsOn tasks.named("lintCheck")
+    dependsOn tasks.named("jacocoTestCoverageVerification")
+}
 
-    tasks.register("formatApply", JavaExec) {
-        group = "formatting"
-        description = "Fix Kotlin code style deviations."
-        classpath = configurations.ktlint
-        mainClass.set("com.pinterest.ktlint.Main")
-        jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
-        args('-F', 'src/**/*.kt', '**/*.kts', '!build/**')
-    }
+tasks.register("formatApply", JavaExec) {
+    group = "formatting"
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    mainClass.set("com.pinterest.ktlint.Main")
+    jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED")
+    args('-F', 'src/**/*.kt', '**/*.kts', '!build/**')
+}
 
-    jacocoTestReport {
-        dependsOn test
+jacocoTestReport {
+    dependsOn test
 
-        reports {
-            xml.required = false
-            csv.required = false
-            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
-        }
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
+}
+tasks.register('installGitHooks', Copy) {
+    from("${rootDir}/hooks/pre-commit")
+    into("${rootDir}/.git/hooks")
+
+    from("${rootDir}/hooks/pre-push")
+    into("${rootDir}/.git/hooks")
+
+    doLast {
+        println 'Installed Git hooks:'
+        file("${rootDir}/.git/hooks/pre-commit").setExecutable(true)
+        println file("${rootDir}/.git/hooks/pre-commit").absolutePath
+        file("${rootDir}/.git/hooks/pre-push").setExecutable(true)
+        println file("${rootDir}/.git/hooks/pre-push").absolutePath
+    }
+}
+
+tasks.named("build") {
+    dependsOn("installGitHooks")
+}

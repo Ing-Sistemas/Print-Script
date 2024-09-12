@@ -40,7 +40,6 @@ class TokenMatcher {
      * goes through every strategy and returns the one that matches the given input
      */
 
-    // TODO esta bien devolver TType? o conviene mas TMatch?
     fun match(input: String, position: Int): TokenMatch? {
         for (strategy in strategies) {
             val isMatch = strategy.match(input, position)

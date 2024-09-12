@@ -25,7 +25,7 @@ class InterpretStatement {
             is FunctionCallStatement -> {
                 val functionName = node.getFunctionName()
                 val arguments = node.getArguments()
-                val body = node.getBody()
+                val body = node.getBody() // ver si no es null
                 when (functionName) {
                     "println" -> {
                         for (argument in arguments) {

@@ -28,7 +28,7 @@ class EmptyVarDecBuilder : ASTBuilderStrategy {
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
         if (!respectsExpectedSize(tokens.size, expectedStruct.size)) return false
-        if (tokens[expectedStruct.size - 1].getType() == ASSIGNMENT) return false // -1 takes in account the ;
+        if (tokens[expectedStruct.size - 1].getType() == ASSIGNMENT) return false // -1 takes in account the ';'
         if (tokens[expectedStruct.indexOf(KEYWORD)].getValue() != "let") return false
         return tokens.zip(expectedStruct).all { (token, expectedType) ->
             token.getType() == expectedType ||

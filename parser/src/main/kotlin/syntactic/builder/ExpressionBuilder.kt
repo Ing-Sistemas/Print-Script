@@ -12,6 +12,7 @@ import org.example.token.TokenType.*
 
 class ExpressionBuilder : ASTBuilderStrategy {
     companion object {
+        // importancia para dar prioridad al cada opp
         val PRECEDENCE = mapOf(
             PLUS_OPERATOR to 1,
             MINUS_OPERATOR to 1,
@@ -37,7 +38,7 @@ class ExpressionBuilder : ASTBuilderStrategy {
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        // todo, itero 2 veces la lista, feo
+        // itero 2 veces la lista, feo
         return tokens.all { it.getType() in expectedTypes }
     }
 
