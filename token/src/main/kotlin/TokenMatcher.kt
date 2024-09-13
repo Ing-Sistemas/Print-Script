@@ -1,9 +1,7 @@
 package org.example.token
 
 import org.example.token.stategy.*
-import stategy.CallStrategy
-import stategy.ClosingParensStrategy
-import stategy.OpeningParensStrategy
+import stategy.*
 import stategy.operators.DivideTokenStrategy
 import stategy.operators.MinusTokenStrategy
 import stategy.operators.MultiplyTokenStrategy
@@ -21,12 +19,16 @@ class TokenMatcher {
         AssignmentTokenStrategy(),
         SemicolonTokenStrategy(),
         NumberTypeTokenStrategy(),
+        BooleanTypeStrategy(),
+        BooleanTokenStrategy(),
         StringTypeTokenStrategy(),
         ColonTokenStrategy(),
         NumberTokenStrategy(),
         StringTokenStrategy(),
         OpeningParensStrategy(),
         ClosingParensStrategy(),
+        OpeningCurlyBracks(),
+        ClosingCurlyBracks(),
         PlusTokenStrategy(),
         MinusTokenStrategy(),
         DivideTokenStrategy(),
@@ -38,7 +40,6 @@ class TokenMatcher {
      * goes through every strategy and returns the one that matches the given input
      */
 
-    // TODO esta bien devolver TType? o conviene mas TMatch?
     fun match(input: String, position: Int): TokenMatch? {
         for (strategy in strategies) {
             val isMatch = strategy.match(input, position)

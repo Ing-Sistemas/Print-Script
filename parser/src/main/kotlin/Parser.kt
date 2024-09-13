@@ -1,7 +1,7 @@
 package org.example.parser
 
+import ASTNode
 import Token
-import org.example.ASTNode
 import org.example.parser.syntactic.SyntacticAnalyzer
 import org.example.parser.syntactic.SyntacticFail
 import org.example.parser.syntactic.SyntacticSuccess
@@ -17,7 +17,7 @@ class Parser {
     private val semanticAnalyzer = SemanticAnalyzer()
 
     fun parse(tokens: List<Token>): ASTNode {
-        return when (val syntacticResult = syntacticAnalyzer.buildAST(tokens)) {
+        return when (val syntacticResult = syntacticAnalyzer.build(tokens)) {
             is SyntacticFail -> {
                 throw Exception("Error: ${syntacticResult.message}")
             }

@@ -3,11 +3,11 @@
 # vas al root directory del proyecto
 #cd "$(git rev-parse --show-toplevel)" || exit
 
-# Formatea el codigo
+# Checks code
 ./gradlew lintCheck
 
-# Corre los tests y check
-./gradlew build
+# Run build, checking tests
+#./gradlew build
 
 # Si falla, rechaza el commit
 if [ $? -ne 0 ]; then

@@ -1,5 +1,6 @@
 package org.example.token.stategy
 
+import Position
 import Token
 import TokenRegex
 import org.example.token.TokenType
@@ -9,7 +10,7 @@ class IdentifierTokenStrategy : TokenStrategy {
         val match = TokenRegex.identifierRegex.find(input, position)
         return if (match != null && match.range.first == position) {
             val nextPosition = position + match.value.length
-            TokenMatch(Token(TokenType.IDENTIFIER, match.value), nextPosition)
+            TokenMatch(Token(TokenType.IDENTIFIER, match.value, Position(position, LinePlaceHolder.TEMP_POS)), nextPosition)
         } else { null }
     }
 }

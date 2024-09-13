@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+component AST {
+    [Ast] ---> [Token]
+}
+
+component Parser {
+    [Parser] --> [AST]
+    [Parser] --> [Token]
+    [Parser] --> [Lexer]
+}
+
+component Lexer {
+    [Lexer] ---> [Token]
+}
+
+component Formatter {
+}
+
+component Interpreter {
+    [Interpreter] --> [AST]
+    [Interpreter] --> [Token]
+}
+
+component Linter {
+    [Linter] --> [AST]
+    [Linter] --> [Token]
+    [Linter] --> [Lexer]
+}
+
+component Runner {
+    [Runner] ----> [AST]
+    [Runner] ----> [Token]
+    [Runner] ----> [Lexer]
+    [Runner] ----> [Parser]
+    [Runner] ----> [Interpreter]
+}
+
+component CLI {
+    [Cli] -----> [Lexer]
+    [Cli] -----> [Parser]
+    [Cli] -----> [Interpreter]
+    [Cli] -----> [AST]
+    [Cli] -----> [Token]
+    [Cli] -----> [Linter]
+    [Cli] -----> [Formatter]
+}
+component Token {
+}
+
+
+@enduml

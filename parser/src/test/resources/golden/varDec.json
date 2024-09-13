@@ -1,0 +1,35 @@
+{
+  "declarator": "let",
+  "typeDeclarationExpression": {
+    "type": "string",
+    "position": {
+      "column": 6,
+      "line": 1
+    }
+  },
+  "assignmentStatement": {
+    "identifier": {
+      "identifier": "a",
+      "position": {
+        "column": 4,
+        "line": 1
+      }
+    },
+    "equalOperand": "\u003d",
+    "value": {
+      "value": "hola",
+      "position": {
+        "column": 15,
+        "line": 1
+      }
+    },
+    "position": {
+      "column": 13,
+      "line": 1
+    }
+  },
+  "position": {
+    "column": 0,
+    "line": 1
+  }
+}

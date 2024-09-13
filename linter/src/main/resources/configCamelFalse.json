@@ -1,4 +1,5 @@
 {
     "caseConfiguration": "camelCase",
-    "restrictPrintln": false
+    "restrictPrintln": false,
+    "readInput": false
 }
