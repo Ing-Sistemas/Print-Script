@@ -5,6 +5,7 @@ import org.example.parser.semantic.DataType
 class ResultString(
     private val value: String,
     private val type: DataType,
+    private val mutable: Boolean,
     private val errors: List<String>,
 ) : ResultInformation {
     override fun <T> getValue(): T {
@@ -17,5 +18,9 @@ class ResultString(
 
     override fun getErrors(): List<String> {
         return errors
+    }
+
+    override fun getMutability(): Boolean {
+        return mutable
     }
 }
