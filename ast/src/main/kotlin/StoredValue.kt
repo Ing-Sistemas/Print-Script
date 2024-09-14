@@ -13,3 +13,7 @@ data class NumberValue(val value: Double, val isMutable: Boolean = true) : Store
 data class BooleanValue(val value: Boolean, val isMutable: Boolean = true) : StoredValue {
     override fun getType() = "boolean"
 }
+
+data class EmptyValue(val value: Nothing, val isMutable: Boolean = true) : StoredValue {
+    override fun getType() = "null"
+}
