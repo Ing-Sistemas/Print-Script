@@ -18,6 +18,8 @@ class TypeCheck(private val resultFactory: ResultFactory) {
         val assignmentResult = node.getAssignmentExpression()?.accept(visitor)
             ?: return resultFactory.createError("Assignment result is null")
 
+        // todo if vardec.declarator is "const" construct is as immutable
+        // todo then check in the assignment if the isMutable for allowance to change
         if (assignmentResult.getErrors().isNotEmpty()) return assignmentResult
 
         val declarationNodeType = node.getTypeDeclarationExpression().getType()
