@@ -1,11 +1,11 @@
 package org.example.parser.semantic
 
 import BooleanValue
+import EmptyValue
 import NumberValue
 import StoredValue
 import StringValue
 import VariableDeclarationStatement
-import Visitor
 import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
 
@@ -13,8 +13,11 @@ class TypeCheck(private val resultFactory: ResultFactory) {
 
     fun checkVariableDeclaration(
         node: VariableDeclarationStatement,
-        visitor: Visitor<ResultInformation>,
+        visitor: VisitorSemantic<ResultInformation>,
     ): ResultInformation {
+        val declarator = node.getDeclarator()
+        val mutability = if (declarator == "const") false else true
+
         val assignmentResult = node.getAssignmentExpression().accept(visitor)
 
         // todo if vardec.declarator is "const" construct is as immutable
@@ -31,15 +34,16 @@ class TypeCheck(private val resultFactory: ResultFactory) {
         return if (declarationNodeType != assignmentResult.getType().toString()) {
             resultFactory.createError("Type mismatch for var dec")
         } else {
-            resultFactory.create(convertToStoredValue(assignmentResult), assignmentResult.getType())
+            resultFactory.create(convertToStoredValue(assignmentResult), assignmentResult.getType(), assignmentResult.getMutability())
         }
     }
 
     private fun convertToStoredValue(result: ResultInformation): StoredValue {
         return when (result.getType()) {
-            DataType.STRING -> StringValue(result.getValue())
-            DataType.NUMBER -> NumberValue(result.getValue())
-            DataType.BOOLEAN -> BooleanValue(result.getValue())
+            DataType.STRING -> StringValue(result.getValue(), result.getMutability())
+            DataType.NUMBER -> NumberValue(result.getValue(), result.getMutability())
+            DataType.BOOLEAN -> BooleanValue(result.getValue(), result.getMutability())
+            DataType.NULL -> EmptyValue(result.getValue(), result.getMutability())
         }
     }
 }

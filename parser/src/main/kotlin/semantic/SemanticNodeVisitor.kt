@@ -4,6 +4,7 @@ import AssignmentStatement
 import BinaryExpression
 import BooleanLiteral
 import BooleanValue
+import EmptyValue
 import EmptyVarDeclarationStatement
 import FunctionCallStatement
 import IdentifierExpression
@@ -24,17 +25,17 @@ class SemanticNodeVisitor(
     private val storageManager: StorageManager,
     private val operationCheck: OperationCheck,
     private val resultFactory: ResultFactory,
-) : Visitor<ResultInformation> {
+) : VisitorSemantic<ResultInformation> {
 
-    override fun visit(numberLiteral: NumberLiteral): ResultInformation {
-        return resultFactory.create(NumberValue(numberLiteral.getValue()), DataType.NUMBER)
+    override fun visit(numberLiteral: NumberLiteral, isMutable: Boolean): ResultInformation {
+        return resultFactory.create(NumberValue(numberLiteral.getValue(), isMutable), DataType.NUMBER, isMutable)
     }
-    override fun visit(stringLiteral: StringLiteral): ResultInformation {
-        return resultFactory.create(StringValue(stringLiteral.getValue()), DataType.STRING)
+    override fun visit(stringLiteral: StringLiteral, isMutable: Boolean): ResultInformation {
+        return resultFactory.create(StringValue(stringLiteral.getValue(), isMutable), DataType.STRING, isMutable)
     }
 
-    override fun visit(booleanLiteral: BooleanLiteral): ResultInformation {
-        return resultFactory.create(BooleanValue(booleanLiteral.getValue()), DataType.BOOLEAN)
+    override fun visit(booleanLiteral: BooleanLiteral, isMutable: Boolean): ResultInformation {
+        return resultFactory.create(BooleanValue(booleanLiteral.getValue(), isMutable), DataType.BOOLEAN, isMutable)
     }
 
     override fun visit(typeDeclarationExpression: TypeDeclarationExpression): ResultInformation {
@@ -52,15 +53,17 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement): ResultInformation {
-        TODO("Not yet implemented")
+        if (emptyVarDeclarationStatement.getDeclarator() == "const") {
+        }
+        return resultFactory.createError("To implement emptyVarDeclarationStatement")
     }
 
     override fun visit(binaryExpression: BinaryExpression): ResultInformation {
         return operationCheck.checkBinaryOperation(binaryExpression, this)
     }
 
-    override fun visit(assignmentStatement: AssignmentStatement): ResultInformation {
-        return storageManager.handleAssignment(assignmentStatement, this)
+    override fun visit(assignmentStatement: AssignmentStatement, isMutable: Boolean): ResultInformation {
+        return storageManager.handleAssignment(assignmentStatement, isMutable, this)
     }
 
     override fun visit(unaryExpression: UnaryExpression): ResultInformation {
@@ -89,6 +92,7 @@ class SemanticNodeVisitor(
             DataType.STRING -> StringValue("")
             DataType.NUMBER -> NumberValue(0.0)
             DataType.BOOLEAN -> BooleanValue(false)
+            DataType.NULL -> EmptyValue(null)
         }
     }
 }

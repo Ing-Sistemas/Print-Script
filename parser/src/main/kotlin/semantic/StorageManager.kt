@@ -26,7 +26,8 @@ class StorageManager(
 
     fun handleAssignment(
         node: AssignmentStatement,
-        visitor: Visitor<ResultInformation>,
+        isMutable: Boolean,
+        visitor: VisitorSemantic<ResultInformation>,
     ): ResultInformation {
         val identifierResult = node.getIdentifier().accept(visitor)
         val valueResult = node.getValue().accept(visitor)
