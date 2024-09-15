@@ -10,7 +10,7 @@ import org.example.token.TokenType.*
 class FunctionCallBuilder : ASTBuilderStrategy {
 
     private val expectedStruct = listOf(
-        CALL,
+        FUNCTION_CALL,
         OPENING_PARENS, // the parenthesis enclose the argument
         CLOSING_PARENS,
         OPENING_CURLY_BRACKS, // the {} enclose de body of function
@@ -23,7 +23,7 @@ class FunctionCallBuilder : ASTBuilderStrategy {
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        return tokens[expectedStruct.indexOf(CALL)].getType() == CALL &&
+        return tokens[expectedStruct.indexOf(FUNCTION_CALL)].getType() == FUNCTION_CALL &&
             tokens[expectedStruct.indexOf(OPENING_PARENS)].getType() == OPENING_PARENS
     }
 

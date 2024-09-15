@@ -12,7 +12,7 @@ class CallStrategy : TokenStrategy {
         val match = TokenRegex.functionCallRegex.find(input, position)
         return if (match != null && match.range.first == position) {
             val nextPosition = position + match.value.length
-            TokenMatch(Token(TokenType.CALL, match.value, Position(position, LinePlaceHolder.TEMP_POS)), nextPosition)
+            TokenMatch(Token(TokenType.FUNCTION_CALL, match.value, Position(position, LinePlaceHolder.TEMP_POS)), nextPosition)
         } else { null }
     }
 }
