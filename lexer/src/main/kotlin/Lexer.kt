@@ -1,39 +1,57 @@
-import org.example.token.TokenMatcher
+import org.example.token.TokenType
 
 class Lexer(
-    version: String
+    private val version: String
 ) {
-    private var position = 0
-    private val tokenMatcher = TokenMatcher()
+    private val tokenPatterns: Map<TokenType, Regex> = TokenPatternProvider().getPatterns(version)
+    fun tokenize(input: String): Iterator<Token> {
+        return object : Iterator<Token> {
+            var currentIndex = 0
+            var lineNumber = 1
 
-    fun tokenize(input: String): List<Token> {
-        val tokenList = mutableListOf<Token>()
-        while (position < input.length) {
-            val token = nextToken(input)
-            if (token != null) {
-                tokenList.add(token)
+            override fun hasNext(): Boolean {
+                return currentIndex < input.length
+            }
+            override fun next(): Token {
+                if (!hasNext()) {
+                    throw NoSuchElementException()
+                }
+                val token = tokenizeLine(input)
+                if (token != null) {
+                    return token
+                } else {
+                    throw NoSuchElementException()
+                }
+            }
+
+            private fun tokenizeLine(input: String): Token? {
+                while (currentIndex < input.length) {
+                    for ((tokenType, regex) in tokenPatterns) {
+                        val matcher = regex.find(input, currentIndex)
+                        if (matcher != null && matcher.range.first == currentIndex) {
+                            val tokenValue = matcher.value
+                            val tokenPosition = Position(currentIndex + 1, lineNumber)
+                            lineNumber += tokenValue.count { it == '\n' }
+                            currentIndex += tokenValue.length
+                            return Token(
+                                tokenType,
+                                tokenValue,
+                                tokenPosition
+                            )
+                        }
+                    }
+
+                    if (input[currentIndex].isWhitespace()) {
+                        if (input[currentIndex] == '\n') {
+                            lineNumber++
+                        }
+                        currentIndex++
+                    } else {
+                        throw Exception("Unexpected character '${input[currentIndex]}' at line: $lineNumber, column: ${currentIndex + 1}")
+                    }
+                }
+                return null
             }
         }
-        return tokenList
-    }
-
-    private fun nextToken(input: String): Token? {
-        if (position >= input.length) {
-            return null
-        }
-        val restOfString = input.substring(position)
-
-        if (restOfString[0].isWhitespace()) {
-            // if space -> skip
-            position++
-            return nextToken(input)
-        }
-
-        val isMatch = tokenMatcher.match(input, position)
-        if (isMatch != null) {
-            position = isMatch.nextPosition
-            return isMatch.token
-        }
-        throw Exception("Bad character")
     }
 }
