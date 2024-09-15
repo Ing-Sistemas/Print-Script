@@ -24,17 +24,18 @@ class SemanticNodeVisitor(
     private val storageManager: StorageManager,
     private val operationCheck: OperationCheck,
     private val resultFactory: ResultFactory,
-) : VisitorSemantic<ResultInformation> {
+) : Visitor<ResultInformation> {
 
-    override fun visit(numberLiteral: NumberLiteral, isMutable: Boolean): ResultInformation {
-        return resultFactory.create(NumberValue(numberLiteral.getValue(), isMutable), DataType.NUMBER, isMutable)
-    }
-    override fun visit(stringLiteral: StringLiteral, isMutable: Boolean): ResultInformation {
-        return resultFactory.create(StringValue(stringLiteral.getValue(), isMutable), DataType.STRING, isMutable)
+    override fun visit(numberLiteral: NumberLiteral): ResultInformation {
+        return resultFactory.create(NumberValue(numberLiteral.getValue()), DataType.NUMBER)
     }
 
-    override fun visit(booleanLiteral: BooleanLiteral, isMutable: Boolean): ResultInformation {
-        return resultFactory.create(BooleanValue(booleanLiteral.getValue(), isMutable), DataType.BOOLEAN, isMutable)
+    override fun visit(stringLiteral: StringLiteral): ResultInformation {
+        return resultFactory.create(StringValue(stringLiteral.getValue()), DataType.STRING)
+    }
+
+    override fun visit(booleanLiteral: BooleanLiteral): ResultInformation {
+        return resultFactory.create(BooleanValue(booleanLiteral.getValue()), DataType.BOOLEAN)
     }
 
     override fun visit(typeDeclarationExpression: TypeDeclarationExpression): ResultInformation {
@@ -61,8 +62,8 @@ class SemanticNodeVisitor(
         return operationCheck.checkBinaryOperation(binaryExpression, this)
     }
 
-    override fun visit(assignmentStatement: AssignmentStatement, isMutable: Boolean): ResultInformation {
-        return storageManager.handleAssignment(assignmentStatement, isMutable, this)
+    override fun visit(assignmentStatement: AssignmentStatement): ResultInformation {
+        return storageManager.handleAssignment(assignmentStatement, this)
     }
 
     override fun visit(unaryExpression: UnaryExpression): ResultInformation {

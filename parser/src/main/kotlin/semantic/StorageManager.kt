@@ -30,8 +30,7 @@ class StorageManager(
 
     fun handleAssignment(
         node: AssignmentStatement,
-        isMutable: Boolean,
-        visitor: VisitorSemantic<ResultInformation>,
+        visitor: Visitor<ResultInformation>,
     ): ResultInformation {
         val identifierResult = node.getIdentifier().accept(visitor)
         val valueResult = node.getValue().accept(visitor)
