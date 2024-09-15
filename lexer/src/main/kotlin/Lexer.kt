@@ -3,7 +3,9 @@ import org.example.token.TokenType
 class Lexer(
     private val version: String
 ) {
-    private val tokenPatterns: Map<TokenType, Regex> = TokenPatternProvider().getPatterns(version)
+    private val tokenPatterns: Map<TokenType, Regex> by lazy {
+        TokenPatternProvider().getPatterns(version)
+    }
     fun tokenize(input: String): Iterator<Token> {
         return object : Iterator<Token> {
             var currentIndex = 0
