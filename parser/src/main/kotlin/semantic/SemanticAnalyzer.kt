@@ -7,12 +7,11 @@ import org.example.parser.semantic.result.ResultFactory
 
 class SemanticAnalyzer {
     private val resultFactory = ResultFactory()
-    private val typeCheck = TypeCheck(resultFactory)
     private val storageManager = StorageManager(resultFactory)
     private val operationCheck = OperationCheck(resultFactory)
 
     fun analyze(node: ASTNode): ASTNode {
-        val visitor = SemanticNodeVisitor(typeCheck, storageManager, operationCheck, resultFactory)
+        val visitor = SemanticNodeVisitor(storageManager, operationCheck, resultFactory)
         val result = node.accept(visitor)
         if (result.getErrors().isNotEmpty()) {
             throw Exception("Semantic error: ${result.getErrors()}")

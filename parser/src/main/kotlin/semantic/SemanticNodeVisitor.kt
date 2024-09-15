@@ -21,7 +21,6 @@ import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
 
 class SemanticNodeVisitor(
-    private val typeCheck: TypeCheck,
     private val storageManager: StorageManager,
     private val operationCheck: OperationCheck,
     private val resultFactory: ResultFactory,
@@ -49,7 +48,7 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(variableDeclarationStatement: VariableDeclarationStatement): ResultInformation {
-        return typeCheck.checkVariableDeclaration(variableDeclarationStatement, this)
+        return storageManager.handleVariableDeclaration(variableDeclarationStatement, this)
     }
 
     override fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement): ResultInformation {
@@ -83,6 +82,8 @@ class SemanticNodeVisitor(
         return when (value) {
             is String -> DataType.STRING
             is Double -> DataType.NUMBER
+            is Boolean -> DataType.BOOLEAN
+            is EmptyValue -> DataType.NULL
             else -> throw IllegalArgumentException("Unknown data type")
         }
     }
