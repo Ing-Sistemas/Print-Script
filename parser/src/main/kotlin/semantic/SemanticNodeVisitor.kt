@@ -1,16 +1,14 @@
 package org.example.parser.semantic
 
-import ASTNode
 import AssignmentStatement
 import BinaryExpression
+import BooleanLiteral
 import BooleanValue
-import Expression
+import EmptyVarDeclarationStatement
 import FunctionCallStatement
 import IdentifierExpression
-import Literal
 import NumberLiteral
 import NumberValue
-import Statement
 import StoredValue
 import StringLiteral
 import StringValue
@@ -22,83 +20,55 @@ import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
 
 class SemanticNodeVisitor(
-    private val typeCheck: TypeCheck,
     private val storageManager: StorageManager,
     private val operationCheck: OperationCheck,
     private val resultFactory: ResultFactory,
 ) : Visitor<ResultInformation> {
 
-    override fun visit(expression: Expression): ResultInformation {
-        return when (expression) {
-            is BinaryExpression -> visit(expression)
-            is UnaryExpression -> visit(expression)
-            is IdentifierExpression -> visit(expression)
-            is TypeDeclarationExpression -> visit(expression)
-            is Literal -> visit(expression)
-            else -> resultFactory.createError("Unsupported Expression type")
-        }
+    override fun visit(numberLiteral: NumberLiteral): ResultInformation {
+        return resultFactory.create(NumberValue(numberLiteral.getValue()), DataType.NUMBER)
     }
 
-    override fun visit(literal: Literal): ResultInformation {
-        return when (literal) {
-            is NumberLiteral -> visit(literal)
-            is StringLiteral -> visit(literal)
-            else -> resultFactory.createError("Unsupported Literal type")
-        }
+    override fun visit(stringLiteral: StringLiteral): ResultInformation {
+        return resultFactory.create(StringValue(stringLiteral.getValue()), DataType.STRING)
     }
 
-    override fun visit(statement: Statement): ResultInformation {
-        return when (statement) {
-            is AssignmentStatement -> visit(statement)
-            is VariableDeclarationStatement -> visit(statement)
-            is FunctionCallStatement -> visit(statement)
-            else -> resultFactory.createError("Unsupported Statement type")
-        }
+    override fun visit(booleanLiteral: BooleanLiteral): ResultInformation {
+        return resultFactory.create(BooleanValue(booleanLiteral.getValue()), DataType.BOOLEAN)
     }
 
-    fun visit(node: ASTNode): ResultInformation {
-        return when (node) {
-            is Expression -> visit(node)
-            is Statement -> visit(node)
-            else -> resultFactory.createError("Unsupported ASTNode type")
-        }
-    }
-
-    private fun visit(literalNode: NumberLiteral): ResultInformation {
-        return resultFactory.create(NumberValue(literalNode.getValue()), DataType.NUMBER)
-    }
-    private fun visit(literalNode: StringLiteral): ResultInformation {
-        return resultFactory.create(StringValue(literalNode.getValue()), DataType.STRING)
-    }
-
-    private fun visit(typeDeclaration: TypeDeclarationExpression): ResultInformation {
-        val type = convertToDataType(typeDeclaration.getType())
+    override fun visit(typeDeclarationExpression: TypeDeclarationExpression): ResultInformation {
+        val type = convertToDataType(typeDeclarationExpression.getType())
         val defaultValue = convertToDefaultValues(type)
         return resultFactory.create(defaultValue, type)
     }
 
-    private fun visit(identifierNode: IdentifierExpression): ResultInformation {
-        return storageManager.getIdentifierResult(identifierNode)
+    override fun visit(identifierExpression: IdentifierExpression): ResultInformation {
+        return storageManager.getIdentifierResult(identifierExpression)
     }
 
-    private fun visit(variableDeclarationNode: VariableDeclarationStatement): ResultInformation {
-        return typeCheck.checkVariableDeclaration(variableDeclarationNode, this)
+    override fun visit(variableDeclarationStatement: VariableDeclarationStatement): ResultInformation {
+        return storageManager.handleVariableDeclaration(variableDeclarationStatement, this)
     }
 
-    private fun visit(binaryNode: BinaryExpression): ResultInformation {
-        return operationCheck.checkBinaryOperation(binaryNode, this)
+    override fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement): ResultInformation {
+        return storageManager.handleEmptyVariableDeclaration(emptyVarDeclarationStatement, this)
     }
 
-    private fun visit(assignmentNode: AssignmentStatement): ResultInformation {
-        return storageManager.handleAssignment(assignmentNode, this)
+    override fun visit(binaryExpression: BinaryExpression): ResultInformation {
+        return operationCheck.checkBinaryOperation(binaryExpression, this)
     }
 
-    private fun visit(unaryNode: UnaryExpression): ResultInformation {
+    override fun visit(assignmentStatement: AssignmentStatement): ResultInformation {
+        return storageManager.handleAssignment(assignmentStatement, this)
+    }
+
+    override fun visit(unaryExpression: UnaryExpression): ResultInformation {
         TODO("ver si tiene un - y q sea number type, ver si es necesario pq no tiene necesidad")
     }
 
-    private fun visit(callNode: FunctionCallStatement): ResultInformation {
-        val arguments = callNode.getArguments().map { visit(it) }
+    override fun visit(functionCallStatement: FunctionCallStatement): ResultInformation {
+        val arguments = functionCallStatement.getArguments().map { it.accept(this) }
         if (arguments.any { it.getErrors().isNotEmpty() }) {
             return resultFactory.createError("Error in function call arguments")
         }
@@ -110,6 +80,7 @@ class SemanticNodeVisitor(
         return when (value) {
             is String -> DataType.STRING
             is Double -> DataType.NUMBER
+            is Boolean -> DataType.BOOLEAN
             else -> throw IllegalArgumentException("Unknown data type")
         }
     }

@@ -108,11 +108,11 @@ class ParserTests {
     fun `Valid Boolean Declaration`() {
         val code = "let a:boolean = true;"
         val tokens = Lexer().tokenize(code)
-        // val ast = Parser().parse(tokens)
+        val ast = Parser().parse(tokens)
         val result = SyntacticAnalyzer().build(tokens)
-        val ast = if (result is SyntacticSuccess) {
-            result.astNode
-        } else { null }
+//        val ast = if (result is SyntacticSuccess) {
+//            result.astNode
+//        } else { null }
         assert(result is SyntacticSuccess)
         assert(JsonTester().testJson(ast!!, "booleanDec"))
     }
@@ -128,5 +128,19 @@ class ParserTests {
         } else { null }
         assert(result is SyntacticSuccess)
         assert(JsonTester().testJson(ast!!, "unaryExpression"))
+    }
+
+    @Test
+    fun `valid empty variable declaration`() {
+        val code = "let a: string;"
+        val tokens = Lexer().tokenize(code)
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `test type declaration node`() {
+        val code = "let b: boolean; b = true; b = false;"
+        val tokens = Lexer().tokenize(code)
+        assertDoesNotThrow { Parser().parse(tokens) }
     }
 }
