@@ -4,7 +4,6 @@ import AssignmentStatement
 import BinaryExpression
 import BooleanLiteral
 import BooleanValue
-import EmptyValue
 import EmptyVarDeclarationStatement
 import FunctionCallStatement
 import IdentifierExpression
@@ -53,9 +52,7 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement): ResultInformation {
-        if (emptyVarDeclarationStatement.getDeclarator() == "const") {
-        }
-        return resultFactory.createError("To implement emptyVarDeclarationStatement")
+        return storageManager.handleEmptyVariableDeclaration(emptyVarDeclarationStatement)
     }
 
     override fun visit(binaryExpression: BinaryExpression): ResultInformation {
@@ -84,7 +81,6 @@ class SemanticNodeVisitor(
             is String -> DataType.STRING
             is Double -> DataType.NUMBER
             is Boolean -> DataType.BOOLEAN
-            is EmptyValue -> DataType.NULL
             else -> throw IllegalArgumentException("Unknown data type")
         }
     }
@@ -94,7 +90,6 @@ class SemanticNodeVisitor(
             DataType.STRING -> StringValue("")
             DataType.NUMBER -> NumberValue(0.0)
             DataType.BOOLEAN -> BooleanValue(false)
-            DataType.NULL -> EmptyValue(null)
         }
     }
 }

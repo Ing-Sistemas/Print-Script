@@ -17,8 +17,3 @@ data class BooleanValue(val value: Boolean, val isMutable: Boolean = true) : Sto
     override fun getType() = "boolean"
     override fun getMutability() = isMutable
 }
-
-data class EmptyValue(val value: Nothing?, val isMutable: Boolean = true) : StoredValue {
-    override fun getType() = "null"
-    override fun getMutability() = isMutable
-}

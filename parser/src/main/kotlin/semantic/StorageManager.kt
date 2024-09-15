@@ -2,7 +2,7 @@ package org.example.parser.semantic
 
 import AssignmentStatement
 import BooleanValue
-import EmptyValue
+import EmptyVarDeclarationStatement
 import IdentifierExpression
 import NumberValue
 import StoredValue
@@ -63,6 +63,25 @@ class StorageManager(
         }
     }
 
+    fun handleEmptyVariableDeclaration(
+        node: EmptyVarDeclarationStatement,
+    ): ResultInformation {
+        val declarator = node.getDeclarator()
+        val identifier = node.getIdentifier().getIdentifier()
+        val typeForVariable = parseToDataType(node.getTypeDeclarationExpression().getType())
+
+        val isMutable = declarator != "const"
+        val inStorage = identifier in storage
+        if (!isMutable && !inStorage) {
+            storage[identifier] = dataTypeToEmptyStoredValue(typeForVariable, false)
+        } else if (isMutable && !inStorage) {
+            storage[identifier] = dataTypeToEmptyStoredValue(typeForVariable, true)
+        } else {
+            return result.createError("Identifier already declared")
+        }
+        return result.create(storage[identifier]!!, typeForVariable)
+    }
+
     private fun updateVariable(
         identifierResult: ResultInformation,
         valueResult: ResultInformation,
@@ -79,7 +98,6 @@ class StorageManager(
             "string" -> DataType.STRING
             "number" -> DataType.NUMBER
             "boolean" -> DataType.BOOLEAN
-            "null" -> DataType.NULL
             else -> DataType.STRING
         }
     }
@@ -89,7 +107,14 @@ class StorageManager(
             DataType.STRING -> StringValue(result.getValue(), isMutable)
             DataType.NUMBER -> NumberValue(result.getValue(), isMutable)
             DataType.BOOLEAN -> BooleanValue(result.getValue(), isMutable)
-            DataType.NULL -> EmptyValue(result.getValue(), isMutable)
+        }
+    }
+
+    private fun dataTypeToEmptyStoredValue(type: DataType, isMutable: Boolean): StoredValue {
+        return when (type) {
+            DataType.STRING -> StringValue("", isMutable)
+            DataType.NUMBER -> NumberValue(0.0, isMutable)
+            DataType.BOOLEAN -> BooleanValue(false, isMutable)
         }
     }
 }
