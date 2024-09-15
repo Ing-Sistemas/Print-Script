@@ -52,7 +52,7 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement): ResultInformation {
-        return storageManager.handleEmptyVariableDeclaration(emptyVarDeclarationStatement)
+        return storageManager.handleEmptyVariableDeclaration(emptyVarDeclarationStatement, this)
     }
 
     override fun visit(binaryExpression: BinaryExpression): ResultInformation {

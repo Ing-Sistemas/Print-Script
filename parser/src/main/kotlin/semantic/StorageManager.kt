@@ -65,10 +65,13 @@ class StorageManager(
 
     fun handleEmptyVariableDeclaration(
         node: EmptyVarDeclarationStatement,
+        visitor: Visitor<ResultInformation>,
     ): ResultInformation {
         val declarator = node.getDeclarator()
         val identifier = node.getIdentifier().getIdentifier()
-        val typeForVariable = parseToDataType(node.getTypeDeclarationExpression().getType())
+        val typeDecNode = node.getTypeDeclarationExpression()
+        val typeNodeResult = typeDecNode.accept(visitor)
+        val typeForVariable = typeNodeResult.getType()
 
         val isMutable = declarator != "const"
         val inStorage = identifier in storage
