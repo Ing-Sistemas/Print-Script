@@ -8,21 +8,17 @@ class Lexer(
     }
     private var currentLine: String? = null
     private var currentIndex = 0
-    private var lineNumber = 1
+    private var lineNumber = 0
 
     fun tokenize(input: Iterator<String>): Iterator<Token> {
         return object : Iterator<Token> {
             override fun hasNext(): Boolean {
-                while (currentLine == null || currentIndex >= currentLine!!.length) {
-                    if (input.hasNext()) {
-                        currentLine = input.next()
-                        currentIndex = 0
-                        lineNumber++
-                    } else {
-                        return false
-                    }
+                while ((currentLine == null || currentIndex >= currentLine!!.length) && input.hasNext()) {
+                    currentLine = input.next().trim()
+                    currentIndex = 0
+                    lineNumber++
                 }
-                return currentLine != null
+                return currentLine != null && currentIndex < currentLine!!.length
             }
             override fun next(): Token {
                 if (!hasNext()) throw NoSuchElementException()
@@ -32,19 +28,22 @@ class Lexer(
                             val matcher = regex.find(line, currentIndex)
                             if (matcher != null && matcher.range.first == currentIndex) {
                                 val tokenValue = matcher.value
-                                val tokenPosition = Position(currentIndex + 1, lineNumber)
+                                val tokenPosition = Position(currentIndex, lineNumber)
                                 currentIndex += tokenValue.length
                                 return Token(tokenType, tokenValue, tokenPosition)
                             }
                         }
                         if (line[currentIndex].isWhitespace()) {
                             currentIndex++
-                        } else {
-                            throw Exception("Unexpected character '${line[currentIndex]}' at line: $lineNumber, column: ${currentIndex + 1}")
                         }
+                        /*
+                        else {
+                            throw Exception("Unexpected character '${line[currentIndex]}' at line: $lineNumber, column: ${currentIndex + 1}")
+                        } TODO ask if necessary, all Unexpected chars are turned into identifiers tho
+                         */
                     }
                 }
-                throw NoSuchElementException("No token found")
+                throw NoSuchElementException("No more tokens on the current line")
             }
         }
     }
