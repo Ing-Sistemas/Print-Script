@@ -41,7 +41,7 @@ class TokenPatternProvider {
                 CLOSING_PARENS to Regex("\\)"),
                 OPENING_CURLY_BRACKS to Regex("\\{"),
                 CLOSING_CURLY_BRACKS to Regex("}"),
-                BOOLEAN_TYPE to Regex("\"boolean\""),
+                BOOLEAN_TYPE to Regex("boolean"),
                 BOOLEAN to Regex("true|false"),
                 IDENTIFIER to Regex("[a-zA-Z_][a-zA-Z_0-9]*"),
             )
