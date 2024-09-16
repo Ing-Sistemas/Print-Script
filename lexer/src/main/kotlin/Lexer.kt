@@ -14,7 +14,7 @@ class Lexer(
         return object : Iterator<Token> {
             override fun hasNext(): Boolean {
                 while ((currentLine == null || currentIndex >= currentLine!!.length) && input.hasNext()) {
-                    currentLine = input.next().trim()
+                    currentLine = input.next()
                     currentIndex = 0
                     lineNumber++
                 }
