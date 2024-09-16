@@ -13,13 +13,15 @@ class SyntacticAnalyzer {
         ExpressionBuilder(),
     )
 
-    fun build(tokens: List<Token>): SyntacticResult {
-        if (tokens[tokens.lastIndex].getType() != TokenType.SEMICOLON) return SyntacticFail("Missing ';' at pos: ${tokens.last().getPosition().getColumn()}")
+    fun build(tokens: Iterator<Token>): SyntacticResult {
+        val tokenList = TokenAccumulator().getTokens(tokens)
+
+        if (tokenList[tokenList.lastIndex].getType() != TokenType.SEMICOLON) return SyntacticFail("Missing ';' at pos: ${tokenList.last().getPosition().getColumn()}")
         for (builder in builderStrategy) {
-            if (builder.isValidStruct(tokens)) {
-                return SyntacticSuccess(builder.build(tokens))
+            if (builder.isValidStruct(tokenList)) {
+                return SyntacticSuccess(builder.build(tokenList))
             }
         }
-        return SyntacticFail("Invalid syntactic structure at ${tokens.first().getValue()} in: ${tokens.first().getPosition().getLine()} ")
+        return SyntacticFail("Invalid syntactic structure at ${tokenList.first().getValue()} in: ${tokenList.first().getPosition().getLine()} ")
     }
 }

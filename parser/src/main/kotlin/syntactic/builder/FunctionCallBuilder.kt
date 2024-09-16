@@ -58,7 +58,7 @@ class FunctionCallBuilder : ASTBuilderStrategy {
                 }
                 bodyList.add(nextToken)
             }
-            val result = SyntacticAnalyzer().build(bodyList)
+            val result = SyntacticAnalyzer().build(bodyList.iterator())
             if (result is SyntacticSuccess) {
                 body.add(result.astNode)
             } else {

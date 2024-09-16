@@ -3,6 +3,7 @@ package org.example
 import Lexer
 import interpreters.Interpreter
 import org.example.parser.Parser
+import org.example.parser.syntactic.SyntacticAnalyzer
 import utils.Storage
 import java.io.InputStream
 
@@ -19,9 +20,7 @@ class Runner {
 
         val readerIterator = ReaderIterator().getLineIterator(inputStream)
         val tokens = Lexer(version).tokenize(readerIterator)
-        while (tokens.hasNext()) {
-            val token = tokens.next()
-            println("${token.getType()} line: ${token.getPosition().getLine()}  col: ${token.getPosition().getColumn()}  ${token.getValue()}")
-        }
+        val ast = SyntacticAnalyzer().build(tokens)
+        println(ast)
     }
 }
