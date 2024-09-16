@@ -32,9 +32,40 @@ data class LexerTestInput(
 )
 
 class LexerTester {
-    fun testResult(resultTokens: List<Token>, expectedTokens: List<TokenType>): Boolean {
-        return resultTokens.zip(expectedTokens).all { (token, expectedType) ->
-            token.getType() == expectedType
+    fun testResult(resultTokens: Iterator<Token>, expectedTokens: List<TokenType>): TestResult {
+        val resultList = mutableListOf<TokenType>()
+        while (resultTokens.hasNext()) {
+            val token = resultTokens.next()
+            resultList.add(token.getType())
         }
+        val mismatch = resultList.zip(expectedTokens).find { (tokenType, expectedType) ->
+            tokenType != expectedType
+        }
+        return if (mismatch == null) {
+            TestResult(passed = true, message = "All tokens match the expected values.")
+        } else {
+            val (tokenType, expectedType) = mismatch
+            TestResult(
+                passed = false,
+                message = "Token mismatch: got '$tokenType', expected '$expectedType'"
+            )
+        }
+    }
+}
+data class TestResult(val passed: Boolean, val message: String)
+
+class TestingStringIterator(private val string: String) : Iterator<String> {
+    private var isConsumed = false
+
+    override fun hasNext(): Boolean {
+        return !isConsumed
+    }
+
+    override fun next(): String {
+        if (isConsumed) {
+            throw NoSuchElementException("No more elements")
+        }
+        isConsumed = true
+        return string
     }
 }
