@@ -35,12 +35,10 @@ class Lexer(
                         }
                         if (line[currentIndex].isWhitespace()) {
                             currentIndex++
-                        }
-                        /*
-                        else {
+                        } else {
                             throw Exception("Unexpected character '${line[currentIndex]}' at line: $lineNumber, column: ${currentIndex + 1}")
-                        } TODO ask if necessary, all Unexpected chars are turned into identifiers tho
-                         */
+                        }
+
                     }
                 }
                 throw NoSuchElementException("No more tokens on the current line")
