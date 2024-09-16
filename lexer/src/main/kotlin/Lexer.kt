@@ -36,7 +36,7 @@ class Lexer(
                         if (line[currentIndex].isWhitespace()) {
                             currentIndex++
                         } else {
-                            throw Exception("Unexpected character '${line[currentIndex]}' at line: $lineNumber, column: ${currentIndex + 1}")
+                            throw Exception("Unexpected character '${line[currentIndex]}' at line: $lineNumber, column: $currentIndex")
                         }
 
                     }
