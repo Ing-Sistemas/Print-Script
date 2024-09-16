@@ -22,13 +22,11 @@ class ReaderIterator {
                 return currentLine
             }
             private fun advance(): String? {
-                while (scanner.hasNextLine()) {
-                    val line = scanner.nextLine().trim()
-                    if (line.isNotEmpty()) {
-                        return line
-                    }
+                return if (scanner.hasNextLine()) {
+                    scanner.nextLine()
+                } else {
+                    null
                 }
-                return null
             }
         }
     }

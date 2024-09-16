@@ -23,7 +23,7 @@ class Runner {
         val tokens = Lexer("1.0").tokenize(readerIterator)
         while (tokens.hasNext()) {
             val token = tokens.next()
-            println(token.getType())
+            println("${token.getType()} line: ${token.getPosition().getLine()}  col: ${token.getPosition().getColumn()}" )
         }
     }
 }
