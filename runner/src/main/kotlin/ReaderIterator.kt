@@ -2,7 +2,6 @@ package org.example
 
 import java.io.InputStream
 import java.util.Scanner
-import kotlin.io.path.fileVisitor
 
 class ReaderIterator {
 

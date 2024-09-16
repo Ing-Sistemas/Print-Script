@@ -2,7 +2,7 @@ import org.example.token.TokenType
 import org.example.token.TokenType.*
 
 class TokenPatternProvider {
-    fun getPatterns(version: String): Map<TokenType, Regex>  {
+    fun getPatterns(version: String): Map<TokenType, Regex> {
         val tokenPatterns: Map<TokenType, Regex> = when (version) {
             "1.0" -> mapOf(
                 ASSIGNMENT to Regex("="),

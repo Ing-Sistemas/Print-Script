@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class LexerTest {
 
@@ -11,5 +10,4 @@ class LexerTest {
         if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
         assert(testResult.passed)
     }
-
 }

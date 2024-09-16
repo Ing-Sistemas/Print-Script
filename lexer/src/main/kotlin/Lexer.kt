@@ -1,7 +1,7 @@
 import org.example.token.TokenType
 
 class Lexer(
-    private val version: String
+    private val version: String,
 ) {
     private val tokenPatterns: Map<TokenType, Regex> by lazy {
         TokenPatternProvider().getPatterns(version)
@@ -38,7 +38,6 @@ class Lexer(
                         } else {
                             throw Exception("Unexpected character '${line[currentIndex]}' at line: $lineNumber, column: $currentIndex")
                         }
-
                     }
                 }
                 throw NoSuchElementException("No more tokens on the current line")

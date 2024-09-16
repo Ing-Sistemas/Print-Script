@@ -1,10 +1,10 @@
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import org.example.token.TokenType
-import com.google.gson.Gson
 import java.io.InputStreamReader
 
 class JsonConverter {
-    fun fromJson(fileName: String): LexerTestElements{
+    fun fromJson(fileName: String): LexerTestElements {
         val classLoader = object {}.javaClass.classLoader
         val inputStream = classLoader.getResourceAsStream("$fileName.json")
             ?: throw IllegalArgumentException("File not found!")
@@ -15,7 +15,7 @@ class JsonConverter {
         val version = lexerTestInput.version
         val inputString = lexerTestInput.input
         val expectedTokens = lexerTestInput.expectedTokens
-        return LexerTestElements(version, inputString,expectedTokens)
+        return LexerTestElements(version, inputString, expectedTokens)
     }
 }
 
@@ -28,7 +28,7 @@ data class LexerTestElements(
 data class LexerTestInput(
     @SerializedName("version") val version: String,
     @SerializedName("input") val input: String,
-    @SerializedName("expectedTokens") val expectedTokens: List<TokenType>
+    @SerializedName("expectedTokens") val expectedTokens: List<TokenType>,
 )
 
 class LexerTester {
@@ -47,7 +47,7 @@ class LexerTester {
             val (tokenType, expectedType) = mismatch
             TestResult(
                 passed = false,
-                message = "Token mismatch: got '$tokenType', expected '$expectedType'"
+                message = "Token mismatch: got '$tokenType', expected '$expectedType'",
             )
         }
     }
