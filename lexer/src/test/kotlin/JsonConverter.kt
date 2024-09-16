@@ -52,6 +52,7 @@ class LexerTester {
         }
     }
 }
+
 data class TestResult(val passed: Boolean, val message: String)
 
 class TestingStringIterator(private val string: String) : Iterator<String> {

@@ -18,5 +18,13 @@ class LexerTest {
         if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
         assert(testResult.passed)
     }
+    @Test
+    fun `Binary Expression`() {
+        val elements = JsonConverter().fromJson("1.0/golden/binary_expression")
+        val result = Lexer("1.0").tokenize(TestingStringIterator(elements.input))
+        val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
+        if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
+        assert(testResult.passed)
+    }
 
 }
