@@ -10,6 +10,7 @@ class LexerTest {
         if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
         assert(testResult.passed)
     }
+
     @Test
     fun `Println fun call statements`() {
         val elements = JsonConverter().fromJson("1.0/golden/println_call")
@@ -18,6 +19,7 @@ class LexerTest {
         if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
         assert(testResult.passed)
     }
+
     @Test
     fun `Binary Expression`() {
         val elements = JsonConverter().fromJson("1.0/golden/binary_expression")
@@ -26,5 +28,4 @@ class LexerTest {
         if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
         assert(testResult.passed)
     }
-
 }
