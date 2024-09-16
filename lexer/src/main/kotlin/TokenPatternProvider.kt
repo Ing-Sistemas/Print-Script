@@ -11,7 +11,6 @@ class TokenPatternProvider {
                 KEYWORD to Regex("\\b(let)\\b"),
                 LITERAL_NUMBER to Regex("\\d+(\\.\\d+)?"),
                 LITERAL_STRING to Regex("\".*?\"|'.*?'"),
-                IDENTIFIER to Regex("[a-zA-Z_][a-zA-Z_0-9]*"),
                 STRING_TYPE to Regex("string"),
                 NUMBER_TYPE to Regex("number"),
                 PLUS_OPERATOR to Regex("\\+"),
@@ -21,11 +20,11 @@ class TokenPatternProvider {
                 FUNCTION_CALL to Regex("\\b(println)\\b"),
                 OPENING_PARENS to Regex("\\("),
                 CLOSING_PARENS to Regex("\\)"),
+                IDENTIFIER to Regex("[a-zA-Z_][a-zA-Z_0-9]*"),
             )
 
             "1.1" -> mapOf(
                 KEYWORD to Regex("\\b(let|const)\\b"),
-                IDENTIFIER to Regex("[a-zA-Z_][a-zA-Z0-9_]*"),
                 ASSIGNMENT to Regex("="),
                 SEMICOLON to Regex(";"),
                 COLON to Regex(":"),
@@ -44,6 +43,7 @@ class TokenPatternProvider {
                 CLOSING_CURLY_BRACKS to Regex("}"),
                 BOOLEAN_TYPE to Regex("\"boolean\""),
                 BOOLEAN to Regex("true|false"),
+                IDENTIFIER to Regex("[a-zA-Z_][a-zA-Z_0-9]*"),
             )
             else -> throw IllegalArgumentException("Unsupported version: $version")
         }
