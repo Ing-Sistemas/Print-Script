@@ -68,12 +68,22 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(functionCallStatement: FunctionCallStatement): ResultInformation {
-        val arguments = functionCallStatement.getArguments().map { it.accept(this) }
-        if (arguments.any { it.getErrors().isNotEmpty() }) {
-            return resultFactory.createError("Error in function call arguments")
+        if (functionCallStatement.getFunctionName() == "if") {
+            val args = functionCallStatement.getArguments()
+            if (args.all { it is BooleanLiteral }) {
+                return resultFactory.create(StringValue(""), DataType.STRING)
+            } else {
+                return resultFactory.createError("Not all arguments are BooleanLiteral")
+            }
+        } else { // meaning it's a println (atm)
+            val arguments = functionCallStatement.getBody()?.map { it.accept(this) }
+            if (arguments != null) {
+                if (arguments.any { it.getErrors().isNotEmpty() }) {
+                    return resultFactory.createError("Error in function call body")
+                }
+            }
         }
         return resultFactory.create(StringValue(""), DataType.STRING)
-        // check if inside the condition there's a bool
     }
 
     private fun convertToDataType(value: Any): DataType {
