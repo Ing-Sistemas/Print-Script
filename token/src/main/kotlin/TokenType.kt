@@ -22,4 +22,6 @@ enum class TokenType {
     CLOSING_CURLY_BRACKS,
     BOOLEAN_TYPE,
     BOOLEAN,
+    IF,
+    ELSE
 }

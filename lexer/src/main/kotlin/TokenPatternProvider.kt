@@ -36,13 +36,15 @@ class TokenPatternProvider {
                 MINUS_OPERATOR to Regex("-"),
                 MULTIPLY_OPERATOR to Regex("\\*"),
                 DIVIDE_OPERATOR to Regex("/"),
-                FUNCTION_CALL to Regex("\\b(if|else|println)\\b"),
+                FUNCTION_CALL to Regex("\\b(println)\\b"),
                 OPENING_PARENS to Regex("\\("),
                 CLOSING_PARENS to Regex("\\)"),
                 OPENING_CURLY_BRACKS to Regex("\\{"),
                 CLOSING_CURLY_BRACKS to Regex("}"),
                 BOOLEAN_TYPE to Regex("boolean"),
                 BOOLEAN to Regex("true|false"),
+                IF to Regex("\\b(if)\\b"),
+                ELSE to Regex("\\b(else)\\b"),
                 IDENTIFIER to Regex("[a-zA-Z_][a-zA-Z_0-9]*"),
             )
             else -> throw IllegalArgumentException("Unsupported version: $version")
