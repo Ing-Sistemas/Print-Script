@@ -1,6 +1,6 @@
 {
   "condition": {
-    "identifier": "a",
+    "value": true,
     "position": {
       "column": 3,
       "line": 1
@@ -13,13 +13,13 @@
         {
           "value": "'hola'",
           "position": {
-            "column": 14,
+            "column": 17,
             "line": 1
           }
         }
       ],
       "position": {
-        "column": 6,
+        "column": 9,
         "line": 1
       }
     }
@@ -31,13 +31,13 @@
         {
           "value": "'chau'",
           "position": {
-            "column": 38,
+            "column": 41,
             "line": 1
           }
         }
       ],
       "position": {
-        "column": 30,
+        "column": 33,
         "line": 1
       }
     }
