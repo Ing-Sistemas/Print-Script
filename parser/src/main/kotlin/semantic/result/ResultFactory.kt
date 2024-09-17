@@ -35,7 +35,6 @@ class ResultFactory {
 
     fun mergeResults(vararg results: ResultInformation): ResultInformation {
         val errors = results.flatMap { it.getErrors() }
-        // if (errors.isNotEmpty()) return createError(errors.joinToString("; "))
         val lastResult = results.last()
         return create(lastResult.getValue(), lastResult.getType(), errors)
     }

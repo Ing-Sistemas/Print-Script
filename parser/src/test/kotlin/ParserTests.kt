@@ -146,4 +146,25 @@ class ParserTests {
         assert(result is SyntacticSuccess)
         assert(JsonTester().testJson(ast!!, "unaryExpression"))
     }
+
+    @Test
+    fun `valid empty variable declaration`() {
+        val code = "let a: string;"
+        val tokens = Lexer().tokenize(code)
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `test type declaration node`() {
+        val code = "let b: boolean; b = true; b = false;"
+        val tokens = Lexer().tokenize(code)
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `test if case scenario`() {
+        val code = "let a: string = 'hola'; if (true) { println('chau'); };"
+        val tokens = Lexer().tokenize(code)
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
 }
