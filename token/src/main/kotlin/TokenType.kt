@@ -23,5 +23,5 @@ enum class TokenType {
     BOOLEAN_TYPE,
     BOOLEAN,
     IF,
-    ELSE
+    ELSE,
 }

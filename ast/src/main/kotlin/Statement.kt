@@ -50,7 +50,7 @@ class IfStatement(
     private val thenBlock: List<ASTNode>,
     private val elseBlock: List<ASTNode>?,
     private val position: Position,
-): Statement {
+) : Statement {
     fun getCondition(): Expression = condition
     fun getThenStatement(): List<ASTNode> = thenBlock
     fun getElseStatement(): List<ASTNode>? = elseBlock

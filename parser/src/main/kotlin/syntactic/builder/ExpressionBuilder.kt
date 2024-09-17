@@ -29,6 +29,8 @@ class ExpressionBuilder : ASTBuilderStrategy {
         LITERAL_NUMBER,
         LITERAL_STRING,
         BOOLEAN,
+        OPENING_PARENS,
+        CLOSING_PARENS,
     )
 
     override fun build(tokens: List<Token>): Expression {
@@ -64,13 +66,13 @@ class ExpressionBuilder : ASTBuilderStrategy {
             LITERAL_NUMBER -> handleLeaf(token, tokensToParse)
             IDENTIFIER -> handleLeaf(token, tokensToParse)
             MINUS_OPERATOR -> handleUnary(token, tokensToParse)
-            OPENING_PARENS -> handleParensExpression(token,tokensToParse)
+            OPENING_PARENS -> handleParensExpression(token, tokensToParse)
             else -> null
         }
     }
 
     private fun handleLeaf(token: Token, tokensToParse: ListIterator<Token>): Expression {
-        return when(token.getType()) {
+        return when (token.getType()) {
             LITERAL_STRING -> {
                 tokensToParse.next()
                 StringLiteral(token.getValue(), token.getPosition())
@@ -87,7 +89,7 @@ class ExpressionBuilder : ASTBuilderStrategy {
                 tokensToParse.next() // same this as previous man
                 IdentifierExpression(token.getValue(), token.getPosition())
             }
-            else -> {throw Exception("Unexpected leaf token.")}
+            else -> { throw Exception("Unexpected leaf token.") }
         }
     }
 
@@ -108,7 +110,6 @@ class ExpressionBuilder : ASTBuilderStrategy {
         }
         return expr
     }
-
 
     private fun peek(tokensToParse: ListIterator<Token>): Token? {
         return if (tokensToParse.hasNext()) {

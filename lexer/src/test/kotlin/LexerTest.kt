@@ -29,18 +29,18 @@ class LexerTest {
         assert(testResult.passed)
     }
 
-
     @Test
-    fun `If function call statement`() {
+    fun `If call statement`() {
         val elements = JsonConverter().fromJson("1.1/golden/if_function_call")
         val result = Lexer(elements.version).tokenize(TestingStringIterator(elements.input))
         val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
         if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
         assert(testResult.passed)
     }
+
     @Test
     fun `Boolean variable declaration statement`() {
-        val elements = JsonConverter().fromJson("1.1/golden/if_function_call")
+        val elements = JsonConverter().fromJson("1.1/golden/boolean_variable_declaration")
         val result = Lexer(elements.version).tokenize(TestingStringIterator(elements.input))
         val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
         if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)

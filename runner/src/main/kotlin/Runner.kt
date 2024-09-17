@@ -20,7 +20,7 @@ class Runner {
 
         val readerIterator = ReaderIterator().getLineIterator(inputStream)
         val tokens = Lexer(version).tokenize(readerIterator)
+
         val ast = SyntacticAnalyzer().build(tokens)
-        println(ast)
     }
 }

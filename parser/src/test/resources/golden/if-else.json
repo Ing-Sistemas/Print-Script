@@ -24,6 +24,24 @@
       }
     }
   ],
+  "elseBlock": [
+    {
+      "functionName": "println",
+      "arguments": [
+        {
+          "value": "'chau'",
+          "position": {
+            "column": 38,
+            "line": 1
+          }
+        }
+      ],
+      "position": {
+        "column": 30,
+        "line": 1
+      }
+    }
+  ],
   "position": {
     "column": 0,
     "line": 1
