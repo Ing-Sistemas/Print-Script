@@ -7,6 +7,7 @@ import BooleanValue
 import EmptyVarDeclarationStatement
 import FunctionCallStatement
 import IdentifierExpression
+import IfStatement
 import NumberLiteral
 import NumberValue
 import StoredValue
@@ -35,6 +36,10 @@ class SemanticNodeVisitor(
 
     override fun visit(booleanLiteral: BooleanLiteral): ResultInformation {
         return resultFactory.create(BooleanValue(booleanLiteral.getValue()), DataType.BOOLEAN)
+    }
+
+    override fun visit(ifStatement: IfStatement): ResultInformation {
+        TODO("Not yet implemented")
     }
 
     override fun visit(typeDeclarationExpression: TypeDeclarationExpression): ResultInformation {

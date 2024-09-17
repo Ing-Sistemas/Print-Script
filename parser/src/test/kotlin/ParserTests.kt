@@ -150,21 +150,24 @@ class ParserTests {
     @Test
     fun `valid empty variable declaration`() {
         val code = "let a: string;"
-        val tokens = Lexer().tokenize(code)
+        val input = listOf(code).iterator()
+        val tokens = Lexer("1.0").tokenize(input)
         assertDoesNotThrow { Parser().parse(tokens) }
     }
 
     @Test
     fun `test type declaration node`() {
         val code = "let b: boolean; b = true; b = false;"
-        val tokens = Lexer().tokenize(code)
+        val input = listOf(code).iterator()
+        val tokens = Lexer("1.1").tokenize(input)
         assertDoesNotThrow { Parser().parse(tokens) }
     }
 
     @Test
     fun `test if case scenario`() {
         val code = "let a: string = 'hola'; if (true) { println('chau'); };"
-        val tokens = Lexer().tokenize(code)
+        val input = listOf(code).iterator()
+        val tokens = Lexer("1.1").tokenize(input)
         assertDoesNotThrow { Parser().parse(tokens) }
     }
 }

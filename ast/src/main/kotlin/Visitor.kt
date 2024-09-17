@@ -10,4 +10,5 @@ interface Visitor<T> {
     fun visit(numberLiteral: NumberLiteral): T
     fun visit(stringLiteral: StringLiteral): T
     fun visit(booleanLiteral: BooleanLiteral): T
+    fun visit(ifStatement: IfStatement): T
 }
