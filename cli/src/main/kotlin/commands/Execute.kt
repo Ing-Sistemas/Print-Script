@@ -1,14 +1,9 @@
 package org.example.commands
 
-import Lexer
-import Token
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import interpreters.Interpreter
 import org.example.CLIContext
 import org.example.Runner
-import org.example.parser.Parser
-import utils.Storage
 import java.io.File
 
 class Execute : CliktCommand(

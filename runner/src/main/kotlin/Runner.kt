@@ -3,7 +3,6 @@ package org.example
 import Lexer
 import interpreters.Interpreter
 import org.example.parser.Parser
-import org.example.parser.syntactic.SyntacticAnalyzer
 import utils.Storage
 import java.io.InputStream
 

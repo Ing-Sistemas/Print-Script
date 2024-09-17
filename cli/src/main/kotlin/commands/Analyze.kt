@@ -39,7 +39,7 @@ class Analyze : CliktCommand(
             val linter = StaticCodeAnalyzer(config)
             val readerIterator = ReaderIterator().getLineIterator(inputFile.inputStream())
             val lexer = Lexer(version).tokenize(readerIterator)
-            while (lexer.hasNext()){
+            while (lexer.hasNext()) {
                 val token = lexer.next()
                 tokens.add(token)
             }

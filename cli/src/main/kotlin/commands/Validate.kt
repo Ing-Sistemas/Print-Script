@@ -1,10 +1,8 @@
 package org.example.commands
 
 import Lexer
-import Token
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import linters.StaticCodeAnalyzer
 import org.example.CLIContext
 import org.example.ReaderIterator
 import org.example.parser.Parser
