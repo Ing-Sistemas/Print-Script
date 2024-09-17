@@ -13,15 +13,15 @@ class Lexer(
     fun tokenize(input: Iterator<String>): Iterator<Token> {
         return object : Iterator<Token> {
             override fun hasNext(): Boolean {
+                return input.hasNext() || (currentLine != null && currentIndex < currentLine!!.length)
+            }
+
+            override fun next(): Token {
                 while ((currentLine == null || currentIndex >= currentLine!!.length) && input.hasNext()) {
                     currentLine = input.next()
                     currentIndex = 0
                     lineNumber++
                 }
-                return currentLine != null && currentIndex < currentLine!!.length
-            }
-            override fun next(): Token {
-                if (!hasNext()) throw NoSuchElementException()
                 currentLine?.let { line ->
                     while (currentIndex < line.length) {
                         for ((tokenType, regex) in tokenPatterns) {
