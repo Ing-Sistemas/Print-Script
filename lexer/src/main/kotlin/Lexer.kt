@@ -1,37 +1,47 @@
-import org.example.token.TokenMatcher
+import org.example.token.TokenType
 
-class Lexer {
-    private var position = 0
-    private val tokenMatcher = TokenMatcher()
+class Lexer(
+    private val version: String,
+) {
+    private val tokenPatterns: Map<TokenType, Regex> by lazy {
+        TokenPatternProvider().getPatterns(version)
+    }
+    private var currentLine: String? = null
+    private var currentIndex = 0
+    private var lineNumber = 0
 
-    fun tokenize(input: String): List<Token> {
-        val tokenList = mutableListOf<Token>()
-        while (position < input.length) {
-            val token = nextToken(input)
-            if (token != null) {
-                tokenList.add(token)
+    fun tokenize(input: Iterator<String>): Iterator<Token> {
+        return object : Iterator<Token> {
+            override fun hasNext(): Boolean {
+                return input.hasNext() || (currentLine != null && currentIndex < currentLine!!.length)
+            }
+
+            override fun next(): Token {
+                while ((currentLine == null || currentIndex >= currentLine!!.length) && input.hasNext()) {
+                    currentLine = input.next()
+                    currentIndex = 0
+                    lineNumber++
+                }
+                currentLine?.let { line ->
+                    while (currentIndex < line.length) {
+                        for ((tokenType, regex) in tokenPatterns) {
+                            val matcher = regex.find(line, currentIndex)
+                            if (matcher != null && matcher.range.first == currentIndex) {
+                                val tokenValue = matcher.value
+                                val tokenPosition = Position(currentIndex, lineNumber)
+                                currentIndex += tokenValue.length
+                                return Token(tokenType, tokenValue, tokenPosition)
+                            }
+                        }
+                        if (line[currentIndex].isWhitespace()) {
+                            currentIndex++
+                        } else {
+                            throw Exception("Unexpected character '${line[currentIndex]}' at line: $lineNumber, column: $currentIndex")
+                        }
+                    }
+                }
+                throw NoSuchElementException("No more tokens on the current line")
             }
         }
-        return tokenList
-    }
-
-    private fun nextToken(input: String): Token? {
-        if (position >= input.length) {
-            return null
-        }
-        val restOfString = input.substring(position)
-
-        if (restOfString[0].isWhitespace()) {
-            // if space -> skip
-            position++
-            return nextToken(input)
-        }
-
-        val isMatch = tokenMatcher.match(input, position)
-        if (isMatch != null) {
-            position = isMatch.nextPosition
-            return isMatch.token
-        }
-        throw Exception("Bad character")
     }
 }

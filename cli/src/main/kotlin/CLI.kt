@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import com.github.ajalt.clikt.parameters.types.double
 import org.example.commands.Analyze
 import org.example.commands.Execute
 import org.example.commands.Format
@@ -15,11 +14,13 @@ class CLI : CliktCommand() {
 
     private val fileName by argument(help = "The file to use")
     private val config by argument(help = "JSON configuration").optional()
-    private val version by option(help = "The version of program").double().required()
+    private val version by option(help = "The version of program").required()
+
+    private val versions = setOf("1.0", "1.1")
 
     override fun run() {
         // Validate the version
-        if (version != 1.0) {
+        if (version !in versions) {
             throw CliktError("Your version '$version' is not supported.")
         }
 
@@ -38,7 +39,7 @@ class CLI : CliktCommand() {
 }
 
 data class CLIContext(
-    val version: Double,
+    val version: String,
     val config: String?,
     val fileName: String,
 )

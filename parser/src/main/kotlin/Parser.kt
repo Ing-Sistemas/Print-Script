@@ -16,7 +16,7 @@ class Parser {
     private val syntacticAnalyzer = SyntacticAnalyzer()
     private val semanticAnalyzer = SemanticAnalyzer()
 
-    fun parse(tokens: List<Token>): ASTNode {
+    fun parse(tokens: Iterator<Token>): ASTNode {
         return when (val syntacticResult = syntacticAnalyzer.build(tokens)) {
             is SyntacticFail -> {
                 throw Exception("Error: ${syntacticResult.message}")

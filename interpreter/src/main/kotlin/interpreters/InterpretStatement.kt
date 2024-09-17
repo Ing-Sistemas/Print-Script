@@ -4,6 +4,7 @@ import AssignmentStatement
 import BooleanValue
 import EmptyVarDeclarationStatement
 import FunctionCallStatement
+import IfStatement
 import NumberValue
 import Statement
 import StoredValue
@@ -71,6 +72,8 @@ class InterpretStatement {
                 val declarator = node.getDeclarator()
                 storage.addToStorage(declarator, null)
             }
+
+            is IfStatement -> TODO()
         }!!
     }
 

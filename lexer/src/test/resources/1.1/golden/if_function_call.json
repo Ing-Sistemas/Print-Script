@@ -1,0 +1,26 @@
+{
+    "version": "1.1",
+    "input": "if(true){println('opa');}else{println('opa');}",
+    "expectedTokens": [
+        "IF",
+        "OPENING_PARENS",
+        "BOOLEAN",
+        "CLOSING_PARENS",
+        "OPENING_CURLY_BRACKS",
+        "FUNCTION_CALL",
+        "OPENING_PARENS",
+        "LITERAL_STRING",
+        "CLOSING_PARENS",
+        "SEMICOLON",
+        "CLOSING_CURLY_BRACKS",
+        "ELSE",
+        "OPENING_CURLY_BRACKS",
+        "FUNCTION_CALL",
+        "OPENING_PARENS",
+        "LITERAL_STRING",
+        "CLOSING_PARENS",
+        "SEMICOLON",
+        "CLOSING_CURLY_BRACKS"
+
+    ]
+}

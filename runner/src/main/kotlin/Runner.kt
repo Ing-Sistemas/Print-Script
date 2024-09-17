@@ -4,6 +4,7 @@ import Lexer
 import interpreters.Interpreter
 import org.example.parser.Parser
 import utils.Storage
+import java.io.InputStream
 
 class Runner {
     private val parser = Parser()
@@ -11,13 +12,13 @@ class Runner {
     private val storage = Storage()
     private val versions = setOf("1.0", "1.1")
 
-    fun run(input: String, version: String): Any {
+    fun run(inputStream: InputStream, version: String) {
         if (version !in versions) {
             throw IllegalArgumentException("version: '$version' is not supported")
         }
 
-        val tokens = Lexer().tokenize(input)
-
-        return interpreter.interpret(parser.parse(tokens), storage)
+        val readerIterator = ReaderIterator().getLineIterator(inputStream)
+        val tokens = Lexer(version).tokenize(readerIterator)
+        interpreter.interpret(parser.parse(tokens), storage)
     }
 }

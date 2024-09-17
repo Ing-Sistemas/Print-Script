@@ -1,0 +1,17 @@
+{
+    "version": "1.0",
+    "input": "a = (-x + 3) * 3;",
+    "expectedTokens": [
+        "IDENTIFIER",
+        "ASSIGNMENT",
+        "OPENING_PARENS",
+        "MINUS_OPERATOR",
+        "IDENTIFIER",
+        "PLUS_OPERATOR",
+        "LITERAL_NUMBER",
+        "CLOSING_PARENS",
+        "MULTIPLY_OPERATOR",
+        "LITERAL_NUMBER",
+        "SEMICOLON"
+    ]
+}

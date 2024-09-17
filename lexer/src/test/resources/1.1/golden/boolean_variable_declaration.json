@@ -1,0 +1,13 @@
+{
+    "version": "1.1",
+    "input": "let a:boolean = true",
+    "expectedTokens": [
+        "KEYWORD",
+        "IDENTIFIER",
+        "COLON",
+        "BOOLEAN_TYPE",
+        "ASSIGNMENT",
+        "BOOLEAN",
+        "SEMICOLON"
+    ]
+}

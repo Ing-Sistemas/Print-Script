@@ -1,64 +1,49 @@
-import org.example.token.TokenType
 import org.junit.jupiter.api.Test
 
 class LexerTest {
 
-    val lexer = Lexer()
-
     @Test
-    fun LexerTokenizes() {
-        val input = "let x = 5;"
-        val tokens = lexer.tokenize(input)
-        assert(tokens.isNotEmpty())
+    fun `Variable declaration statement`() {
+        val elements = JsonConverter().fromJson("1.0/golden/variable_declaration")
+        val result = Lexer(elements.version).tokenize(TestingStringIterator(elements.input))
+        val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
+        if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
+        assert(testResult.passed)
     }
 
     @Test
-    fun firstElement() {
-        val input = "let"
-        val tokens = lexer.tokenize(input)
-        assert(tokens[0].getType() == TokenType.KEYWORD)
+    fun `Println fun call statement`() {
+        val elements = JsonConverter().fromJson("1.0/golden/println_call")
+        val result = Lexer(elements.version).tokenize(TestingStringIterator(elements.input))
+        val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
+        if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
+        assert(testResult.passed)
     }
 
     @Test
-    fun twoElements() {
-        val input = "let my_Var"
-        val tokens = lexer.tokenize(input)
-        assert(tokens[0].getType() == TokenType.KEYWORD)
-        assert(tokens[1].getType() == TokenType.IDENTIFIER)
+    fun `Binary Expression`() {
+        val elements = JsonConverter().fromJson("1.0/golden/binary_expression")
+        val result = Lexer(elements.version).tokenize(TestingStringIterator(elements.input))
+        val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
+        if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
+        assert(testResult.passed)
     }
 
     @Test
-    fun noElement() {
-        val input = "     "
-        val tokens = lexer.tokenize(input)
-        assert(tokens.isEmpty())
+    fun `If call statement`() {
+        val elements = JsonConverter().fromJson("1.1/golden/if_function_call")
+        val result = Lexer(elements.version).tokenize(TestingStringIterator(elements.input))
+        val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
+        if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
+        assert(testResult.passed)
     }
 
     @Test
-    fun fullElement() {
-        val input = "let myVar: string = 'my';"
-        val tokens = lexer.tokenize(input)
-        assert(tokens[0].getType() == TokenType.KEYWORD)
-        assert(tokens[1].getType() == TokenType.IDENTIFIER)
-        assert(tokens[2].getType() == TokenType.COLON)
-        assert(tokens[3].getType() == TokenType.STRING_TYPE)
-        assert(tokens[4].getType() == TokenType.ASSIGNMENT)
-        assert(tokens[5].getType() == TokenType.LITERAL_STRING)
-        assert(tokens[6].getType() == TokenType.SEMICOLON)
-    }
-
-    @Test
-    fun moreThanOneLine() {
-        val input = "let myVar: string = 'my'; let myVar2"
-        val tokens = lexer.tokenize(input)
-        assert(tokens[0].getType() == TokenType.KEYWORD)
-        assert(tokens[1].getType() == TokenType.IDENTIFIER)
-        assert(tokens[2].getType() == TokenType.COLON)
-        assert(tokens[3].getType() == TokenType.STRING_TYPE)
-        assert(tokens[4].getType() == TokenType.ASSIGNMENT)
-        assert(tokens[5].getType() == TokenType.LITERAL_STRING)
-        assert(tokens[6].getType() == TokenType.SEMICOLON)
-        assert(tokens[7].getType() == TokenType.KEYWORD)
-        assert(tokens[8].getType() == TokenType.IDENTIFIER)
+    fun `Boolean variable declaration statement`() {
+        val elements = JsonConverter().fromJson("1.1/golden/boolean_variable_declaration")
+        val result = Lexer(elements.version).tokenize(TestingStringIterator(elements.input))
+        val testResult = LexerTester().testResult(result, elements.expectedTokenTypes)
+        if (testResult.message != "All tokens match the expected values.") throw Exception(testResult.message)
+        assert(testResult.passed)
     }
 }
