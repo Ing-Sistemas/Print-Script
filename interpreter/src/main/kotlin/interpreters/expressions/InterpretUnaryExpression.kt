@@ -23,15 +23,23 @@ class InterpretUnaryExpression (
         val unaryNode = node as UnaryExpression
         val right = unaryNode.getRight()
         val useRight = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(right, storage)
-        if (useRight !is Double) {
+        if (useRight is InterpreterSuccess && useRight.getSuccess() !is NumberValue) {
             return InterpreterFailure("Unary expression must be a number")
         }
         when (unaryNode.getOperator()) {
             "-" -> {
-                val numberToUse = (useRight).unaryMinus()
+                val numberToUse = (toDouble(useRight)).unaryMinus()
                 return InterpreterSuccess(NumberValue(numberToUse))
             }
             else -> return InterpreterFailure("Unary operator ${node.getOperator()} not supported")
+        }
+    }
+    private fun toDouble (number: Any) : Double {
+        return when (number) {
+            is NumberValue -> {
+                number.value
+            }
+            else -> throw IllegalArgumentException("Value is not a number")
         }
     }
 }
