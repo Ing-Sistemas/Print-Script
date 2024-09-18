@@ -11,7 +11,7 @@
       "functionName": "println",
       "arguments": [
         {
-          "value": "'hola'",
+          "value": "hola",
           "position": {
             "column": 17,
             "line": 1
@@ -29,7 +29,7 @@
       "functionName": "println",
       "arguments": [
         {
-          "value": "'chau'",
+          "value": "chau",
           "position": {
             "column": 41,
             "line": 1
