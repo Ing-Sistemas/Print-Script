@@ -13,7 +13,10 @@ import StringLiteral
 import TypeDeclarationExpression
 import UnaryExpression
 import VariableDeclarationStatement
-import interpreters.Interpreter
+import Interpreter
+import interfaces.EnvProvider
+import interfaces.InputProvider
+import interfaces.OutPutProvider
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,9 +27,29 @@ class InterpreterTests {
     private lateinit var interpreter: Interpreter
     private lateinit var storage: Storage
 
+    private val mockOutPutProvider = object : OutPutProvider {
+        override fun output(message: String) {
+            println(message)
+        }
+    }
+
+    private val mockInputProvider = object : InputProvider {
+        override fun readInput(name: String): String? {
+            return "mockInput"
+        }
+    }
+
+    private val mockEnvProvider = object : EnvProvider {
+    }
+
     @BeforeEach
     fun setup() {
-        interpreter = Interpreter()
+        interpreter = Interpreter(
+            version = "1.1",
+            outPutProvider = mockOutPutProvider,
+            inputProvider = mockInputProvider,
+            envProvider = mockEnvProvider
+        )
         storage = Storage()
     }
 

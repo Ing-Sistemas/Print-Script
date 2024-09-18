@@ -6,66 +6,66 @@ import Expression
 import IdentifierExpression
 import NumberLiteral
 import StringLiteral
+import StringValue
 import TypeDeclarationExpression
 import UnaryExpression
+import interfaces.EnvProvider
+import interfaces.InputProvider
+import interfaces.InterpreterResult
+import interfaces.OutPutProvider
+import interpreters.expressions.InterpretBinaryExpression
+import interpreters.expressions.InterpretIdentifier
+import interpreters.expressions.InterpretUnaryExpression
+import utils.InterpreterSuccess
 import utils.Storage
 
-class InterpretExpression {
+class InterpretExpression (
+    private val version: String,
+    private val outPutProvider: OutPutProvider,
+    private val inputProvider: InputProvider,
+    private val envProvider: EnvProvider
+){
 
-    fun interpret(node: Expression, storage: Storage): Any {
-        return evaluateNode(node, storage)
-    }
-
-    private fun evaluateNode(node: Expression, storage: Storage): Any {
+    fun interpret(node: Expression, storage: Storage): InterpreterResult {
         return when (node) {
-            is BooleanLiteral -> InterpretLiteral().interpret(node, storage)
-            is NumberLiteral -> InterpretLiteral().interpret(node, storage)
-            is StringLiteral -> InterpretLiteral().interpret(node, storage)
             is BinaryExpression -> {
-                val left = evaluateNode(node.getLeft(), storage)
-                val right = evaluateNode(node.getRight(), storage)
-                val operator = node.getOperator()
-
-                when {
-                    left is Double && right is Double ->
-                        { applyOperator(left, operator, right) }
-
-                    left is String && right is String && operator == "+" ->
-                        { left + right }
-
-                    left is Double && right is String && operator == "+" ->
-                        { left.toString() + right }
-
-                    left is String && right is Double && operator == "+" ->
-                        { left + right.toString() }
-
-                    else -> { throw IllegalArgumentException("Invalid operands for operator: $operator") }
-                }
+                InterpretBinaryExpression(version, outPutProvider, inputProvider, envProvider).interpret(node, storage)
             }
             is UnaryExpression -> {
-                val right = node.getRight()
-                val useRight = interpret(right, storage)
-                when (node.getOperator()) {
-                    "-" -> -(useRight as Double)
-                    else -> throw IllegalArgumentException("Invalid operator")
-                }
+                InterpretUnaryExpression(
+                    version,
+                    outPutProvider,
+                    inputProvider,
+                    envProvider).interpret(node, storage)
             }
             is IdentifierExpression -> {
-                storage.getFromStorage(node.getIdentifier())!!
+                InterpretIdentifier(outPutProvider).interpret(node, storage)
             }
             is TypeDeclarationExpression -> {
-                return node.getType()
+                val nodeTypeString = StringValue(outPutProvider.output(node.getType()))
+                return InterpreterSuccess(nodeTypeString)
             }
-        }
-    }
-
-    private fun applyOperator(left: Double, operator: String, right: Double): Double {
-        return when (operator) {
-            "+" -> left + right
-            "-" -> left - right
-            "*" -> left * right
-            "/" -> left / right
-            else -> { throw IllegalArgumentException() }
+            is BooleanLiteral -> {
+                InterpretLiteral(
+                    version,
+                    outPutProvider,
+                    inputProvider,
+                    envProvider).interpret(node, storage)
+            }
+            is NumberLiteral -> {
+                InterpretLiteral(
+                    version,
+                    outPutProvider,
+                    inputProvider,
+                    envProvider).interpret(node, storage)
+            }
+            is StringLiteral -> {
+                InterpretLiteral(
+                    version,
+                    outPutProvider,
+                    inputProvider,
+                    envProvider).interpret(node, storage)
+            }
         }
     }
 }

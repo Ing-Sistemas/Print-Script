@@ -4,20 +4,43 @@ import BooleanLiteral
 import Literal
 import NumberLiteral
 import StringLiteral
+import interfaces.EnvProvider
+import interfaces.InputProvider
+import interfaces.InterpreterResult
+import interfaces.OutPutProvider
+import interpreters.literals.InterpretBooleanLiteral
+import interpreters.literals.InterpretNumberLiteral
+import interpreters.literals.InterpretStringLiteral
+import utils.InterpreterFailure
 import utils.Storage
 
-class InterpretLiteral {
+class InterpretLiteral (
+    private val version: String,
+    private val outPutProvider: OutPutProvider,
+    private val inputProvider: InputProvider,
+    private val envProvider: EnvProvider
+    ){
 
-    fun interpret(node: Literal, storage: Storage): Any {
+    fun interpret(node: Literal, storage: Storage) : InterpreterResult {
         return when (node) {
             is NumberLiteral -> {
-                return node.getValue()
+                InterpretNumberLiteral(outPutProvider).interpret(node, storage)
             }
             is StringLiteral -> {
-                return node.getValue()
+                InterpretStringLiteral(outPutProvider).interpret(node, storage)
             }
             is BooleanLiteral -> {
-                return node.getValue()
+                when (version) {
+                    "1.0" -> {
+                        return InterpreterFailure("Boolean literals are not supported in this version: $version")
+                    }
+                    "1.1" -> {
+                        InterpretBooleanLiteral(outPutProvider).interpret(node, storage)
+                    }
+                    else -> {
+                        return InterpreterFailure("Boolean literals are not supported in this version: $version")
+                    }
+                }
             }
         }
     }
