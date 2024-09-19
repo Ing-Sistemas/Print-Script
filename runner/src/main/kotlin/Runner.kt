@@ -3,9 +3,9 @@ package org.example
 import Interpreter
 import Lexer
 import org.example.parser.Parser
-import utils.DefaultEnvProvider
-import utils.DefaultInputProvider
-import utils.DefaultOutPutProvider
+import providers.DefaultEnvProvider
+import providers.DefaultInputProvider
+import providers.DefaultOutPutProvider
 import utils.Storage
 import java.io.InputStream
 
@@ -13,7 +13,7 @@ class Runner {
     private val parser = Parser()
     private val storage = Storage()
     private val versions = setOf("1.0", "1.1")
-    private val interpreter = Interpreter(String.toString(), outPutProvider = DefaultOutPutProvider() , inputProvider = DefaultInputProvider(), envProvider = DefaultEnvProvider())
+    private val interpreter = Interpreter(String.toString(), outPutProvider = DefaultOutPutProvider(), inputProvider = DefaultInputProvider(), envProvider = DefaultEnvProvider())
 
     fun run(inputStream: InputStream, version: String) {
         if (version !in versions) {
