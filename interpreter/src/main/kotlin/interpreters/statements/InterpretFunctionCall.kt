@@ -30,7 +30,19 @@ class InterpretFunctionCall (
                     envProvider).interpret(node, storage)
             }
             "1.1" -> {
-                TODO("readInput")
+                if (node.getFunctionName() == "println") {
+                    return InterpretPrint(
+                        version,
+                        outPutProvider,
+                        inputProvider,
+                        envProvider).interpret(node, storage)
+                }
+                if (node.getFunctionName() == "readInput"){
+                    TODO("readInput")
+                }
+                else {
+                    return InterpreterFailure("Function $functionName is not defined in 1.1")
+                }
             }
             else -> {
                 return InterpreterFailure("This function call (${node.getFunctionName()}) is not supported in this version: $version")

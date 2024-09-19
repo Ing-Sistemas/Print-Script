@@ -1,9 +1,13 @@
 package interpreters.expressions
 
+import BooleanValue
 import IdentifierExpression
+import NumberValue
+import StoredValue
 import StringValue
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
+import utils.InterpreterFailure
 import utils.InterpreterSuccess
 import utils.Storage
 
@@ -12,7 +16,12 @@ class InterpretIdentifier (
 ) {
 
     fun interpret(node: IdentifierExpression, storage: Storage) : InterpreterResult {
-        val value = StringValue(outPutProvider.output(storage.getFromStorage(node.getIdentifier()).toString()))
-        return InterpreterSuccess(value)
+        val value = storage.getFromStorage(node.getIdentifier())
+        return if (value is StoredValue) {
+            InterpreterSuccess(value)
+        } else {
+            InterpreterFailure("Identifier not found")
+        }
+
     }
 }

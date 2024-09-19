@@ -33,29 +33,31 @@ class InterpretBinaryExpression (
         val operator = node.getOperator()
         val nodeLeftResult = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(node.getLeft(), storage)
         val nodeRightResult = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(node.getRight(), storage)
-        val leftNodeConverted = changeValue(nodeLeftResult as InterpreterSuccess)
-        val rightNodeConverted = changeValue(nodeRightResult as InterpreterSuccess)
-        if (leftNodeConverted is BinaryExpression) {
-            interpret(leftNodeConverted, storage)
+        val leftNodeConverted = nodeLeftResult as InterpreterSuccess
+        val leftNode = leftNodeConverted.getOriginalValue()
+        val rightNodeConverted = nodeRightResult as InterpreterSuccess
+        val rightNode = rightNodeConverted.getOriginalValue()
+        if (leftNode is BinaryExpression) {
+            interpret(leftNode, storage)
         }
-        if (rightNodeConverted is BinaryExpression) {
-            interpret(rightNodeConverted, storage)
+        if (rightNode is BinaryExpression) {
+            interpret(rightNode, storage)
         }
         return when {
-            leftNodeConverted is Double && rightNodeConverted is Double -> {
-                InterpreterSuccess(NumberValue(applyOperator(leftNodeConverted, operator, rightNodeConverted)))
+            leftNode is Double && rightNode is Double -> {
+                InterpreterSuccess(NumberValue(applyOperator(leftNode, operator, rightNode)))
             }
 
-            leftNodeConverted is String && rightNodeConverted is String && operator == "+" -> {
-                InterpreterSuccess(StringValue(leftNodeConverted + rightNodeConverted))
+            leftNode is String && rightNode is String && operator == "+" -> {
+                InterpreterSuccess(StringValue(leftNode + rightNode))
             }
 
-            leftNodeConverted is Double && rightNodeConverted is String && operator == "+" -> {
-                InterpreterSuccess(StringValue(leftNodeConverted.toString() + rightNodeConverted))
+            leftNode is Double && rightNode is String && operator == "+" -> {
+                InterpreterSuccess(StringValue(leftNode.toString() + rightNode))
             }
 
-            leftNodeConverted is String && rightNodeConverted is Double && operator == "+" -> {
-                InterpreterSuccess(StringValue(leftNodeConverted + rightNodeConverted.toString()))
+            leftNode is String && rightNode is Double && operator == "+" -> {
+                InterpreterSuccess(StringValue(leftNode + rightNode.toString()))
             }
 
             else -> {

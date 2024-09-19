@@ -28,18 +28,19 @@ class InterpretUnaryExpression (
         }
         when (unaryNode.getOperator()) {
             "-" -> {
-                val numberToUse = (toDouble(useRight)).unaryMinus()
-                return InterpreterSuccess(NumberValue(numberToUse))
+                if (useRight is InterpreterSuccess) {
+                    val numberToUse = (useRight.getOriginalValue()) as Double
+                    val negateNumber = -numberToUse
+                    return InterpreterSuccess(toCustom(negateNumber))
+                }
+                else {
+                    return InterpreterFailure("There is an interpreter Failure in: $useRight")
+                }
             }
             else -> return InterpreterFailure("Unary operator ${node.getOperator()} not supported")
         }
     }
-    private fun toDouble (number: Any) : Double {
-        return when (number) {
-            is NumberValue -> {
-                number.value
-            }
-            else -> throw IllegalArgumentException("Value is not a number")
-        }
+    private fun toCustom (value: Any?): NumberValue {
+        return NumberValue(value as Double)
     }
 }

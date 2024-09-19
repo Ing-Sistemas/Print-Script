@@ -16,13 +16,16 @@ class InterpretPrint(
 
     fun interpret(node: FunctionCallStatement, storage: Storage) : InterpreterResult {
         val arguments = node.getArguments()
-        var toPrint = emptyList<String>()
+        val toPrint = mutableListOf<String>()
         for (argument in arguments) {
-            toPrint = listOf(outPutProvider.output(InterpretExpression(
+                val result = InterpretExpression(
                 version,
                 outPutProvider,
                 inputProvider,
-                envProvider).interpret(argument, storage).toString()))
+                envProvider).interpret(argument, storage)
+            if (result is InterpreterSuccess) {
+                toPrint.add(outPutProvider.output(result.getOriginalValue().toString()))
+            }
         }
         val result = StringValue(toPrint.joinToString(""))
         return InterpreterSuccess(result)

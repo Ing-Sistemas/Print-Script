@@ -1,6 +1,7 @@
 package interpreters.statements
 
 import BooleanValue
+import Interpreter
 import NumberValue
 import StoredValue
 import StringValue
@@ -12,6 +13,7 @@ import interfaces.OutPutProvider
 import interpreters.InterpretExpression
 import utils.InterpreterFailure
 import utils.InterpreterResultInformation
+import utils.InterpreterSuccess
 import utils.Storage
 
 class InterpretVariableDeclaration (
@@ -56,12 +58,14 @@ class InterpretVariableDeclaration (
         }
     }
 
-    private fun convertToStoredValue(value: Any): StoredValue {
+    private fun convertToStoredValue(value: InterpreterResult): StoredValue {
         return when (value) {
-            is Double -> NumberValue(value)
-            is String -> StringValue(value)
-            is Boolean -> BooleanValue(value)
-            else -> throw IllegalArgumentException("Invalid value type")
+            is InterpreterSuccess -> {
+                value.getSuccess() as StoredValue
+            }
+            else -> {
+                throw IllegalArgumentException("Value is not a stored value")
+            }
         }
     }
 }
