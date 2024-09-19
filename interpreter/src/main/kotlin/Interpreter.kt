@@ -2,9 +2,7 @@ import interfaces.EnvProvider
 import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
-import interpreters.InterpretExpression
-import interpreters.InterpretLiteral
-import interpreters.InterpretStatement
+import interpreters.*
 import utils.Storage
 
 class Interpreter(
@@ -34,6 +32,22 @@ class Interpreter(
             }
             is Statement -> {
                 InterpretStatement(
+                    version,
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
+            }
+            is ReadEnvNode -> {
+                InterpretReadEnv(
+                    version,
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
+            }
+            is ReadInputNode -> {
+                InterpretReadInput(
                     version,
                     outPutProvider,
                     inputProvider,

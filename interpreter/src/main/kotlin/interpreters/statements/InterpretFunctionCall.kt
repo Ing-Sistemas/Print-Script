@@ -16,37 +16,17 @@ class InterpretFunctionCall(
 ) {
 
     fun interpret(node: FunctionCallStatement, storage: Storage): InterpreterResult {
-        val functionName = node.getFunctionName()
-
-        when (version) {
-            "1.0" -> {
-                if (node.getFunctionName() != "println") {
-                    return InterpreterFailure("Function $functionName is not defined in 1.0")
-                }
-                return InterpretPrint(
+        return when (val functionName = node.getFunctionName()) {
+            "println" -> {
+                InterpretPrint(
                     version,
                     outPutProvider,
                     inputProvider,
                     envProvider,
                 ).interpret(node, storage)
             }
-            "1.1" -> {
-                if (node.getFunctionName() == "println") {
-                    return InterpretPrint(
-                        version,
-                        outPutProvider,
-                        inputProvider,
-                        envProvider,
-                    ).interpret(node, storage)
-                }
-                if (node.getFunctionName() == "readInput") {
-                    TODO("readInput")
-                } else {
-                    return InterpreterFailure("Function $functionName is not defined in 1.1")
-                }
-            }
             else -> {
-                return InterpreterFailure("This function call (${node.getFunctionName()}) is not supported in this version: $version")
+                InterpreterFailure("Function $functionName is not defined in $version")
             }
         }
     }
