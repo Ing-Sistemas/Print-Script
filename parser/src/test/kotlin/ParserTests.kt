@@ -1,6 +1,4 @@
 import org.example.parser.Parser
-import org.example.parser.syntactic.SyntacticAnalyzer
-import org.example.parser.syntactic.SyntacticSuccess
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -35,14 +33,11 @@ class ParserTests {
 
     @Test
     fun `Valid If Function Call`() {
-        val code = "if(a){println('hola');} else {println('chau');}"
+        val code = "if(true){println('hola');} else {println('chau');}"
         val input = listOf(code).iterator()
         val tokens = Lexer("1.1").tokenize(input)
-        val result = SyntacticAnalyzer().build(tokens)
-        val ast = if (result is SyntacticSuccess) {
-            result.astNode
-        } else { null }
-        assert(JsonTester().testJson(ast!!, "if-else"))
+        val ast = Parser().parse(tokens)
+        assert(JsonTester().testJson(ast, "if-else"))
     }
 
     @Test
@@ -110,13 +105,8 @@ class ParserTests {
         val code = "let a:string;"
         val input = listOf(code).iterator()
         val tokens = Lexer("1.0").tokenize(input)
-        // val ast = Parser().parse(tokens)
-        val result = SyntacticAnalyzer().build(tokens)
-        val ast = if (result is SyntacticSuccess) {
-            result.astNode
-        } else { null }
-        assert(result is SyntacticSuccess)
-        assert(JsonTester().testJson(ast!!, "emptyVarDec"))
+        val ast = Parser().parse(tokens)
+        assert(JsonTester().testJson(ast, "emptyVarDec"))
     }
 
     @Test
@@ -124,13 +114,8 @@ class ParserTests {
         val code = "let a:boolean = true;"
         val input = listOf(code).iterator()
         val tokens = Lexer("1.1").tokenize(input)
-        // val ast = Parser().parse(tokens)
-        val result = SyntacticAnalyzer().build(tokens)
-        val ast = if (result is SyntacticSuccess) {
-            result.astNode
-        } else { null }
-        assert(result is SyntacticSuccess)
-        assert(JsonTester().testJson(ast!!, "booleanDec"))
+        val ast = Parser().parse(tokens)
+        assert(JsonTester().testJson(ast, "booleanDec"))
     }
 
     @Test
@@ -138,13 +123,9 @@ class ParserTests {
         val code = "a = -x;"
         val input = listOf(code).iterator()
         val tokens = Lexer("1.0").tokenize(input)
-        // val ast = Parser().parse(tokens)
-        val result = SyntacticAnalyzer().build(tokens)
-        val ast = if (result is SyntacticSuccess) {
-            result.astNode
-        } else { null }
-        assert(result is SyntacticSuccess)
-        assert(JsonTester().testJson(ast!!, "unaryExpression"))
+        val ast = Parser().parse(tokens)
+        println(ast.toString())
+        assert(JsonTester().testJson(ast, "unaryExpression"))
     }
 
     @Test

@@ -17,7 +17,7 @@
     },
     "equalOperand": "\u003d",
     "value": {
-      "value": "'hola'",
+      "value": "hola",
       "position": {
         "column": 15,
         "line": 1

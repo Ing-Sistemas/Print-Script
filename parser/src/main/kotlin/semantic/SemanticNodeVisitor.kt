@@ -39,7 +39,17 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(ifStatement: IfStatement): ResultInformation {
-        TODO("Not yet implemented")
+        val condition = ifStatement.getCondition()
+        val thenStatement = ifStatement.getThenStatement()
+        val elseStatement = ifStatement.getElseStatement()
+
+        if (condition is BooleanLiteral) {
+            thenStatement.forEach { it.accept(this) }
+            elseStatement?.forEach { it.accept(this) }
+            return resultFactory.create(StringValue(""), DataType.STRING)
+        } else {
+            return resultFactory.createError("Condition is not Boolean")
+        }
     }
 
     override fun visit(typeDeclarationExpression: TypeDeclarationExpression): ResultInformation {
@@ -69,23 +79,17 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(unaryExpression: UnaryExpression): ResultInformation {
-        TODO("ver si tiene un - y q sea number type, ver si es necesario pq no tiene necesidad")
+        if (unaryExpression.getOperator() != "-") {
+            resultFactory.createError("Invalid unary operator: ${unaryExpression.getOperator()}")
+        }
+        return unaryExpression.getRight().accept(this)
     }
 
     override fun visit(functionCallStatement: FunctionCallStatement): ResultInformation {
-        if (functionCallStatement.getFunctionName() == "if") {
-            val args = functionCallStatement.getArguments()
-            if (args.all { it is BooleanLiteral }) {
-                return resultFactory.create(StringValue(""), DataType.STRING)
-            } else {
-                return resultFactory.createError("Not all arguments are BooleanLiteral")
-            }
-        } else { // meaning it's a println (atm)
-            val arguments = functionCallStatement.getBody()?.map { it.accept(this) }
-            if (arguments != null) {
-                if (arguments.any { it.getErrors().isNotEmpty() }) {
-                    return resultFactory.createError("Error in function call body")
-                }
+        val arguments = functionCallStatement.getBody()?.map { it.accept(this) }
+        if (arguments != null) {
+            if (arguments.any { it.getErrors().isNotEmpty() }) {
+                return resultFactory.createError("Error in function call body")
             }
         }
         return resultFactory.create(StringValue(""), DataType.STRING)

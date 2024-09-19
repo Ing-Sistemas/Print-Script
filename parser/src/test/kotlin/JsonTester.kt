@@ -14,6 +14,8 @@ class JsonTester {
             expectedJson = gson.toJson(jsonElement) ?: throw Exception("Could not parse expected result into Json")
         } ?: println("File not found")
         val resultJson = gson.toJson(resultAST) ?: throw Exception("Could not parse result into Json")
+        println(resultJson)
+        println(expectedJson)
         return expectedJson == resultJson
     }
 }

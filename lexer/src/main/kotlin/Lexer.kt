@@ -30,6 +30,9 @@ class Lexer(
                                 val tokenValue = matcher.value
                                 val tokenPosition = Position(currentIndex, lineNumber)
                                 currentIndex += tokenValue.length
+                                if (tokenType == TokenType.LITERAL_STRING) {
+                                    return Token(tokenType, tokenValue.substring(1, tokenValue.length - 1), tokenPosition)
+                                }
                                 return Token(tokenType, tokenValue, tokenPosition)
                             }
                         }
