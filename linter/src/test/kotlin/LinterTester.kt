@@ -9,7 +9,7 @@ class LinterTester {
         val input = listOf("let val_derrama: string = 'hello argh 76'; println(val_derrama);")
         val configLoader = ConfigLoader
         val configurationSnakeFalse = configLoader.loadConfiguration("src/main/resources/configSnakeFalse.json")
-        val linter = StaticCodeAnalyzer(configurationSnakeFalse)
+        val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.0")
         val tokens = Lexer("1.0").tokenize(input.iterator())
         val listToken = mutableListOf<Token>()
         while (tokens.hasNext()) {
@@ -24,7 +24,7 @@ class LinterTester {
         val input = listOf("let val_derrama: string = 'hello argh 76'; println(val_derrama);")
         val configLoader = ConfigLoader
         val configurationSnakeFalse = configLoader.loadConfiguration("src/main/resources/configSnakeTrue.json")
-        val linter = StaticCodeAnalyzer(configurationSnakeFalse)
+        val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.0")
         val tokens = Lexer("1.0").tokenize(input.iterator())
         val listToken = mutableListOf<Token>()
         while (tokens.hasNext()) {
@@ -32,7 +32,6 @@ class LinterTester {
         }
         val analyzer = linter.analyze(listToken)
         assert(analyzer.isNotEmpty())
-        println(analyzer.toString())
         assert(analyzer[0] == "Cannot use println with val_derrama in line: 1 column: 51")
     }
 
@@ -41,7 +40,7 @@ class LinterTester {
         val input = listOf("let val_derrama: string = 'hello argh 76'; println(val_derrama);")
         val configLoader = ConfigLoader
         val configurationSnakeFalse = configLoader.loadConfiguration("src/main/resources/configCamelFalse.json")
-        val linter = StaticCodeAnalyzer(configurationSnakeFalse)
+        val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.0")
         val tokens = Lexer("1.0").tokenize(input.iterator())
         val listToken = mutableListOf<Token>()
         while (tokens.hasNext()) {
@@ -57,7 +56,7 @@ class LinterTester {
         val input = listOf("let val_derrama: string = 'hello argh 76'; println(val_derrama);")
         val configLoader = ConfigLoader
         val configurationSnakeFalse = configLoader.loadConfiguration("src/main/resources/configCamelTrue.json")
-        val linter = StaticCodeAnalyzer(configurationSnakeFalse)
+        val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.0")
         val tokens = Lexer("1.0").tokenize(input.iterator())
         val listToken = mutableListOf<Token>()
         while (tokens.hasNext()) {
