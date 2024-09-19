@@ -1,35 +1,26 @@
 package interpreters.expressions
 
 import BinaryExpression
-import BooleanLiteral
 import BooleanValue
-import Expression
-import IdentifierExpression
-import Interpreter
-import NumberLiteral
 import NumberValue
-import StringLiteral
 import StringValue
-import TypeDeclarationExpression
-import UnaryExpression
 import interfaces.EnvProvider
 import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
 import interpreters.InterpretExpression
-import interpreters.InterpretLiteral
-import utils.InterpreterFailure
-import utils.InterpreterSuccess
+import results.InterpreterFailure
+import results.InterpreterSuccess
 import utils.Storage
 
-class InterpretBinaryExpression (
+class InterpretBinaryExpression(
     private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
-    private val envProvider: EnvProvider
-){
+    private val envProvider: EnvProvider,
+) {
 
-    fun interpret (node: BinaryExpression, storage: Storage): InterpreterResult {
+    fun interpret(node: BinaryExpression, storage: Storage): InterpreterResult {
         val operator = node.getOperator()
         val nodeLeftResult = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(node.getLeft(), storage)
         val nodeRightResult = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(node.getRight(), storage)
@@ -66,7 +57,7 @@ class InterpretBinaryExpression (
         }
     }
 
-    private fun changeValue (result: InterpreterSuccess) : Any {
+    private fun changeValue(result: InterpreterSuccess): Any {
         return when (result.getSuccess()) {
             is BooleanValue -> result.getSuccess().toString()
             is NumberValue -> result.getSuccess().toString().toDouble()

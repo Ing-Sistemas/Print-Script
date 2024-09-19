@@ -6,7 +6,7 @@ import utils.Storage
 sealed interface InterpreterResult
 
 interface Success : InterpreterResult {
-    val customValue : StoredValue?
+    val customValue: StoredValue?
     fun getSuccess(): StoredValue?
     fun getOriginalValue(): Any?
 }

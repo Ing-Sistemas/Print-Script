@@ -1,4 +1,3 @@
 package interfaces
 
-interface EnvProvider {
-}
+interface EnvProvider

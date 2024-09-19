@@ -11,17 +11,17 @@ import interfaces.OutPutProvider
 import interpreters.literals.InterpretBooleanLiteral
 import interpreters.literals.InterpretNumberLiteral
 import interpreters.literals.InterpretStringLiteral
-import utils.InterpreterFailure
+import results.InterpreterFailure
 import utils.Storage
 
-class InterpretLiteral (
+class InterpretLiteral(
     private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
-    private val envProvider: EnvProvider
-    ){
+    private val envProvider: EnvProvider,
+) {
 
-    fun interpret(node: Literal, storage: Storage) : InterpreterResult {
+    fun interpret(node: Literal, storage: Storage): InterpreterResult {
         return when (node) {
             is NumberLiteral -> {
                 InterpretNumberLiteral(outPutProvider).interpret(node, storage)

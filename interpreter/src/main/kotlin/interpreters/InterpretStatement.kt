@@ -11,24 +11,25 @@ import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
 import interpreters.statements.*
-import utils.InterpreterFailure
+import results.InterpreterFailure
 import utils.Storage
 
 class InterpretStatement(
     private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
-    private val envProvider: EnvProvider
-    ) {
+    private val envProvider: EnvProvider,
+) {
 
-    fun interpret(node: Statement, storage: Storage) : InterpreterResult {
+    fun interpret(node: Statement, storage: Storage): InterpreterResult {
         return when (node) {
             is VariableDeclarationStatement -> {
                 InterpretVariableDeclaration(
                     outPutProvider,
                     inputProvider,
                     envProvider,
-                    version).interpret(node, storage)
+                    version,
+                ).interpret(node, storage)
             }
 
             is FunctionCallStatement -> {
@@ -36,32 +37,36 @@ class InterpretStatement(
                     outPutProvider,
                     inputProvider,
                     envProvider,
-                    version).interpret(node, storage)
-                }
+                    version,
+                ).interpret(node, storage)
+            }
 
             is AssignmentStatement -> {
-                 InterpretAssignment(
+                InterpretAssignment(
                     outPutProvider,
                     inputProvider,
                     envProvider,
-                    version).interpret(node, storage)
+                    version,
+                ).interpret(node, storage)
             }
 
             is EmptyVarDeclarationStatement -> {
-                 InterpretEmptyVariable(
+                InterpretEmptyVariable(
                     outPutProvider,
                     inputProvider,
                     envProvider,
-                    version).interpret(node, storage)
+                    version,
+                ).interpret(node, storage)
             }
 
             is IfStatement -> {
                 if (version == "1.1") {
-                     InterpretIf(
+                    InterpretIf(
                         version,
                         outPutProvider,
                         inputProvider,
-                        envProvider).interpret(node, storage)
+                        envProvider,
+                    ).interpret(node, storage)
                 } else {
                     return InterpreterFailure("If is not supported in version: $version")
                 }

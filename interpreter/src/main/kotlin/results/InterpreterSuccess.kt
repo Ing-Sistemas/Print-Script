@@ -1,4 +1,4 @@
-package utils
+package results
 
 import BooleanValue
 import NumberValue
@@ -6,7 +6,7 @@ import StoredValue
 import StringValue
 import interfaces.Success
 
-class InterpreterSuccess(override val customValue: StoredValue?): Success {
+class InterpreterSuccess(override val customValue: StoredValue?) : Success {
     override fun getSuccess(): StoredValue? {
         return customValue
     }

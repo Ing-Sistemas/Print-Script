@@ -1,4 +1,4 @@
-package utils
+package results
 
 import interfaces.Failure
 

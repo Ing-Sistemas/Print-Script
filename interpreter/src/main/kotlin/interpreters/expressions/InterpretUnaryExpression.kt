@@ -8,18 +8,18 @@ import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
 import interpreters.InterpretExpression
-import utils.InterpreterFailure
-import utils.InterpreterSuccess
+import results.InterpreterFailure
+import results.InterpreterSuccess
 import utils.Storage
 
-class InterpretUnaryExpression (
+class InterpretUnaryExpression(
     private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
-    private val envProvider: EnvProvider
-){
+    private val envProvider: EnvProvider,
+) {
 
-    fun interpret(node: ASTNode, storage: Storage) : InterpreterResult {
+    fun interpret(node: ASTNode, storage: Storage): InterpreterResult {
         val unaryNode = node as UnaryExpression
         val right = unaryNode.getRight()
         val useRight = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(right, storage)
@@ -32,15 +32,14 @@ class InterpretUnaryExpression (
                     val numberToUse = (useRight.getOriginalValue()) as Double
                     val negateNumber = -numberToUse
                     return InterpreterSuccess(toCustom(negateNumber))
-                }
-                else {
+                } else {
                     return InterpreterFailure("There is an interpreter Failure in: $useRight")
                 }
             }
             else -> return InterpreterFailure("Unary operator ${node.getOperator()} not supported")
         }
     }
-    private fun toCustom (value: Any?): NumberValue {
+    private fun toCustom(value: Any?): NumberValue {
         return NumberValue(value as Double)
     }
 }

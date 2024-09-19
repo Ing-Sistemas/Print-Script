@@ -7,12 +7,12 @@ import interpreters.InterpretLiteral
 import interpreters.InterpretStatement
 import utils.Storage
 
-class Interpreter (
+class Interpreter(
     private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
-    private val envProvider: EnvProvider
-    ){
+    private val envProvider: EnvProvider,
+) {
 
     fun interpret(node: ASTNode, storage: Storage): InterpreterResult {
         return when (node) {
@@ -21,21 +21,24 @@ class Interpreter (
                     version,
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is Expression -> {
                 InterpretExpression(
                     version,
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is Statement -> {
                 InterpretStatement(
                     version,
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
         }
     }
