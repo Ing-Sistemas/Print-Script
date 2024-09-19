@@ -10,6 +10,8 @@ import IdentifierExpression
 import IfStatement
 import NumberLiteral
 import NumberValue
+import ReadEnvNode
+import ReadInputNode
 import StoredValue
 import StringLiteral
 import StringValue
@@ -50,6 +52,14 @@ class SemanticNodeVisitor(
         } else {
             return resultFactory.createError("Condition is not Boolean")
         }
+    }
+
+    override fun visit(readInputNode: ReadInputNode): ResultInformation {
+        return resultFactory.create(StringValue(""), DataType.STRING) // TODO check
+    }
+
+    override fun visit(readEnvNode: ReadEnvNode): ResultInformation {
+        return resultFactory.create(StringValue(""), DataType.STRING)
     }
 
     override fun visit(typeDeclarationExpression: TypeDeclarationExpression): ResultInformation {
