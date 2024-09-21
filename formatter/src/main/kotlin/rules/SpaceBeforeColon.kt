@@ -2,10 +2,10 @@ package org.example.rules
 
 import org.example.config.FormatterConfig
 
-class SpaceBeforeColonRule : CodeFormatRule {
+class SpaceBeforeColon : CodeFormatRule {
     override fun apply(code: String, config: FormatterConfig, builder: StringBuilder) {
         if (config.spaceBeforeColon && code == ":") {
-            builder.append(code.replace(Regex("([^\\s]):([^\\s])"), "$1 :$2"))
+            builder.append(" $code")
         } else {
             builder.append(code)
         }

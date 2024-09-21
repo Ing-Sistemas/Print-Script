@@ -8,20 +8,26 @@ import FunctionCallStatement
 import IdentifierExpression
 import IfStatement
 import NumberLiteral
+import RuleApplier
 import StringLiteral
 import TypeDeclarationExpression
 import UnaryExpression
 import VariableDeclarationStatement
 import Visitor
 import org.example.config.FormatterConfig
-import org.example.rules.*
 
 class FormatterVisitorImpl(private val config: FormatterConfig, private val builder: StringBuilder): Visitor<Unit> {
 
+    private val applier = RuleApplier(config, builder)
     override fun visit(variableDeclarationStatement: VariableDeclarationStatement) {
-        applyRules(variableDeclarationStatement.getDeclarator())
+        applier.apply(variableDeclarationStatement.getDeclarator())
+        builder.append(" ")
+        variableDeclarationStatement.getAssignmentExpression().getIdentifier().accept(this)
+        applier.apply(":")
         variableDeclarationStatement.getTypeDeclarationExpression().accept(this)
-        variableDeclarationStatement.getAssignmentExpression().accept(this)
+        applier.apply(variableDeclarationStatement.getAssignmentExpression().getEqualOperator())
+        variableDeclarationStatement.getAssignmentExpression().getValue().accept(this)
+        builder.append("; \n")
     }
 
     override fun visit(ifStatement: IfStatement) {
@@ -29,39 +35,39 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
     }
 
     override fun visit(booleanLiteral: BooleanLiteral) {
-        applyRules(booleanLiteral.getValue().toString())
+        applier.apply(booleanLiteral.getValue().toString())
     }
 
     override fun visit(stringLiteral: StringLiteral) {
-        applyRules(stringLiteral.getValue())
+        applier.apply(stringLiteral.getValue())
     }
 
     override fun visit(numberLiteral: NumberLiteral) {
-        applyRules(numberLiteral.getValue().toString())
+        applier.apply(numberLiteral.getValue().toString())
     }
 
     override fun visit(typeDeclarationExpression: TypeDeclarationExpression) {
-        applyRules(typeDeclarationExpression.getType())
+        applier.apply(typeDeclarationExpression.getType())
     }
 
     override fun visit(identifierExpression: IdentifierExpression) {
-        applyRules(identifierExpression.getIdentifier())
+        applier.apply(identifierExpression.getIdentifier())
     }
 
     override fun visit(unaryExpression: UnaryExpression) {
-        applyRules(unaryExpression.getOperator())
+        applier.apply(unaryExpression.getOperator())
         unaryExpression.getRight().accept(this)
     }
 
     override fun visit(binaryExpression: BinaryExpression) {
         binaryExpression.getLeft().accept(this)
-        applyRules(binaryExpression.getOperator())
+        applier.apply(binaryExpression.getOperator())
         binaryExpression.getRight().accept(this)
     }
 
     override fun visit(assignmentStatement: AssignmentStatement) {
         assignmentStatement.getIdentifier().accept(this)
-        applyRules(assignmentStatement.getEqualOperator())
+        applier.apply(assignmentStatement.getEqualOperator())
         assignmentStatement.getValue().accept(this)
     }
 
@@ -70,19 +76,8 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
     }
 
     override fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement) {
-        applyRules(emptyVarDeclarationStatement.getDeclarator())
+        applier.apply(emptyVarDeclarationStatement.getDeclarator())
         emptyVarDeclarationStatement.getIdentifier().accept(this)
         emptyVarDeclarationStatement.getTypeDeclarationExpression().accept(this)
-    }
-
-    private fun applyRules(value: String) {
-        // aca no sabe q value le llega, tengo q verificar q el value sea el correcto en  cada config
-        if (config.spaceBeforeColon) return SpaceBeforeColonRule().apply(value, config, builder)
-        if (config.spaceAfterColon) return SpaceAfterColon().apply(value, config, builder)
-        if (config.spaceAroundEquals) return SpaceAroundEquals().apply(value, config, builder)
-        if (config.lineJumpBeforePrintln > 0) return LineJumpBeforePrintln(config.lineJumpBeforePrintln).apply(value, config, builder)
-        if (config.lineJumpAfterSemicolon) return LineJumpAfterSemicolon().apply(value, config, builder)
-        if (config.singleSpaceBetweenTokens) return SingleSpaceBetweenTokens().apply(value, config, builder)
-        if (config.spaceAroundOperators) return SpaceAroundOperator().apply(value, config, builder)
     }
 }
