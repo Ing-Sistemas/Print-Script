@@ -13,10 +13,8 @@ class RuleApplier(private val config: FormatterConfig, private val builder: Stri
                 }
             }
             ":" -> {
-                if (config.spaceAfterColon) {
-                    SpaceAfterColon().apply(code, config, builder)
-                } else if (config.spaceBeforeColon) {
-                    SpaceBeforeColon().apply(code, config, builder)
+                if (config.spaceAfterColon || config.spaceBeforeColon) {
+                    SpaceAroundColon().apply(code, config, builder)
                 } else {
                     builder.append(code)
                 }
@@ -34,12 +32,12 @@ class RuleApplier(private val config: FormatterConfig, private val builder: Stri
                     builder.append(code)
                 }
             }
-            ";" -> {
-                if (config.lineJumpAfterSemicolon) {
-                    LineJumpAfterSemicolon().apply(code, config, builder)
-                }
-                builder.append(code)
-            }
+//            ";" -> {
+//                if (config.lineJumpAfterSemicolon) {
+//                    LineJumpAfterSemicolon().apply(code, config, builder)
+//                }
+//                builder.append(code)
+//            }
 
             else -> builder.append(code)
         }
