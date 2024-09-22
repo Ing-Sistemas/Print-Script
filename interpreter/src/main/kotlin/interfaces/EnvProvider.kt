@@ -1,3 +1,7 @@
 package interfaces
 
-interface EnvProvider
+import StoredValue
+
+interface EnvProvider {
+    fun getEnv(name: String): String?
+}

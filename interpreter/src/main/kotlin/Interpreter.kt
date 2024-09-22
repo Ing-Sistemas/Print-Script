@@ -3,6 +3,7 @@ import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
 import interpreters.*
+import results.InterpreterFailure
 import utils.Storage
 
 class Interpreter(
@@ -39,20 +40,21 @@ class Interpreter(
                 ).interpret(node, storage)
             }
             is ReadEnvNode -> {
-                InterpretReadEnv(
-                    version,
-                    outPutProvider,
-                    inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
+                    InterpretReadEnv(
+                        version,
+                        outPutProvider,
+                        inputProvider,
+                        envProvider,
+                    ).interpret(node, storage)
+
             }
             is ReadInputNode -> {
-                InterpretReadInput(
-                    version,
-                    outPutProvider,
-                    inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
+                    InterpretReadInput(
+                        version,
+                        outPutProvider,
+                        inputProvider,
+                        envProvider,
+                    ).interpret(node, storage)
             }
         }
     }
