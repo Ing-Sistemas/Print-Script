@@ -2,21 +2,25 @@ package org.example
 
 import Interpreter
 import Lexer
+import interfaces.EnvProvider
+import interfaces.InputProvider
 import interfaces.InterpreterResult
+import interfaces.OutPutProvider
 import org.example.parser.ASTIterator
 import org.example.parser.Parser
-import providers.DefaultEnvProvider
-import providers.DefaultInputProvider
-import providers.DefaultOutPutProvider
 import results.InterpreterFailure
 import utils.Storage
 import java.io.InputStream
 
-class Runner {
+class Runner(
+    inputProvider: InputProvider,
+    outPutProvider: OutPutProvider,
+    envProvider: EnvProvider,
+) {
     private val parser = Parser()
     private val storage = Storage()
     private val versions = setOf("1.0", "1.1")
-    private val interpreter = Interpreter(outPutProvider = DefaultOutPutProvider(), inputProvider = DefaultInputProvider(), envProvider = DefaultEnvProvider())
+    private val interpreter = Interpreter(outPutProvider, inputProvider, envProvider)
 
     fun run(inputStream: InputStream, version: String): InterpreterResult {
         if (version !in versions) {
