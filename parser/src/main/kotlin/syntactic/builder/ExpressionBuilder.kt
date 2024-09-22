@@ -29,6 +29,8 @@ class ExpressionBuilder : ASTBuilderStrategy {
         LITERAL_NUMBER,
         LITERAL_STRING,
         BOOLEAN,
+        OPENING_PARENS,
+        CLOSING_PARENS,
     )
 
     override fun build(tokens: List<Token>): Expression {
@@ -37,12 +39,10 @@ class ExpressionBuilder : ASTBuilderStrategy {
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
-        // itero 2 veces la lista, feo
         return tokens.all { it.getType() in expectedTypes }
     }
 
     private fun parseExpression(precedence: Int, tokensToParse: ListIterator<Token>): Expression? {
-        // weird to use var, but necessary for contemplating cases with binary exp
         var left = parseInitialToken(tokensToParse) ?: return null
         while (tokensToParse.hasNext()) {
             val operator = peek(tokensToParse) ?: break
@@ -61,45 +61,60 @@ class ExpressionBuilder : ASTBuilderStrategy {
         val token = peek(tokensToParse) ?: return null
 
         return when (token.getType()) {
-            BOOLEAN -> {
-                tokensToParse.next()
-                BooleanLiteral(token.getValue().toBoolean(), token.getPosition())
-            }
+            BOOLEAN -> handleLeaf(token, tokensToParse)
+            LITERAL_STRING -> handleLeaf(token, tokensToParse)
+            LITERAL_NUMBER -> handleLeaf(token, tokensToParse)
+            IDENTIFIER -> handleLeaf(token, tokensToParse)
+            MINUS_OPERATOR -> handleUnary(token, tokensToParse)
+            OPENING_PARENS -> handleParensExpression(token, tokensToParse)
+            else -> null
+        }
+    }
+
+    private fun handleLeaf(token: Token, tokensToParse: ListIterator<Token>): Expression {
+        return when (token.getType()) {
             LITERAL_STRING -> {
                 tokensToParse.next()
                 StringLiteral(token.getValue(), token.getPosition())
             }
             LITERAL_NUMBER -> {
-                tokensToParse.next() // moves the iterator pointer
+                tokensToParse.next()
                 NumberLiteral(token.getValue().toDouble(), token.getPosition())
+            }
+            BOOLEAN -> {
+                tokensToParse.next()
+                BooleanLiteral(token.getValue().toBoolean(), token.getPosition())
             }
             IDENTIFIER -> {
                 tokensToParse.next() // same this as previous man
                 IdentifierExpression(token.getValue(), token.getPosition())
             }
-            MINUS_OPERATOR -> {
-                val operator = tokensToParse.next() // grabs the operator
-                val operand = parseExpression(precedence[MINUS_OPERATOR]!! + 1, tokensToParse) // grabs operand
-                UnaryExpression(operator.getValue(), operand!!, operator.getPosition())
-                // operator operand example -> - x
-            }
-            OPENING_PARENS -> {
-                tokensToParse.next() // consumes the opening parenthesis
-                val expr = parseExpression(0, tokensToParse) // build the expression inside parens
-
-                val closingParen = tokensToParse.next() // ensure that the parens are closed
-                if (closingParen.getType() != CLOSING_PARENS) {
-                    throw Exception("Unbalanced parenthesis.")
-                }
-                expr
-            }
-            else -> null
+            else -> { throw Exception("Unexpected leaf token.") }
         }
+    }
+
+    private fun handleUnary(token: Token, tokensToParse: ListIterator<Token>): Expression {
+        val operator = tokensToParse.next() // grabs the operator
+        val operand = parseExpression(precedence[MINUS_OPERATOR]!! + 1, tokensToParse) // grabs operand
+        return UnaryExpression(operator.getValue(), operand!!, operator.getPosition())
+        // operator operand example -> - x
+    }
+
+    private fun handleParensExpression(token: Token, tokensToParse: ListIterator<Token>): Expression? {
+        tokensToParse.next() // consumes the opening parenthesis
+        val expr = parseExpression(0, tokensToParse) // build the expression inside parens
+
+        val closingParen = tokensToParse.next() // ensure that the parens are closed
+        if (closingParen.getType() != CLOSING_PARENS) {
+            throw Exception("Unbalanced parenthesis.")
+        }
+        return expr
     }
 
     private fun peek(tokensToParse: ListIterator<Token>): Token? {
         return if (tokensToParse.hasNext()) {
             val token = tokensToParse.next()
+            if (!expectedTypes.contains(token.getType())) throw Exception("Unexpected token ${token.getType()}")
             tokensToParse.previous() // chiche
             token
         } else {

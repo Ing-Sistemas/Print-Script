@@ -1,85 +1,65 @@
 package interpreters
 
 import AssignmentStatement
-import BooleanValue
 import EmptyVarDeclarationStatement
 import FunctionCallStatement
-import NumberValue
+import IfStatement
 import Statement
-import StoredValue
-import StringValue
 import VariableDeclarationStatement
-import org.example.output.Printer
+import interfaces.EnvProvider
+import interfaces.InputProvider
+import interfaces.InterpreterResult
+import interfaces.OutPutProvider
+import interpreters.statements.*
 import utils.Storage
 
-class InterpretStatement {
+class InterpretStatement(
+    private val outPutProvider: OutPutProvider,
+    private val inputProvider: InputProvider,
+    private val envProvider: EnvProvider,
+) {
 
-    fun interpret(node: Statement, storage: Storage): Any {
+    fun interpret(node: Statement, storage: Storage): InterpreterResult {
         return when (node) {
             is VariableDeclarationStatement -> {
-                val declarator = node.getDeclarator()
-                val value = node.getAssignmentExpression()?.getValue()
-                storage.addToStorage(declarator, convertToStoredValue(InterpretExpression().interpret(value!!, storage)))
+                InterpretVariableDeclaration(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
             }
 
             is FunctionCallStatement -> {
-                val functionName = node.getFunctionName()
-                val arguments = node.getArguments()
-                when (functionName) {
-                    "println" -> {
-                        for (argument in arguments) {
-                            Printer().output(InterpretExpression().interpret(argument, storage))
-                        }
-                    }
-
-                    "if" -> {
-                        if (arguments.size != 1) {
-                            throw IllegalArgumentException("If statement requires one condition argument.")
-                        }
-                        val condition = InterpretExpression().interpret(arguments[0], storage) as Boolean
-
-                        if (condition) {
-                            val body = node.getBody()
-                            body?.forEach { astNode ->
-                                Interpreter().interpret(astNode, storage)
-                            }
-                        } else {
-                            interpret(node, storage) // here it should continue but IDK how tho
-                        }
-                    }
-                    "else" -> {
-                        val body = node.getBody()
-                        body?.forEach { astNode ->
-                            Interpreter().interpret(astNode, storage)
-                        }
-                    }
-
-                    else -> {
-                        throw (IllegalArgumentException("Function $functionName is not defined"))
-                    }
-                }
+                InterpretFunctionCall(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
             }
 
             is AssignmentStatement -> {
-                val identifier = node.getIdentifier().getIdentifier()
-                val value = InterpretExpression().interpret(node.getValue(), storage)
-                val valueToUse = convertToStoredValue(value)
-                return storage.addToStorage(identifier, valueToUse)
+                InterpretAssignment(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
             }
 
             is EmptyVarDeclarationStatement -> {
-                val declarator = node.getDeclarator()
-                storage.addToStorage(declarator, null)
+                InterpretEmptyVariable(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
             }
-        }!!
-    }
 
-    private fun convertToStoredValue(value: Any): StoredValue {
-        return when (value) {
-            is Double -> NumberValue(value)
-            is String -> StringValue(value)
-            is Boolean -> BooleanValue(value)
-            else -> throw IllegalArgumentException("Invalid value type")
+            is IfStatement -> {
+                InterpretIf(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
+            }
         }
     }
 }

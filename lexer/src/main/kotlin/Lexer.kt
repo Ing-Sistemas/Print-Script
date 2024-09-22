@@ -1,37 +1,13 @@
-import org.example.token.TokenMatcher
+import org.example.token.TokenType
 
-class Lexer {
-    private var position = 0
-    private val tokenMatcher = TokenMatcher()
-
-    fun tokenize(input: String): List<Token> {
-        val tokenList = mutableListOf<Token>()
-        while (position < input.length) {
-            val token = nextToken(input)
-            if (token != null) {
-                tokenList.add(token)
-            }
-        }
-        return tokenList
+class Lexer(
+    private val version: String,
+) {
+    private val tokenPatterns: Map<TokenType, Regex> by lazy {
+        TokenPatternProvider().getPatterns(version)
     }
 
-    private fun nextToken(input: String): Token? {
-        if (position >= input.length) {
-            return null
-        }
-        val restOfString = input.substring(position)
-
-        if (restOfString[0].isWhitespace()) {
-            // if space -> skip
-            position++
-            return nextToken(input)
-        }
-
-        val isMatch = tokenMatcher.match(input, position)
-        if (isMatch != null) {
-            position = isMatch.nextPosition
-            return isMatch.token
-        }
-        throw Exception("Bad character")
+    fun tokenize(input: Iterator<String>): Iterator<Token> {
+        return TokenIterator(input, tokenPatterns)
     }
 }

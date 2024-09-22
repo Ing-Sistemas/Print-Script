@@ -1,10 +1,10 @@
 package org.example.commands
 
 import Lexer
-import Token
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import org.example.CLIContext
+import org.example.ReaderIterator
 import org.example.parser.Parser
 import java.io.File
 
@@ -16,20 +16,14 @@ class Validate : CliktCommand(
     override fun run() {
         val cliContext = currentContext.findObject<CLIContext>() ?: throw CliktError("Could not find CLIContext")
         val file = cliContext.fileName
-
+        val version = cliContext.version
         val baseDir = File("../cli/src/main/resources")
         val inputFile = File(baseDir, file)
-        val tokens = mutableListOf<Token>()
 
         try {
-            val bufferedReader = inputFile.bufferedReader()
-            bufferedReader.use { reader ->
-                reader.forEachLine { line ->
-                    val lexer = Lexer()
-                    val lineTokens = lexer.tokenize(line)
-                    tokens.addAll(lineTokens)
-                }
-            }
+            val readerIterator = ReaderIterator().getLineIterator(inputFile.inputStream())
+            val tokens = Lexer(version).tokenize(readerIterator)
+            echo("Parsing $file ...")
             Parser().parse(tokens)
             echo("successfully validated")
         } catch (e: Exception) {

@@ -1,0 +1,13 @@
+{
+    "version": "1.0",
+    "input": "let a:string = 'hola'",
+    "expectedTokens": [
+        "KEYWORD",
+        "IDENTIFIER",
+        "COLON",
+        "STRING_TYPE",
+        "ASSIGNMENT",
+        "LITERAL_STRING",
+        "SEMICOLON"
+    ]
+}

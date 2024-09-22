@@ -3,7 +3,7 @@ plugins {
     id 'application-conventions'
     id 'application'
 }
-version = '1.1.0'
+version = '1.1.1'
 
 repositories {
     mavenCentral()
@@ -19,6 +19,7 @@ dependencies {
     implementation project(':token')
     implementation project(':linter')
     implementation project(':formatter')
+    implementation project(':runner')
 }
 
 test {

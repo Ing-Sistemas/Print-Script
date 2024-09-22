@@ -1,27 +1,23 @@
 {
-  "functionName": "if",
-  "arguments": [
-    {
-      "identifier": "a",
-      "position": {
-        "column": 3,
-        "line": 1
-      }
+  "condition": {
+    "identifier": "a",
+    "position": {
+      "column": 3,
+      "line": 1
     }
-  ],
-  "block": [
+  },
+  "thenBlock": [
     {
       "functionName": "println",
       "arguments": [
         {
-          "value": "hola",
+          "value": "'hola'",
           "position": {
             "column": 14,
             "line": 1
           }
         }
       ],
-      "block": [],
       "position": {
         "column": 6,
         "line": 1

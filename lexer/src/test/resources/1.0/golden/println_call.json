@@ -1,0 +1,11 @@
+{
+    "version": "1.0",
+    "input": "println('hola');",
+    "expectedTokens": [
+        "FUNCTION_CALL",
+        "OPENING_PARENS",
+        "LITERAL_STRING",
+        "CLOSING_PARENS",
+        "SEMICOLON"
+    ]
+}
