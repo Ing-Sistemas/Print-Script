@@ -151,4 +151,20 @@ class ParserTests {
         val tokens = Lexer("1.1").tokenize(input)
         assertDoesNotThrow { Parser().parse(tokens) }
     }
+
+    @Test
+    fun `read env test`() {
+        val code = "readEnv(a);"
+        val input = listOf(code).iterator()
+        val tokens = Lexer("1.1").tokenize(input)
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `read input test`() {
+        val code = "readInput();"
+        val input = listOf(code).iterator()
+        val tokens = Lexer("1.1").tokenize(input)
+        assertDoesNotThrow { Parser().parse(tokens) }
+    }
 }

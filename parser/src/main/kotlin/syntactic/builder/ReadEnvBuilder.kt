@@ -14,6 +14,7 @@ class ReadEnvBuilder : ASTBuilderStrategy {
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
         return tokens[0].getType() == TokenType.READ_ENV &&
-            tokens[1].getType() == TokenType.IDENTIFIER
+            tokens[1].getType() == TokenType.OPENING_PARENS &&
+            tokens[2].getType() == TokenType.IDENTIFIER
     }
 }

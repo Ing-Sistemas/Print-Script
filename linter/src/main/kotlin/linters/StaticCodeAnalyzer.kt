@@ -14,7 +14,7 @@ class StaticCodeAnalyzer(configuration: Configuration, private val version: Stri
     private val linters1: List<Linter> = listOfNotNull(
         IdentifierCaseLinter(configuration.caseConfiguration),
         if (configuration.restrictPrintln) PrinterRestrictions() else null,
-        if (configuration.readInput) ReadInputRestrictions() else null,
+        // if (configuration.readInput) ReadInputRestrictions() else null,
     )
 
     fun analyze(tokens: List<Token>): List<String> {
