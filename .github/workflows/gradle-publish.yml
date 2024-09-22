@@ -1,5 +1,4 @@
 name: Publish packages
-
 on:
     push:
         branches:
