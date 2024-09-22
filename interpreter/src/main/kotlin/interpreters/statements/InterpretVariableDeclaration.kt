@@ -1,5 +1,6 @@
 package interpreters.statements
 
+import Interpreter
 import StoredValue
 import VariableDeclarationStatement
 import interfaces.EnvProvider
@@ -19,7 +20,8 @@ class InterpretVariableDeclaration(
 ) {
 
     fun interpret(node: VariableDeclarationStatement, storage: Storage): InterpreterResult {
-        val declarator = node.getDeclarator()
+        val declarator = node.getAssignmentExpression()
+        val identifier = Interpreter(outPutProvider, inputProvider, envProvider).interpret(declarator, storage)
         val value = node.getAssignmentExpression().getValue()
         val storedValue = convertToStoredValue(
             InterpretExpression(
@@ -28,7 +30,7 @@ class InterpretVariableDeclaration(
                 envProvider,
                 ).interpret(value, storage),
             )
-        storage.addToStorage(declarator, storedValue)
+        storage.addToStorage(identifier.toString(), storedValue)
         return InterpreterResultInformation(storage)
         }
     }

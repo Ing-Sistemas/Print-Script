@@ -117,10 +117,11 @@ class InterpreterTests {
     fun testVariableDeclarationStatement() {
         val typeDeclaration = TypeDeclarationExpression("number", Position(1, 1))
         val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 5)), "=", NumberLiteral(10.0, Position(1, 10)), Position(1, 7))
-        val variableDeclaration = VariableDeclarationStatement("x", typeDeclaration, assignment, Position(1, 1))
+        val variableDeclaration = VariableDeclarationStatement("let", typeDeclaration, assignment, Position(1, 1))
 
         interpreter1.interpret(variableDeclaration, storage)
         val result = storage.getFromStorage("x")
+        println(storage.getStorage())
         assertEquals(NumberValue(10.0), result)
     }
 
