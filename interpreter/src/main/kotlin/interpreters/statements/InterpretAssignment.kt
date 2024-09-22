@@ -12,13 +12,11 @@ class InterpretAssignment(
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
-    private val version: String,
 ) {
 
     fun interpret(node: AssignmentStatement, storage: Storage): InterpreterResult {
         val identifier = node.getIdentifier().getIdentifier()
         val value = InterpretExpression(
-            version,
             outPutProvider,
             inputProvider,
             envProvider,

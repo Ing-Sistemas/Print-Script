@@ -14,7 +14,6 @@ import results.InterpreterSuccess
 import utils.Storage
 
 class InterpretBinaryExpression(
-    private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
@@ -22,8 +21,8 @@ class InterpretBinaryExpression(
 
     fun interpret(node: BinaryExpression, storage: Storage): InterpreterResult {
         val operator = node.getOperator()
-        val nodeLeftResult = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(node.getLeft(), storage)
-        val nodeRightResult = InterpretExpression(version, outPutProvider, inputProvider, envProvider).interpret(node.getRight(), storage)
+        val nodeLeftResult = InterpretExpression(outPutProvider, inputProvider, envProvider).interpret(node.getLeft(), storage)
+        val nodeRightResult = InterpretExpression(outPutProvider, inputProvider, envProvider).interpret(node.getRight(), storage)
         val leftNodeConverted = nodeLeftResult as InterpreterSuccess
         val leftNode = leftNodeConverted.getOriginalValue()
         val rightNodeConverted = nodeRightResult as InterpreterSuccess
@@ -77,50 +76,4 @@ class InterpretBinaryExpression(
             else -> { throw IllegalArgumentException() }
         }
     }
-
-//    private fun evaluateNode(node: Expression, storage: Storage, version: String): Any {
-//        return when (node) {
-//            is BinaryExpression -> {
-//                val left = evaluateNode(node.getLeft(), storage, version)
-//                val right = evaluateNode(node.getRight(), storage, version)
-//                val operator = node.getOperator()
-//
-//                when {
-//                    left is Double && right is Double ->
-//                    { applyOperator(left, operator, right)}
-//                    left is String && right is String && operator == "+" ->
-//                    { left + right }
-//
-//                    left is Double && right is String && operator == "+" ->
-//                    { left.toString() + right }
-//
-//                    left is String && right is Double && operator == "+" ->
-//                    { left + right.toString() }
-//
-//                    else -> { throw IllegalArgumentException("Invalid operands for operator: $operator") }
-//                }
-//            }
-//            is IdentifierExpression -> {
-//                InterpretIdentifier(outPutProvider).interpret(node, storage)
-//            }
-//            is BooleanLiteral -> {
-//                InterpretLiteral(version, outPutProvider, inputProvider, envProvider).interpret(node, storage)
-//            }
-//            is NumberLiteral -> {
-//                InterpretLiteral(version, outPutProvider, inputProvider, envProvider).interpret(node, storage)
-//            }
-//            is StringLiteral -> {
-//                InterpretLiteral(version, outPutProvider, inputProvider, envProvider).interpret(node, storage)
-//            }
-//            is TypeDeclarationExpression -> {
-//                outPutProvider.output(node.getType())
-//            }
-//            is UnaryExpression -> {
-//                InterpretUnaryExpression(version, outPutProvider, inputProvider, envProvider).interpret(
-//                    node,
-//                    storage
-//                )
-//            }
-//        }
-//    }
 }

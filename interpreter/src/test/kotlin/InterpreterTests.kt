@@ -38,14 +38,12 @@ class InterpreterTests {
     @BeforeEach
     fun setup() {
         interpreter1 = Interpreter(
-            version = "1.1",
             outPutProvider,
             inputProvider,
             envProvider,
         )
         storage = Storage()
         interpreter0 = Interpreter(
-            version = "1.0",
             outPutProvider,
             inputProvider,
             envProvider,
@@ -173,15 +171,6 @@ class InterpreterTests {
     }
 
     @Test
-    fun testUndefinedFunctionCall() {
-        val arguments = listOf(NumberLiteral(10.0, Position(1, 10)))
-        val functionCall = FunctionCallStatement("undefinedFunction", arguments, emptyList(), Position(1, 1))
-        val assertion = InterpreterFailure("Function undefinedFunction is not defined in 1.1")
-        val result = interpreter1.interpret(functionCall, storage) as InterpreterFailure
-        assertEquals(assertion.getErrorMessage(), result.getErrorMessage())
-    }
-
-    @Test
     fun testBinaryExpressionWithMul() {
         val left = NumberLiteral(8.0, Position(1, 1))
         val right = NumberLiteral(7.0, Position(1, 5))
@@ -274,29 +263,5 @@ class InterpreterTests {
         val result = interpreter1.interpret(ifStatement, storage)
         val changedResult = result as InterpreterSuccess
         assertEquals("The result is: 42.0", changedResult.getOriginalValue())
-    }
-
-    @Test
-    fun testFunctionCallStatementIfInNotSupported() {
-        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
-        val left = StringLiteral("The result is: ", Position(1, 1))
-        val right = NumberLiteral(42.0, Position(1, 10))
-        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 5))
-        val functionCallThenBlock = FunctionCallStatement(
-            functionName = "println",
-            arguments = listOf(binaryExpression),
-            block = null,
-            position = Position(1, 1),
-        )
-        val ifStatement = IfStatement(
-            condition = booleanLiteral,
-            thenBlock = listOf(functionCallThenBlock),
-            elseBlock = null,
-            position = Position(1, 1),
-        )
-
-        val result = interpreter0.interpret(ifStatement, storage)
-        val changedResult = result as InterpreterFailure
-        assertEquals("If is not supported in version: 1.0", changedResult.getErrorMessage())
     }
 }

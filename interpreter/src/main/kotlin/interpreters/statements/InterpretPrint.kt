@@ -8,7 +8,6 @@ import results.InterpreterSuccess
 import utils.Storage
 
 class InterpretPrint(
-    private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
@@ -19,7 +18,6 @@ class InterpretPrint(
         val toPrint = mutableListOf<String>()
         for (argument in arguments) {
             val result = InterpretExpression(
-                version,
                 outPutProvider,
                 inputProvider,
                 envProvider,

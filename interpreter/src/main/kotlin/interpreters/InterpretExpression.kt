@@ -20,7 +20,6 @@ import results.InterpreterSuccess
 import utils.Storage
 
 class InterpretExpression(
-    private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
@@ -29,15 +28,13 @@ class InterpretExpression(
     fun interpret(node: Expression, storage: Storage): InterpreterResult {
         return when (node) {
             is BinaryExpression -> {
-                InterpretBinaryExpression(version, outPutProvider, inputProvider, envProvider).interpret(node, storage)
+                InterpretBinaryExpression(outPutProvider, inputProvider, envProvider).interpret(node, storage)
             }
             is UnaryExpression -> {
                 InterpretUnaryExpression(
-                    version,
                     outPutProvider,
                     inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
+                    envProvider).interpret(node, storage)
             }
             is IdentifierExpression -> {
                 InterpretIdentifier(outPutProvider).interpret(node, storage)
@@ -48,27 +45,21 @@ class InterpretExpression(
             }
             is BooleanLiteral -> {
                 InterpretLiteral(
-                    version,
                     outPutProvider,
                     inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
+                    envProvider).interpret(node, storage)
             }
             is NumberLiteral -> {
                 InterpretLiteral(
-                    version,
                     outPutProvider,
                     inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
+                    envProvider).interpret(node, storage)
             }
             is StringLiteral -> {
                 InterpretLiteral(
-                    version,
                     outPutProvider,
                     inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
+                    envProvider).interpret(node, storage)
             }
         }
     }

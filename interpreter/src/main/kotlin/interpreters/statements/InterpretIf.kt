@@ -13,7 +13,6 @@ import results.InterpreterSuccess
 import utils.Storage
 
 class InterpretIf(
-    private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
@@ -23,7 +22,6 @@ class InterpretIf(
         val ifBody = node.getThenStatement()
         val elseBody = node.getElseStatement()
         val condition = InterpretExpression(
-            version,
             outPutProvider,
             inputProvider,
             envProvider,
@@ -33,7 +31,6 @@ class InterpretIf(
             if (getConditionValue(condition.getSuccess() as BooleanValue)) {
                 ifBody.forEach { astNode ->
                     return Interpreter(
-                        version,
                         outPutProvider,
                         inputProvider,
                         envProvider,
@@ -42,7 +39,6 @@ class InterpretIf(
             } else {
                 elseBody?.forEach { astNode ->
                     return Interpreter(
-                        version,
                         outPutProvider,
                         inputProvider,
                         envProvider,

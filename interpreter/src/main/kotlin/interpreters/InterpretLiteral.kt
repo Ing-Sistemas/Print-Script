@@ -15,7 +15,6 @@ import results.InterpreterFailure
 import utils.Storage
 
 class InterpretLiteral(
-    private val version: String,
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
@@ -30,17 +29,7 @@ class InterpretLiteral(
                 InterpretStringLiteral(outPutProvider).interpret(node, storage)
             }
             is BooleanLiteral -> {
-                when (version) {
-                    "1.0" -> {
-                        return InterpreterFailure("Boolean literals are not supported in this version: $version")
-                    }
-                    "1.1" -> {
-                        InterpretBooleanLiteral(outPutProvider).interpret(node, storage)
-                    }
-                    else -> {
-                        return InterpreterFailure("Boolean literals are not supported in this version: $version")
-                    }
-                }
+                InterpretBooleanLiteral(outPutProvider).interpret(node, storage)
             }
         }
     }
