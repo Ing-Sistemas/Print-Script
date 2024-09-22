@@ -34,7 +34,8 @@ class InterpretExpression(
                 InterpretUnaryExpression(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is IdentifierExpression -> {
                 InterpretIdentifier(outPutProvider).interpret(node, storage)
@@ -47,19 +48,22 @@ class InterpretExpression(
                 InterpretLiteral(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is NumberLiteral -> {
                 InterpretLiteral(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is StringLiteral -> {
                 InterpretLiteral(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
         }
     }

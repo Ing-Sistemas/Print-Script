@@ -11,7 +11,6 @@ import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
 import interpreters.statements.*
-import results.InterpreterFailure
 import utils.Storage
 
 class InterpretStatement(
@@ -26,35 +25,40 @@ class InterpretStatement(
                 InterpretVariableDeclaration(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
 
             is FunctionCallStatement -> {
                 InterpretFunctionCall(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
 
             is AssignmentStatement -> {
                 InterpretAssignment(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
 
             is EmptyVarDeclarationStatement -> {
                 InterpretEmptyVariable(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
 
             is IfStatement -> {
                 InterpretIf(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
         }
     }

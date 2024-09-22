@@ -1,6 +1,5 @@
 package providers
 
-import StoredValue
 import interfaces.EnvProvider
 
 class DefaultEnvProvider : EnvProvider {

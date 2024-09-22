@@ -2,7 +2,6 @@ package interpreters
 
 import ReadInputNode
 import interfaces.*
-import results.InterpreterResultInformation
 import utils.Storage
 
 class InterpretReadInput(

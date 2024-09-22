@@ -2,7 +2,6 @@ package interpreters.statements
 
 import EmptyVarDeclarationStatement
 import interfaces.*
-import results.InterpreterFailure
 import results.InterpreterSuccess
 import utils.Storage
 

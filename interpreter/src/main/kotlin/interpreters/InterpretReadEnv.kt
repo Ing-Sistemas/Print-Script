@@ -5,7 +5,6 @@ import interfaces.EnvProvider
 import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
-import results.InterpreterResultInformation
 import utils.Storage
 
 class InterpretReadEnv(

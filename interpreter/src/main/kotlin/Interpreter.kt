@@ -17,32 +17,36 @@ class Interpreter(
                 InterpretLiteral(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is Expression -> {
                 InterpretExpression(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is Statement -> {
                 InterpretStatement(
                     outPutProvider,
                     inputProvider,
-                    envProvider).interpret(node, storage)
+                    envProvider,
+                ).interpret(node, storage)
             }
             is ReadEnvNode -> {
-                    InterpretReadEnv(
-                        outPutProvider,
-                        inputProvider,
-                        envProvider).interpret(node, storage)
-
+                InterpretReadEnv(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
             }
             is ReadInputNode -> {
-                    InterpretReadInput(
-                        outPutProvider,
-                        inputProvider,
-                        envProvider).interpret(node, storage)
+                InterpretReadInput(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
             }
         }
     }

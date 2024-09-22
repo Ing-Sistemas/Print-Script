@@ -11,7 +11,6 @@ import interfaces.OutPutProvider
 import interpreters.literals.InterpretBooleanLiteral
 import interpreters.literals.InterpretNumberLiteral
 import interpreters.literals.InterpretStringLiteral
-import results.InterpreterFailure
 import utils.Storage
 
 class InterpretLiteral(
