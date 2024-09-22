@@ -1,0 +1,49 @@
+{
+  "condition": {
+    "value": true,
+    "position": {
+      "column": 3,
+      "line": 1
+    }
+  },
+  "thenBlock": [
+    {
+      "functionName": "println",
+      "arguments": [
+        {
+          "value": "hola",
+          "position": {
+            "column": 17,
+            "line": 1
+          }
+        }
+      ],
+      "position": {
+        "column": 9,
+        "line": 1
+      }
+    }
+  ],
+  "elseBlock": [
+    {
+      "functionName": "println",
+      "arguments": [
+        {
+          "value": "chau",
+          "position": {
+            "column": 41,
+            "line": 1
+          }
+        }
+      ],
+      "position": {
+        "column": 33,
+        "line": 1
+      }
+    }
+  ],
+  "position": {
+    "column": 0,
+    "line": 1
+  }
+}

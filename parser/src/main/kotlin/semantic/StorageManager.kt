@@ -1,9 +1,13 @@
 package org.example.parser.semantic
 
 import AssignmentStatement
+import BooleanValue
+import EmptyVarDeclarationStatement
 import IdentifierExpression
+import NumberValue
 import StoredValue
 import StringValue
+import VariableDeclarationStatement
 import Visitor
 import org.example.parser.semantic.result.ResultFactory
 import org.example.parser.semantic.result.ResultInformation
@@ -30,15 +34,65 @@ class StorageManager(
     ): ResultInformation {
         val identifierResult = node.getIdentifier().accept(visitor)
         val valueResult = node.getValue().accept(visitor)
-        storeVariableCorrectly(identifierResult, valueResult)
+        updateVariable(identifierResult, valueResult)
         return valueResult
     }
 
-    private fun storeVariableCorrectly(
+    fun handleVariableDeclaration(
+        node: VariableDeclarationStatement,
+        visitor: Visitor<ResultInformation>,
+    ): ResultInformation {
+        val declarator = node.getDeclarator()
+        val isMutable = declarator != "const"
+        val assignmentResult = node.getAssignmentExpression().accept(visitor)
+        val identifier = node.getAssignmentExpression().getIdentifier().getIdentifier()
+        val typeForVariable = node.getTypeDeclarationExpression().getType()
+
+        if (assignmentResult.getErrors().isNotEmpty()) return assignmentResult
+
+        if (isMutable) { // si es true aka not-const
+            storage[identifier] = convertToStoredValue(assignmentResult, true)
+        } else {
+            storage[identifier] = convertToStoredValue(assignmentResult, false)
+        }
+
+        return if (typeForVariable != assignmentResult.getType().toString()) {
+            result.createError("Type mismatch for var dec")
+        } else {
+            result.create(convertToStoredValue(assignmentResult, isMutable), assignmentResult.getType())
+        }
+    }
+
+    fun handleEmptyVariableDeclaration(
+        node: EmptyVarDeclarationStatement,
+        visitor: Visitor<ResultInformation>,
+    ): ResultInformation {
+        val declarator = node.getDeclarator()
+        val identifier = node.getIdentifier().getIdentifier()
+        val typeDecNode = node.getTypeDeclarationExpression()
+        val typeNodeResult = typeDecNode.accept(visitor)
+        val typeForVariable = typeNodeResult.getType()
+
+        val isMutable = declarator != "const"
+        val inStorage = identifier in storage
+        if (!isMutable && !inStorage) {
+            storage[identifier] = dataTypeToEmptyStoredValue(typeForVariable, false)
+        } else if (isMutable && !inStorage) {
+            storage[identifier] = dataTypeToEmptyStoredValue(typeForVariable, true)
+        } else {
+            return result.createError("Identifier already declared")
+        }
+        return result.create(storage[identifier]!!, typeForVariable)
+    }
+
+    private fun updateVariable(
         identifierResult: ResultInformation,
         valueResult: ResultInformation,
     ) {
+        // directly assume mutability
         val identifier = identifierResult.getValue<String>()
+        val storedValue = storage[identifier]
+        if (storedValue?.getMutability() == false) return
         storage[identifier] = valueResult.getValue()
     }
 
@@ -48,6 +102,22 @@ class StorageManager(
             "number" -> DataType.NUMBER
             "boolean" -> DataType.BOOLEAN
             else -> DataType.STRING
+        }
+    }
+
+    private fun convertToStoredValue(result: ResultInformation, isMutable: Boolean): StoredValue {
+        return when (result.getType()) {
+            DataType.STRING -> StringValue(result.getValue(), isMutable)
+            DataType.NUMBER -> NumberValue(result.getValue(), isMutable)
+            DataType.BOOLEAN -> BooleanValue(result.getValue(), isMutable)
+        }
+    }
+
+    private fun dataTypeToEmptyStoredValue(type: DataType, isMutable: Boolean): StoredValue {
+        return when (type) {
+            DataType.STRING -> StringValue("", isMutable)
+            DataType.NUMBER -> NumberValue(0.0, isMutable)
+            DataType.BOOLEAN -> BooleanValue(false, isMutable)
         }
     }
 }
