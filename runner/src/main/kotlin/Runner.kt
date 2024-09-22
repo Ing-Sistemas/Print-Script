@@ -2,10 +2,13 @@ package org.example
 
 import Interpreter
 import Lexer
+import interfaces.InterpreterResult
+import org.example.parser.ASTIterator
 import org.example.parser.Parser
 import providers.DefaultEnvProvider
 import providers.DefaultInputProvider
 import providers.DefaultOutPutProvider
+import results.InterpreterFailure
 import utils.Storage
 import java.io.InputStream
 
@@ -13,15 +16,25 @@ class Runner {
     private val parser = Parser()
     private val storage = Storage()
     private val versions = setOf("1.0", "1.1")
-    private val interpreter = Interpreter(String.toString(), outPutProvider = DefaultOutPutProvider(), inputProvider = DefaultInputProvider(), envProvider = DefaultEnvProvider())
+    private val interpreter = Interpreter(outPutProvider = DefaultOutPutProvider(), inputProvider = DefaultInputProvider(), envProvider = DefaultEnvProvider())
 
-    fun run(inputStream: InputStream, version: String) {
+    fun run(inputStream: InputStream, version: String): InterpreterResult {
         if (version !in versions) {
             throw IllegalArgumentException("version: '$version' is not supported")
         }
 
         val readerIterator = ReaderIterator().getLineIterator(inputStream)
         val tokens = Lexer(version).tokenize(readerIterator)
-        interpreter.interpret(parser.parse(tokens), storage)
+        var result: InterpreterResult = InterpreterFailure("")
+        val astIterator = ASTIterator(tokens, parser)
+        while (astIterator.hasNext()) {
+            val ast = astIterator.next()
+            result = interpreter.interpret(ast, storage)
+        }
+        return result
+//        while (astIterator.hasNext()) {
+//            val result = interpreter.interpret(astIterator.next(), storage)
+//            println(result)
+//        }
     }
 }
