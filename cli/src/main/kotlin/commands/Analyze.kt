@@ -36,7 +36,7 @@ class Analyze : CliktCommand(
         try {
             val configLoader = ConfigLoader
             val config = configLoader.loadConfiguration(configFile.path)
-            val linter = StaticCodeAnalyzer(config)
+            val linter = StaticCodeAnalyzer(config, version)
             val readerIterator = ReaderIterator().getLineIterator(inputFile.inputStream())
             val lexer = Lexer(version).tokenize(readerIterator)
             while (lexer.hasNext()) {

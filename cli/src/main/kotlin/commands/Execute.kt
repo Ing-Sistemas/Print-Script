@@ -4,6 +4,9 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import org.example.CLIContext
 import org.example.Runner
+import providers.DefaultEnvProvider
+import providers.DefaultInputProvider
+import providers.DefaultOutPutProvider
 import java.io.File
 
 class Execute : CliktCommand(
@@ -20,7 +23,7 @@ class Execute : CliktCommand(
 
         echo("Executing input...")
         try {
-            Runner().run(inputFile.inputStream(), version)
+            Runner(DefaultInputProvider(), DefaultOutPutProvider(), DefaultEnvProvider()).run(inputFile.inputStream(), version)
         } catch (e: Exception) {
             throw CliktError(e.message)
         }
