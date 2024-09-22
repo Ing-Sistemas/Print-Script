@@ -4,20 +4,32 @@ import BooleanLiteral
 import Literal
 import NumberLiteral
 import StringLiteral
+import interfaces.EnvProvider
+import interfaces.InputProvider
+import interfaces.InterpreterResult
+import interfaces.OutPutProvider
+import interpreters.literals.InterpretBooleanLiteral
+import interpreters.literals.InterpretNumberLiteral
+import interpreters.literals.InterpretStringLiteral
+import results.InterpreterFailure
 import utils.Storage
 
-class InterpretLiteral {
+class InterpretLiteral(
+    private val outPutProvider: OutPutProvider,
+    private val inputProvider: InputProvider,
+    private val envProvider: EnvProvider,
+) {
 
-    fun interpret(node: Literal, storage: Storage): Any {
+    fun interpret(node: Literal, storage: Storage): InterpreterResult {
         return when (node) {
             is NumberLiteral -> {
-                return node.getValue()
+                InterpretNumberLiteral(outPutProvider).interpret(node, storage)
             }
             is StringLiteral -> {
-                return node.getValue()
+                InterpretStringLiteral(outPutProvider).interpret(node, storage)
             }
             is BooleanLiteral -> {
-                return node.getValue()
+                InterpretBooleanLiteral(outPutProvider).interpret(node, storage)
             }
         }
     }
