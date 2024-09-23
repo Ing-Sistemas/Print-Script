@@ -1,8 +1,12 @@
 package org.example.parser.syntactic.builder
 
+import AssignmentStatement
 import Token
 import TypeDeclarationExpression
 import VariableDeclarationStatement
+import org.example.parser.syntactic.SyntacticFail
+import org.example.parser.syntactic.SyntacticResult
+import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType.*
 
 class VariableDeclarationBuilder : ASTBuilderStrategy {
@@ -14,15 +18,22 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         ASSIGNMENT,
     )
 
-    override fun build(tokens: List<Token>): VariableDeclarationStatement {
+    override fun build(tokens: List<Token>): SyntacticResult {
         val declarator = tokens[expectedStruct.indexOf(KEYWORD)]
         val type = tokens[expectedStruct.indexOf(TYPE)]
-        return VariableDeclarationStatement(
-            declarator.getValue(),
-            TypeDeclarationExpression(type.getValue(), type.getPosition()),
-            AssignationBuilder().build(filterTokens(tokens)),
-            declarator.getPosition(),
-        )
+        return when (val assigment = AssignationBuilder().build(filterTokens(tokens))) {
+            is SyntacticFail -> SyntacticFail(assigment.message)
+            is SyntacticSuccess -> {
+                SyntacticSuccess(
+                    VariableDeclarationStatement(
+                        declarator.getValue(),
+                        TypeDeclarationExpression(type.getValue(), type.getPosition()),
+                        assigment.astNode as AssignmentStatement, // TODO check
+                        declarator.getPosition(),
+                    ),
+                )
+            }
+        }
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

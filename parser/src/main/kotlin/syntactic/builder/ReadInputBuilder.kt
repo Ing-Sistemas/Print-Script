@@ -1,14 +1,15 @@
 package org.example.parser.syntactic.builder
 
-import ASTNode
 import ReadInputNode
 import Token
+import org.example.parser.syntactic.SyntacticResult
+import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType
 
 class ReadInputBuilder : ASTBuilderStrategy {
-    override fun build(tokens: List<Token>): ASTNode {
+    override fun build(tokens: List<Token>): SyntacticResult {
         val input = tokens[1].getValue()
-        return ReadInputNode(input, tokens[0].getPosition())
+        return SyntacticSuccess(ReadInputNode(input, tokens[0].getPosition()))
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

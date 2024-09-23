@@ -8,13 +8,14 @@ import IfStatement
 import Token
 import org.example.parser.syntactic.SyntacticAnalyzer
 import org.example.parser.syntactic.SyntacticFail
+import org.example.parser.syntactic.SyntacticResult
 import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType.*
 
 class IfStatementBuilder : ASTBuilderStrategy {
 
-    override fun build(tokens: List<Token>): IfStatement {
-        return parseIfStatement(tokens.listIterator())
+    override fun build(tokens: List<Token>): SyntacticResult {
+        return SyntacticSuccess(parseIfStatement(tokens.listIterator()))
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

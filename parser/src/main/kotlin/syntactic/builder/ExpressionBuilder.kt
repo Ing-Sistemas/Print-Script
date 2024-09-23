@@ -8,6 +8,9 @@ import NumberLiteral
 import StringLiteral
 import Token
 import UnaryExpression
+import org.example.parser.syntactic.SyntacticFail
+import org.example.parser.syntactic.SyntacticResult
+import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType.*
 
 class ExpressionBuilder : ASTBuilderStrategy {
@@ -33,9 +36,13 @@ class ExpressionBuilder : ASTBuilderStrategy {
         CLOSING_PARENS,
     )
 
-    override fun build(tokens: List<Token>): Expression {
+    override fun build(tokens: List<Token>): SyntacticResult {
         val result = parseExpression(0, tokens.listIterator())
-        return result ?: throw Exception("error while parsing expression")
+        return if (result == null) {
+            SyntacticFail("Error while parsing expression")
+        } else {
+            SyntacticSuccess(result)
+        }
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
@@ -115,7 +122,7 @@ class ExpressionBuilder : ASTBuilderStrategy {
         return if (tokensToParse.hasNext()) {
             val token = tokensToParse.next()
             if (!expectedTypes.contains(token.getType())) throw Exception("Unexpected token ${token.getType()}")
-            tokensToParse.previous() // chiche
+            tokensToParse.previous()
             token
         } else {
             null

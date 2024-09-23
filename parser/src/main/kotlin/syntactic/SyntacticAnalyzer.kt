@@ -19,9 +19,13 @@ class SyntacticAnalyzer {
         val tokenList = TokenAccumulator().getTokens(tokens)
         for (builder in builderStrategy) {
             if (builder.isValidStruct(tokenList)) {
-                return SyntacticSuccess(builder.build(tokenList))
+                return builder.build(tokenList)
             }
         }
-        return SyntacticFail("Invalid syntactic structure at ${tokenList.first().getValue()} in: ${tokenList.first().getPosition().getLine()} ")
+        return SyntacticFail(
+            "Invalid syntactic structure at: " +
+                "${tokenList.first().getPosition().getLine()} " +
+                "${tokenList.first().getPosition().getColumn()}",
+        )
     }
 }
