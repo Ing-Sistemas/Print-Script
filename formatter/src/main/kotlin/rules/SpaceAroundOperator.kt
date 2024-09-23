@@ -11,5 +11,4 @@ class SpaceAroundOperator : CodeFormatRule {
             builder.append(code)
         }
     }
-
 }

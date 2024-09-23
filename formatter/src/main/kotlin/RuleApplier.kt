@@ -19,12 +19,12 @@ class RuleApplier(private val config: FormatterConfig, private val builder: Stri
                     builder.append(code)
                 }
             }
-            "println" -> {
-                if (config.lineJumpBeforePrintln > 0) {
-                    LineJumpBeforePrintln(config.lineJumpBeforePrintln).apply(code, config, builder)
-                }
-                builder.append(code)
-            }
+//            "println" -> {
+//                if (config.lineJumpBeforePrintln > 0) {
+//                    LineJumpBeforePrintln(config.lineJumpBeforePrintln).apply(code, config, builder)
+//                }
+//                builder.append(code)
+//            }
             "+", "-", "*", "/" -> {
                 if (config.spaceAroundOperators) {
                     SpaceAroundOperator().apply(code, config, builder)

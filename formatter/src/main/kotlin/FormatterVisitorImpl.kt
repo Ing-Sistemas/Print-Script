@@ -1,5 +1,6 @@
 package org.example
 
+import ASTNode
 import AssignmentStatement
 import BinaryExpression
 import BooleanLiteral
@@ -16,9 +17,10 @@ import VariableDeclarationStatement
 import Visitor
 import org.example.config.FormatterConfig
 
-class FormatterVisitorImpl(private val config: FormatterConfig, private val builder: StringBuilder): Visitor<Unit> {
+class FormatterVisitorImpl(private val config: FormatterConfig, private val builder: StringBuilder) : Visitor<Unit> {
 
     private val applier = RuleApplier(config, builder)
+
     override fun visit(variableDeclarationStatement: VariableDeclarationStatement) {
         applier.apply(variableDeclarationStatement.getDeclarator())
         builder.append(" ")
@@ -31,7 +33,16 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
     }
 
     override fun visit(ifStatement: IfStatement) {
-        TODO("Not yet implemented")
+        builder.append("if (")
+        ifStatement.getCondition().accept(this)
+        builder.append(") {\n")
+        visitBlock(ifStatement.getThenStatement(), 4)
+        builder.append("}")
+        if (ifStatement.getElseStatement() != null) {
+            builder.append(" else {\n")
+            visitBlock(ifStatement.getElseStatement()!!, 4)
+            builder.append("}")
+        }
     }
 
     override fun visit(booleanLiteral: BooleanLiteral) {
@@ -72,12 +83,28 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
     }
 
     override fun visit(functionCallStatement: FunctionCallStatement) {
-        TODO("Not yet implemented")
+        builder.append(functionCallStatement.getFunctionName())
+        builder.append("(")
+        functionCallStatement.getArguments().forEachIndexed { index, argument ->
+            argument.accept(this)
+            if (index < functionCallStatement.getArguments().size - 1) {
+                builder.append(", ")
+            }
+        }
+        builder.append(");")
     }
 
     override fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement) {
         applier.apply(emptyVarDeclarationStatement.getDeclarator())
         emptyVarDeclarationStatement.getIdentifier().accept(this)
         emptyVarDeclarationStatement.getTypeDeclarationExpression().accept(this)
+    }
+
+    private fun visitBlock(block: List<ASTNode>, indent: Int) {
+        block.forEach { node ->
+            builder.append(" ".repeat(indent))
+            node.accept(this)
+            builder.append("\n")
+        }
     }
 }
