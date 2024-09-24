@@ -1,15 +1,16 @@
 package org.example.parser.syntactic.builder
 
-import ASTNode
 import ReadEnvNode
 import Token
+import org.example.parser.syntactic.SyntacticResult
+import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType
 
 class ReadEnvBuilder : ASTBuilderStrategy {
-    override fun build(tokens: List<Token>): ASTNode {
+    override fun build(tokens: List<Token>): SyntacticResult {
         val identifierName = tokens[1].getValue()
         val position = tokens[1].getPosition()
-        return ReadEnvNode(identifierName, position)
+        return SyntacticSuccess(ReadEnvNode(identifierName, position))
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

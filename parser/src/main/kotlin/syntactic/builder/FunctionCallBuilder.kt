@@ -5,6 +5,8 @@ import Expression
 import FunctionCallStatement
 import Token
 import org.example.parser.syntactic.SyntacticAnalyzer
+import org.example.parser.syntactic.SyntacticFail
+import org.example.parser.syntactic.SyntacticResult
 import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType.*
 
@@ -13,10 +15,10 @@ class FunctionCallBuilder : ASTBuilderStrategy {
         FUNCTION_CALL,
         OPENING_PARENS, // the parenthesis enclose the argument
         CLOSING_PARENS,
-        OPENING_CURLY_BRACKS, // the {} enclose de body of function
-        CLOSING_CURLY_BRACKS,
+        OPENING_BRACES, // the {} enclose de body of function
+        CLOSING_BRACES,
     )
-    override fun build(tokens: List<Token>): FunctionCallStatement {
+    override fun build(tokens: List<Token>): SyntacticResult {
         return parseFunCall(tokens.listIterator())
     }
 
@@ -25,11 +27,11 @@ class FunctionCallBuilder : ASTBuilderStrategy {
             tokens[expectedStruct.indexOf(OPENING_PARENS)].getType() == OPENING_PARENS
     }
 
-    private fun parseFunCall(tokens: ListIterator<Token>): FunctionCallStatement {
+    private fun parseFunCall(tokens: ListIterator<Token>): SyntacticResult {
         val funCallToken = tokens.next()
         val arguments = handleArgs(tokens)
         val block = handleBlock(tokens)
-        return FunctionCallStatement(funCallToken.getValue(), arguments, block, funCallToken.getPosition())
+        return SyntacticSuccess(FunctionCallStatement(funCallToken.getValue(), arguments, block, funCallToken.getPosition()))
     }
 
     private fun handleArgs(tokens: ListIterator<Token>): List<Expression> {
@@ -41,7 +43,14 @@ class FunctionCallBuilder : ASTBuilderStrategy {
                 break
             } else { arguments.add(token) }
         }
-        return listOf(ExpressionBuilder().build(arguments)) // TODO, (arg1,arg2,arg3) are not considered yet
+        return when (val exp = ExpressionBuilder().build(arguments)) {
+            is SyntacticSuccess -> {
+                listOf(exp.astNode as Expression) // TODO, (arg1,arg2,arg3) are not considered yet
+            }
+            is SyntacticFail -> {
+                throw Exception("Failed to parse function call") // TODO remove exception
+            }
+        }
     }
 
     private fun handleBlock(tokens: ListIterator<Token>): List<ASTNode>? {
@@ -53,7 +62,7 @@ class FunctionCallBuilder : ASTBuilderStrategy {
         val body = mutableListOf<ASTNode>()
         while (tokens.hasNext()) {
             val nextToken = tokens.next()
-            if (nextToken.getType() == CLOSING_CURLY_BRACKS) {
+            if (nextToken.getType() == CLOSING_BRACES) {
                 if (tokens.hasNext()) {
                     tokens.next()
                 }

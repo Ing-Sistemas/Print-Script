@@ -1,8 +1,12 @@
 package org.example.parser.syntactic.builder
 
 import AssignmentStatement
+import Expression
 import IdentifierExpression
 import Token
+import org.example.parser.syntactic.SyntacticFail
+import org.example.parser.syntactic.SyntacticResult
+import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType.*
 
 class AssignationBuilder : ASTBuilderStrategy {
@@ -11,15 +15,21 @@ class AssignationBuilder : ASTBuilderStrategy {
         ASSIGNMENT,
     )
 
-    override fun build(tokens: List<Token>): AssignmentStatement {
+    override fun build(tokens: List<Token>): SyntacticResult {
         val identifierToken = tokens[expectedStruct.indexOf(IDENTIFIER)]
         val assignment = tokens[expectedStruct.indexOf(ASSIGNMENT)]
-        return AssignmentStatement(
-            IdentifierExpression(identifierToken.getValue(), identifierToken.getPosition()),
-            assignment.getValue(),
-            ExpressionBuilder().build(tokens.subList(2, tokens.lastIndex)),
-            assignment.getPosition(),
-        )
+        return when (val expression = ExpressionBuilder().build(tokens.subList(2, tokens.lastIndex))) {
+            is SyntacticSuccess -> {
+                val statement = AssignmentStatement(
+                    IdentifierExpression(identifierToken.getValue(), identifierToken.getPosition()),
+                    assignment.getValue(),
+                    expression.astNode as Expression,
+                    assignment.getPosition(),
+                )
+                SyntacticSuccess(statement)
+            }
+            is SyntacticFail -> SyntacticFail(expression.message)
+        }
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

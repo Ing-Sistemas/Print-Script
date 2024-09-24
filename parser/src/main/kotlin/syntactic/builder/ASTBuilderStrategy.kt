@@ -1,11 +1,11 @@
 package org.example.parser.syntactic.builder
 
-import ASTNode
 import Token
+import org.example.parser.syntactic.SyntacticResult
 
 interface ASTBuilderStrategy {
 
-    fun build(tokens: List<Token>): ASTNode
+    fun build(tokens: List<Token>): SyntacticResult
 
     fun isValidStruct(tokens: List<Token>): Boolean
 

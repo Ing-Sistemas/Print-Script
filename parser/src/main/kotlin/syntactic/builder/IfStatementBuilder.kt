@@ -8,13 +8,14 @@ import IfStatement
 import Token
 import org.example.parser.syntactic.SyntacticAnalyzer
 import org.example.parser.syntactic.SyntacticFail
+import org.example.parser.syntactic.SyntacticResult
 import org.example.parser.syntactic.SyntacticSuccess
 import org.example.token.TokenType.*
 
 class IfStatementBuilder : ASTBuilderStrategy {
 
-    override fun build(tokens: List<Token>): IfStatement {
-        return parseIfStatement(tokens.listIterator())
+    override fun build(tokens: List<Token>): SyntacticResult {
+        return SyntacticSuccess(parseIfStatement(tokens.listIterator()))
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
@@ -50,14 +51,14 @@ class IfStatementBuilder : ASTBuilderStrategy {
 
     private fun handleBlock(tokens: ListIterator<Token>): List<ASTNode> {
         val openingCurly = tokens.next()
-        if (openingCurly.getType() != OPENING_CURLY_BRACKS) {
+        if (openingCurly.getType() != OPENING_BRACES) {
             throw Exception("Expected closing curly bracks")
         }
         val blockList = mutableListOf<ASTNode>()
         val blockTokens = mutableListOf<Token>()
         while (tokens.hasNext()) {
             val token = tokens.next()
-            if (token.getType() == CLOSING_CURLY_BRACKS) {
+            if (token.getType() == CLOSING_BRACES) {
                 break
             }
             if (token.getType() == SEMICOLON) {

@@ -16,12 +16,15 @@ class SyntacticAnalyzer {
     )
 
     fun build(tokens: Iterator<Token>): SyntacticResult {
-        val tokenList = TokenAccumulator().getTokens(tokens)
+        val tokenList = TokenAccumulator(tokens).next()
         for (builder in builderStrategy) {
             if (builder.isValidStruct(tokenList)) {
-                return SyntacticSuccess(builder.build(tokenList))
+                return builder.build(tokenList)
             }
         }
-        return SyntacticFail("Invalid syntactic structure at ${tokenList.first().getValue()} in: ${tokenList.first().getPosition().getLine()} ")
+        return SyntacticFail(
+            "Invalid syntactic structure at: " +
+                "line: ${tokenList.first().getPosition().getLine()} ",
+        )
     }
 }
