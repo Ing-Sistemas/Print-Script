@@ -196,4 +196,33 @@ class FormatterTest {
         val formatted = CodeFormatter().format(ast, config)
         assertEquals("let a:number = 5.0; \n", formatted)
     }
+
+    @Test
+    fun `test ifStatement with multiple data types`() {
+        val config = FormatterConfig(
+            true,
+            true,
+            true,
+            1,
+        )
+        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
+        val left = StringLiteral("The value is: ", Position(1, 1))
+        val right = NumberLiteral(42.0, Position(1, 10))
+        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 5))
+        val functionCallThenBlock = FunctionCallStatement(
+            functionName = "println",
+            arguments = listOf(binaryExpression),
+            block = null,
+            position = Position(1, 1),
+        )
+        val ifStatement = IfStatement(
+            condition = booleanLiteral,
+            thenBlock = listOf(functionCallThenBlock),
+            elseBlock = null,
+            position = Position(1, 1),
+        )
+        val formatted = CodeFormatter().format(ifStatement, config)
+        val correctFormat = "if (true) {\n    println(\"The value is: \" + 42.0);\n}"
+        assertEquals(correctFormat, formatted)
+    }
 }

@@ -50,7 +50,9 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
     }
 
     override fun visit(stringLiteral: StringLiteral) {
+        builder.append('"')
         applier.apply(stringLiteral.getValue())
+        builder.append('"')
     }
 
     override fun visit(numberLiteral: NumberLiteral) {
