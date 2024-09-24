@@ -1,7 +1,13 @@
 package org.example.rules
 
+import org.example.config.FormatterConfig
+
 class SpaceAroundEquals : CodeFormatRule {
-    override fun apply(code: String): String {
-        return code.replace(Regex("([^\\s])=([^\\s])"), "$1 = $2")
+    override fun apply(code: String, config: FormatterConfig, builder: StringBuilder) {
+        if (config.spaceAroundEquals && code == "=") {
+            builder.append(" = ")
+        } else {
+            builder.append(code)
+        }
     }
 }
