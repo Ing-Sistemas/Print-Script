@@ -33,6 +33,7 @@ class Runner(
         val astIterator = ASTIterator(tokens, parser)
         while (astIterator.hasNext()) {
             val ast = astIterator.next()
+            println(ast.toString())
             result = interpreter.interpret(ast, storage)
         }
         return result

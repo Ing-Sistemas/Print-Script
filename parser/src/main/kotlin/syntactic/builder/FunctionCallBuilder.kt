@@ -15,8 +15,8 @@ class FunctionCallBuilder : ASTBuilderStrategy {
         FUNCTION_CALL,
         OPENING_PARENS, // the parenthesis enclose the argument
         CLOSING_PARENS,
-        OPENING_CURLY_BRACKS, // the {} enclose de body of function
-        CLOSING_CURLY_BRACKS,
+        OPENING_BRACES, // the {} enclose de body of function
+        CLOSING_BRACES,
     )
     override fun build(tokens: List<Token>): SyntacticResult {
         return parseFunCall(tokens.listIterator())
@@ -62,7 +62,7 @@ class FunctionCallBuilder : ASTBuilderStrategy {
         val body = mutableListOf<ASTNode>()
         while (tokens.hasNext()) {
             val nextToken = tokens.next()
-            if (nextToken.getType() == CLOSING_CURLY_BRACKS) {
+            if (nextToken.getType() == CLOSING_BRACES) {
                 if (tokens.hasNext()) {
                     tokens.next()
                 }

@@ -51,14 +51,14 @@ class IfStatementBuilder : ASTBuilderStrategy {
 
     private fun handleBlock(tokens: ListIterator<Token>): List<ASTNode> {
         val openingCurly = tokens.next()
-        if (openingCurly.getType() != OPENING_CURLY_BRACKS) {
+        if (openingCurly.getType() != OPENING_BRACES) {
             throw Exception("Expected closing curly bracks")
         }
         val blockList = mutableListOf<ASTNode>()
         val blockTokens = mutableListOf<Token>()
         while (tokens.hasNext()) {
             val token = tokens.next()
-            if (token.getType() == CLOSING_CURLY_BRACKS) {
+            if (token.getType() == CLOSING_BRACES) {
                 break
             }
             if (token.getType() == SEMICOLON) {
