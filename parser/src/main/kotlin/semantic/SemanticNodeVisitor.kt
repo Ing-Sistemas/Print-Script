@@ -41,11 +41,14 @@ class SemanticNodeVisitor(
     }
 
     override fun visit(ifStatement: IfStatement): ResultInformation {
-        val condition = ifStatement.getCondition()
+        val condition = ifStatement.getCondition().accept(this)
+        val storedCondition = storageManager.findByName(condition.getValue()) // cond.tS
         val thenStatement = ifStatement.getThenStatement()
         val elseStatement = ifStatement.getElseStatement()
 
-        if (condition is BooleanLiteral) {
+        val condition1 = (storedCondition != null) && storedCondition is BooleanValue
+
+        if (condition1 || condition.getValue()) {
             thenStatement.forEach { it.accept(this) }
             elseStatement?.forEach { it.accept(this) }
             return resultFactory.create(StringValue(""), DataType.STRING)

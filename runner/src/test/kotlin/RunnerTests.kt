@@ -10,6 +10,6 @@ class RunnerTests {
     @Test
     fun `runner test`() {
         val file = File("../runner/src/test/resources/main.ps")
-        val runner = Runner(DefaultInputProvider(), DefaultOutPutProvider(), DefaultEnvProvider()).run(file.inputStream(), "1.0")
+        val runner = Runner(DefaultInputProvider(), DefaultOutPutProvider(), DefaultEnvProvider()).run(file.inputStream(), "1.1")
     }
 }

@@ -85,6 +85,14 @@ class StorageManager(
         return result.create(storage[identifier]!!, typeForVariable)
     }
 
+    fun findByName(name: String): StoredValue? {
+        return if (name in storage) {
+            storage[name]!!
+        } else {
+            null
+        }
+    }
+
     private fun updateVariable(
         identifierResult: ResultInformation,
         valueResult: ResultInformation,
