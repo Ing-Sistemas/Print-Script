@@ -10,6 +10,8 @@ class SyntacticAnalyzer {
         FunctionCallBuilder(),
         AssignationBuilder(),
         IfStatementBuilder(),
+        ReadEnvBuilder(),
+        ReadInputBuilder(),
         ExpressionBuilder(),
     )
 

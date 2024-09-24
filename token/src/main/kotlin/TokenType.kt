@@ -24,4 +24,6 @@ enum class TokenType {
     BOOLEAN,
     IF,
     ELSE,
+    READ_ENV,
+    READ_INPUT,
 }

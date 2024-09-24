@@ -45,6 +45,8 @@ class TokenPatternProvider {
                 BOOLEAN to Regex("true|false"),
                 IF to Regex("\\b(if)\\b"),
                 ELSE to Regex("\\b(else)\\b"),
+                READ_ENV to Regex("\\b(readEnv)\\b"),
+                READ_INPUT to Regex("\\b(readInput)\\b"),
                 IDENTIFIER to Regex("[a-zA-Z_][a-zA-Z_0-9]*"),
             )
             else -> throw IllegalArgumentException("Unsupported version: $version")

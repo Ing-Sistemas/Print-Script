@@ -1,60 +1,48 @@
-package interpreters
-
-import AssignmentStatement
-import EmptyVarDeclarationStatement
-import FunctionCallStatement
-import IfStatement
-import Statement
-import VariableDeclarationStatement
 import interfaces.EnvProvider
 import interfaces.InputProvider
 import interfaces.InterpreterResult
 import interfaces.OutPutProvider
-import interpreters.statements.*
+import interpreters.*
 import utils.Storage
 
-class InterpretStatement(
+class Interpreter(
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
 ) {
 
-    fun interpret(node: Statement, storage: Storage): InterpreterResult {
+    fun interpret(node: ASTNode, storage: Storage): InterpreterResult {
         return when (node) {
-            is VariableDeclarationStatement -> {
-                InterpretVariableDeclaration(
+            is Literal -> {
+                InterpretLiteral(
                     outPutProvider,
                     inputProvider,
                     envProvider,
                 ).interpret(node, storage)
             }
-
-            is FunctionCallStatement -> {
-                InterpretFunctionCall(
+            is Expression -> {
+                InterpretExpression(
                     outPutProvider,
                     inputProvider,
                     envProvider,
                 ).interpret(node, storage)
             }
-
-            is AssignmentStatement -> {
-                InterpretAssignment(
+            is Statement -> {
+                InterpretStatement(
                     outPutProvider,
                     inputProvider,
                     envProvider,
                 ).interpret(node, storage)
             }
-
-            is EmptyVarDeclarationStatement -> {
-                InterpretEmptyVariable(
+            is ReadEnvNode -> {
+                InterpretReadEnv(
                     outPutProvider,
                     inputProvider,
                     envProvider,
                 ).interpret(node, storage)
             }
-
-            is IfStatement -> {
-                InterpretIf(
+            is ReadInputNode -> {
+                InterpretReadInput(
                     outPutProvider,
                     inputProvider,
                     envProvider,

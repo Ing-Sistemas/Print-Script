@@ -41,6 +41,6 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
 
     private fun filterTokens(tokens: List<Token>): List<Token> {
         val indexesToRemove = setOf(expectedStruct.indexOf(KEYWORD), expectedStruct.indexOf(COLON), expectedStruct.indexOf(TYPE))
-        return tokens.filterIndexed { index, _ -> index !in indexesToRemove }
+        return tokens.filterIndexed { index, _ -> index !in indexesToRemove } // remove keyword, colon and type, not needed in assigment
     }
 }

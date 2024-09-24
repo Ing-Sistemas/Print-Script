@@ -11,4 +11,6 @@ interface Visitor<T> {
     fun visit(stringLiteral: StringLiteral): T
     fun visit(booleanLiteral: BooleanLiteral): T
     fun visit(ifStatement: IfStatement): T
+    fun visit(readInputNode: ReadInputNode): T
+    fun visit(readEnvNode: ReadEnvNode): T
 }
