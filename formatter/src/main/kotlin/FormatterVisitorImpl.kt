@@ -9,6 +9,8 @@ import FunctionCallStatement
 import IdentifierExpression
 import IfStatement
 import NumberLiteral
+import ReadEnvNode
+import ReadInputNode
 import RuleApplier
 import StringLiteral
 import TypeDeclarationExpression
@@ -43,6 +45,14 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
             visitBlock(ifStatement.getElseStatement()!!, 4)
             builder.append("}")
         }
+    }
+
+    override fun visit(readInputNode: ReadInputNode) {
+        return
+    }
+
+    override fun visit(readEnvNode: ReadEnvNode) {
+        return
     }
 
     override fun visit(booleanLiteral: BooleanLiteral) {
