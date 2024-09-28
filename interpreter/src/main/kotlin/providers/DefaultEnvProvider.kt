@@ -1,6 +1,6 @@
-package providers
+package com.printscript.interpreter.providers
 
-import interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.EnvProvider
 
 class DefaultEnvProvider : EnvProvider {
     override fun getEnv(name: String): String? {

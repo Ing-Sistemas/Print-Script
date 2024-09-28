@@ -1,4 +1,4 @@
-import org.example.token.TokenType
+package com.printscript.token
 
 class Token(private val tokenType: TokenType, private val value: String, private val position: Position) {
 

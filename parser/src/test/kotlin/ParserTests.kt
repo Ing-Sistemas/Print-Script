@@ -1,4 +1,6 @@
-import org.example.parser.Parser
+
+import com.printscript.lexer.Lexer
+import com.printscript.parser.Parser
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows

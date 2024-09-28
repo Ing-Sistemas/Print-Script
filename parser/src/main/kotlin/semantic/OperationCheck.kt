@@ -1,11 +1,11 @@
-package org.example.parser.semantic
+package com.printscript.parser.semantic
 
-import BinaryExpression
-import NumberValue
-import Visitor
-import org.example.parser.semantic.result.ResultFactory
-import org.example.parser.semantic.result.ResultInformation
-import org.example.parser.semantic.result.ResultNumber
+import com.printscript.ast.BinaryExpression
+import com.printscript.ast.NumberValue
+import com.printscript.ast.Visitor
+import com.printscript.parser.semantic.result.ResultFactory
+import com.printscript.parser.semantic.result.ResultInformation
+import com.printscript.parser.semantic.result.ResultNumber
 
 class OperationCheck(
     private val resultFactory: ResultFactory,

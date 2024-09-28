@@ -1,4 +1,4 @@
-package linters
+package com.printscript.linter.linters
 
 // class ReadInputRestrictions() : Linter {
 //    override fun lint(tokens: List<Token>): List<String> {

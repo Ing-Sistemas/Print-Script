@@ -1,11 +1,11 @@
-package interpreters.literals
+package com.printscript.interpreter.interpreters.literals
 
-import StringLiteral
-import StringValue
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import results.InterpreterSuccess
-import utils.Storage
+import com.printscript.ast.StringLiteral
+import com.printscript.ast.StringValue
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.results.InterpreterSuccess
+import com.printscript.interpreter.utils.Storage
 
 class InterpretStringLiteral(private val outPutProvider: OutPutProvider) {
 

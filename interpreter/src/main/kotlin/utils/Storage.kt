@@ -1,6 +1,6 @@
-package utils
+package com.printscript.interpreter.utils
 
-import StoredValue
+import com.printscript.ast.StoredValue
 
 class Storage {
     private val storage = mutableMapOf<String, StoredValue?>()

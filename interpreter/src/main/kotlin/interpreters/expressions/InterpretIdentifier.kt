@@ -1,12 +1,12 @@
-package interpreters.expressions
+package com.printscript.interpreter.interpreters.expressions
 
-import IdentifierExpression
-import StoredValue
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import results.InterpreterFailure
-import results.InterpreterSuccess
-import utils.Storage
+import com.printscript.ast.IdentifierExpression
+import com.printscript.ast.StoredValue
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.results.InterpreterFailure
+import com.printscript.interpreter.results.InterpreterSuccess
+import com.printscript.interpreter.utils.Storage
 
 class InterpretIdentifier(
     private val outPutProvider: OutPutProvider,

@@ -1,3 +1,7 @@
+package com.printscript.ast
+
+import com.printscript.token.Position
+
 class ReadEnvNode(
     private val identifierName: String,
     private val position: Position,

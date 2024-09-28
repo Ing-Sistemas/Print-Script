@@ -1,5 +1,7 @@
-import configurations.ConfigLoader
-import linters.StaticCodeAnalyzer
+
+import com.printscript.lexer.Lexer
+import com.printscript.linter.configurations.ConfigLoader
+import com.printscript.linter.linters.StaticCodeAnalyzer
 import org.junit.jupiter.api.Test
 
 class Linter1Tester {

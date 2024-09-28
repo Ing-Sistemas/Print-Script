@@ -1,10 +1,10 @@
-package results
+package com.printscript.interpreter.results
 
-import BooleanValue
-import NumberValue
-import StoredValue
-import StringValue
-import interfaces.Success
+import com.printscript.ast.BooleanValue
+import com.printscript.ast.NumberValue
+import com.printscript.ast.StoredValue
+import com.printscript.ast.StringValue
+import com.printscript.interpreter.interfaces.Success
 
 class InterpreterSuccess(override val customValue: StoredValue?) : Success {
     override fun getSuccess(): StoredValue? {

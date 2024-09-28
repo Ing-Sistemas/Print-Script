@@ -1,26 +1,8 @@
-package org.example.parser.semantic
+package com.printscript.parser.semantic
 
-import AssignmentStatement
-import BinaryExpression
-import BooleanLiteral
-import BooleanValue
-import EmptyVarDeclarationStatement
-import FunctionCallStatement
-import IdentifierExpression
-import IfStatement
-import NumberLiteral
-import NumberValue
-import ReadEnvNode
-import ReadInputNode
-import StoredValue
-import StringLiteral
-import StringValue
-import TypeDeclarationExpression
-import UnaryExpression
-import VariableDeclarationStatement
-import Visitor
-import org.example.parser.semantic.result.ResultFactory
-import org.example.parser.semantic.result.ResultInformation
+import com.printscript.ast.*
+import com.printscript.parser.semantic.result.ResultFactory
+import com.printscript.parser.semantic.result.ResultInformation
 
 class SemanticNodeVisitor(
     private val storageManager: StorageManager,

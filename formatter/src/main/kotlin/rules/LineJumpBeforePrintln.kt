@@ -1,4 +1,4 @@
-package org.example.rules
+package com.printscript.formatter.rules
 
 class LineJumpBeforePrintln(private val lineJumps: Int) : CodeFormatRule {
     override fun apply(code: String): String {

@@ -1,17 +1,12 @@
-package interpreters
+package com.printscript.interpreter.interpreters
 
-import AssignmentStatement
-import EmptyVarDeclarationStatement
-import FunctionCallStatement
-import IfStatement
-import Statement
-import VariableDeclarationStatement
-import interfaces.EnvProvider
-import interfaces.InputProvider
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import interpreters.statements.*
-import utils.Storage
+import com.printscript.ast.*
+import com.printscript.interpreter.interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.interpreters.statements.*
+import com.printscript.interpreter.utils.Storage
 
 class InterpretStatement(
     private val outPutProvider: OutPutProvider,

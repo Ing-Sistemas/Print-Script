@@ -1,3 +1,6 @@
+package com.printscript.ast
+
+import com.printscript.token.Position
 
 class ReadInputNode(
     private val input: String,

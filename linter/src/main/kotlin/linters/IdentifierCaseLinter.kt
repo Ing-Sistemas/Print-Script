@@ -1,9 +1,9 @@
-package linters
+package com.printscript.linter.linters
 
-import Token
-import configurations.CaseConfiguration
-import interfaces.Linter
-import org.example.token.TokenType
+import com.printscript.linter.configurations.CaseConfiguration
+import com.printscript.linter.interfaces.Linter
+import com.printscript.token.Token
+import com.printscript.token.TokenType
 
 class IdentifierCaseLinter(private val caseConfiguration: CaseConfiguration) : Linter {
     override fun lint(tokens: List<Token>): List<String> {

@@ -1,9 +1,9 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import Token
-import TypeDeclarationExpression
-import VariableDeclarationStatement
-import org.example.token.TokenType.*
+import com.printscript.ast.TypeDeclarationExpression
+import com.printscript.ast.VariableDeclarationStatement
+import com.printscript.token.Token
+import com.printscript.token.TokenType.*
 
 class VariableDeclarationBuilder : ASTBuilderStrategy {
     private val expectedStruct = listOf(

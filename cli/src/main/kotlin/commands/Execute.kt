@@ -1,12 +1,12 @@
-package org.example.commands
+package com.printscript.cli.commands
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import org.example.CLIContext
-import org.example.Runner
-import providers.DefaultEnvProvider
-import providers.DefaultInputProvider
-import providers.DefaultOutPutProvider
+import com.printscript.cli.CLIContext
+import com.printscript.interpreter.providers.DefaultEnvProvider
+import com.printscript.interpreter.providers.DefaultInputProvider
+import com.printscript.interpreter.providers.DefaultOutPutProvider
+import com.printscript.runner.Runner
 import java.io.File
 
 class Execute : CliktCommand(

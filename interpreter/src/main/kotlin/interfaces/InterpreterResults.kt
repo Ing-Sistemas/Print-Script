@@ -1,7 +1,7 @@
-package interfaces
+package com.printscript.interpreter.interfaces
 
-import StoredValue
-import utils.Storage
+import com.printscript.ast.StoredValue
+import com.printscript.interpreter.utils.Storage
 
 sealed interface InterpreterResult
 

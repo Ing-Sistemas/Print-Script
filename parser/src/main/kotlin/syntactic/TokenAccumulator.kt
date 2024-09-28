@@ -1,7 +1,7 @@
-package org.example.parser.syntactic
+package com.printscript.parser.syntactic
 
-import Token
-import org.example.token.TokenType
+import com.printscript.token.Token
+import com.printscript.token.TokenType
 
 class TokenAccumulator {
     fun getTokens(tokens: Iterator<Token>): List<Token> {

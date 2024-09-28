@@ -1,6 +1,6 @@
-package providers
+package com.printscript.interpreter.providers
 
-import interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InputProvider
 
 class DefaultInputProvider : InputProvider {
     override fun readInput(name: String): String {

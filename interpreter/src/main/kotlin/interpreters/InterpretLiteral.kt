@@ -1,17 +1,17 @@
-package interpreters
+package com.printscript.interpreter.interpreters
 
-import BooleanLiteral
-import Literal
-import NumberLiteral
-import StringLiteral
-import interfaces.EnvProvider
-import interfaces.InputProvider
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import interpreters.literals.InterpretBooleanLiteral
-import interpreters.literals.InterpretNumberLiteral
-import interpreters.literals.InterpretStringLiteral
-import utils.Storage
+import com.printscript.ast.BooleanLiteral
+import com.printscript.ast.Literal
+import com.printscript.ast.NumberLiteral
+import com.printscript.ast.StringLiteral
+import com.printscript.interpreter.interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.interpreters.literals.InterpretBooleanLiteral
+import com.printscript.interpreter.interpreters.literals.InterpretNumberLiteral
+import com.printscript.interpreter.interpreters.literals.InterpretStringLiteral
+import com.printscript.interpreter.utils.Storage
 
 class InterpretLiteral(
     private val outPutProvider: OutPutProvider,

@@ -1,9 +1,12 @@
-import interfaces.EnvProvider
-import interfaces.InputProvider
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import interpreters.*
-import utils.Storage
+package com.printscript.interpreter
+
+import com.printscript.ast.*
+import com.printscript.interpreter.interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.interpreters.*
+import com.printscript.interpreter.utils.Storage
 
 class Interpreter(
     private val outPutProvider: OutPutProvider,

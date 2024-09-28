@@ -1,4 +1,4 @@
-package org.example.token
+package com.printscript.token
 
 enum class TokenType {
     ASSIGNMENT,

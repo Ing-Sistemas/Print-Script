@@ -1,4 +1,4 @@
-package configurations
+package com.printscript.linter.configurations
 
 data class Configuration(
     val caseConfiguration: CaseConfiguration,

@@ -1,3 +1,5 @@
+package com.printscript.ast
+
 interface Visitor<T> {
     fun visit(variableDeclarationStatement: VariableDeclarationStatement): T
     fun visit(emptyVarDeclarationStatement: EmptyVarDeclarationStatement): T
