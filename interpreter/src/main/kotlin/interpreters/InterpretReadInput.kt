@@ -1,8 +1,11 @@
-package interpreters
+package com.printscript.interpreter.interpreters
 
-import ReadInputNode
-import interfaces.*
-import utils.Storage
+import com.printscript.ast.ReadInputNode
+import com.printscript.interpreter.interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.utils.Storage
 
 class InterpretReadInput(
     private val outPutProvider: OutPutProvider,

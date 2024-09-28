@@ -1,4 +1,4 @@
-package org.example.rules
+package com.printscript.formatter.rules
 
 class SpaceAroundOperator : CodeFormatRule {
     override fun apply(code: String): String {

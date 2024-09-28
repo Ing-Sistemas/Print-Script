@@ -1,3 +1,6 @@
+package com.printscript.ast
+
+import com.printscript.token.Position
 import kotlin.Boolean
 
 sealed interface Literal : Expression

@@ -1,6 +1,6 @@
-package org.example.parser.semantic.result
+package com.printscript.parser.semantic.result
 
-import org.example.parser.semantic.DataType
+import com.printscript.parser.semantic.DataType
 
 class ResultBoolean(
     private val value: Boolean,

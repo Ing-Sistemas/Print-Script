@@ -1,11 +1,11 @@
-package interpreters.literals
+package com.printscript.interpreter.interpreters.literals
 
-import BooleanLiteral
-import BooleanValue
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import results.InterpreterSuccess
-import utils.Storage
+import com.printscript.ast.BooleanLiteral
+import com.printscript.ast.BooleanValue
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.results.InterpreterSuccess
+import com.printscript.interpreter.utils.Storage
 
 class InterpretBooleanLiteral(private val outPutProvider: OutPutProvider) {
 

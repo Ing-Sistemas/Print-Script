@@ -1,7 +1,8 @@
-package org.example.parser.syntactic
+package com.printscript.parser.syntactic
 
-import Token
-import org.example.parser.syntactic.builder.*
+import com.printscript.parser.syntactic.builder.*
+import com.printscript.parser.syntactic.builder.ASTBuilderStrategy
+import com.printscript.token.Token
 
 class SyntacticAnalyzer {
     private val builderStrategy = listOf<ASTBuilderStrategy>(

@@ -1,6 +1,6 @@
-package interfaces
+package com.printscript.linter.interfaces
 
-import Token
+import com.printscript.token.Token
 
 interface Linter {
 

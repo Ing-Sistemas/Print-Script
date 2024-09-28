@@ -1,9 +1,9 @@
-package interpreters.statements
+package com.printscript.interpreter.interpreters.statements
 
-import EmptyVarDeclarationStatement
-import interfaces.*
-import results.InterpreterSuccess
-import utils.Storage
+import com.printscript.ast.EmptyVarDeclarationStatement
+import com.printscript.interpreter.interfaces.*
+import com.printscript.interpreter.results.InterpreterSuccess
+import com.printscript.interpreter.utils.Storage
 
 class InterpretEmptyVariable(
     private val outPutProvider: OutPutProvider,

@@ -1,9 +1,9 @@
-package org.example.commands
+package com.printscript.cli.commands
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import org.example.CLIContext
-import org.example.CodeFormatter
+import com.printscript.cli.CLIContext
+import com.printscript.formatter.CodeFormatter
 import java.io.File
 
 class Format : CliktCommand(

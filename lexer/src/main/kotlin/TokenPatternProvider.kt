@@ -1,5 +1,7 @@
-import org.example.token.TokenType
-import org.example.token.TokenType.*
+package com.printscript.lexer
+
+import com.printscript.token.TokenType
+import com.printscript.token.TokenType.*
 
 class TokenPatternProvider {
     fun getPatterns(version: String): Map<TokenType, Regex> {

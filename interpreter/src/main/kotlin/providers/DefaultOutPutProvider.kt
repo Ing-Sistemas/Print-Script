@@ -1,6 +1,6 @@
-package providers
+package com.printscript.interpreter.providers
 
-import interfaces.OutPutProvider
+import com.printscript.interpreter.interfaces.OutPutProvider
 
 class DefaultOutPutProvider() : OutPutProvider {
     override fun output(message: String): String {

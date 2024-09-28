@@ -1,16 +1,9 @@
-package org.example.parser.semantic
+package com.printscript.parser.semantic
 
-import AssignmentStatement
-import BooleanValue
-import EmptyVarDeclarationStatement
-import IdentifierExpression
-import NumberValue
-import StoredValue
-import StringValue
-import VariableDeclarationStatement
-import Visitor
-import org.example.parser.semantic.result.ResultFactory
-import org.example.parser.semantic.result.ResultInformation
+import com.printscript.*
+import com.printscript.ast.*
+import com.printscript.parser.semantic.result.ResultFactory
+import com.printscript.parser.semantic.result.ResultInformation
 
 class StorageManager(
     private val result: ResultFactory,

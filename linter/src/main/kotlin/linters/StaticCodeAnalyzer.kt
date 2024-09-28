@@ -1,8 +1,8 @@
-package linters
+package com.printscript.linter.linters
 
-import Token
-import configurations.Configuration
-import interfaces.Linter
+import com.printscript.linter.configurations.Configuration
+import com.printscript.linter.interfaces.Linter
+import com.printscript.token.Token
 
 class StaticCodeAnalyzer(configuration: Configuration, private val version: String) {
 

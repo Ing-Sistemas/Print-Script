@@ -1,4 +1,4 @@
-package configurations
+package com.printscript.linter.configurations
 
 enum class CaseConfiguration(val value: String) {
     CAMEL_CASE("camelCase"),

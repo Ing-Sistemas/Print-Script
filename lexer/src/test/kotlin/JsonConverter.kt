@@ -1,6 +1,7 @@
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import org.example.token.TokenType
+import com.printscript.token.Token
+import com.printscript.token.TokenType
 import java.io.InputStreamReader
 
 class JsonConverter {

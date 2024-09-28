@@ -1,4 +1,4 @@
-package configurations
+package com.printscript.linter.configurations
 import com.google.gson.*
 import java.io.FileReader
 import java.lang.reflect.Type

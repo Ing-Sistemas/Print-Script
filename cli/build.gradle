@@ -3,6 +3,7 @@ plugins {
     id 'application-conventions'
     id 'application'
 }
+group= 'com.printscript'
 version = '1.1.1'
 
 repositories {
@@ -27,7 +28,7 @@ test {
 }
 
 application {
-    mainClass.set('org.example.CLIKt')
+    mainClass.set('com.print-script-group14.CLIKt')
 }
 
 

@@ -1,4 +1,4 @@
-import org.example.CodeFormatter
+import com.printscript.formatter.CodeFormatter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.nio.file.Files

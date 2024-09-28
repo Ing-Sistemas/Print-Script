@@ -1,6 +1,6 @@
-package org.example.parser.syntactic
+package com.printscript.parser.syntactic
 
-import ASTNode
+import com.printscript.ast.ASTNode
 
 sealed interface SyntacticResult
 

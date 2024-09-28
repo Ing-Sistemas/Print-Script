@@ -1,4 +1,4 @@
-package org.example.parser.semantic
+package com.printscript.parser.semantic
 
 enum class DataType(private val typeName: String) {
     STRING("string"),

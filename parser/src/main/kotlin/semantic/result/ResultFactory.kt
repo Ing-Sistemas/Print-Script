@@ -1,10 +1,10 @@
-package org.example.parser.semantic.result
+package com.printscript.parser.semantic.result
 
-import BooleanValue
-import NumberValue
-import StoredValue
-import StringValue
-import org.example.parser.semantic.DataType
+import com.printscript.ast.BooleanValue
+import com.printscript.ast.NumberValue
+import com.printscript.ast.StoredValue
+import com.printscript.ast.StringValue
+import com.printscript.parser.semantic.DataType
 
 class ResultFactory {
 

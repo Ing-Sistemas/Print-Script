@@ -1,7 +1,8 @@
-import org.example.Runner
-import providers.DefaultEnvProvider
-import providers.DefaultInputProvider
-import providers.DefaultOutPutProvider
+
+import com.printscript.interpreter.providers.DefaultEnvProvider
+import com.printscript.interpreter.providers.DefaultInputProvider
+import com.printscript.interpreter.providers.DefaultOutPutProvider
+import com.printscript.runner.Runner
 import java.io.File
 import kotlin.test.Test
 
@@ -10,6 +11,10 @@ class RunnerTests {
     @Test
     fun `runner test`() {
         val file = File("../runner/src/test/resources/main.ps")
-        val runner = Runner(DefaultInputProvider(), DefaultOutPutProvider(), DefaultEnvProvider()).run(file.inputStream(), "1.0")
+        val runner = Runner(
+            DefaultInputProvider(),
+            DefaultOutPutProvider(),
+            DefaultEnvProvider(),
+        ).run(file.inputStream(), "1.0")
     }
 }

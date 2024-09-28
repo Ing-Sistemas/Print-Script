@@ -1,9 +1,9 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import ASTNode
-import ReadInputNode
-import Token
-import org.example.token.TokenType
+import com.printscript.ast.ASTNode
+import com.printscript.ast.ReadInputNode
+import com.printscript.token.Token
+import com.printscript.token.TokenType
 
 class ReadInputBuilder : ASTBuilderStrategy {
     override fun build(tokens: List<Token>): ASTNode {

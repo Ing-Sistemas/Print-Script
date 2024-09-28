@@ -1,8 +1,8 @@
-package org.example
+package com.printscript.formatter
 
-import org.example.config.FormatterConfig
-import org.example.config.JsonReader
-import org.example.rules.*
+import com.printscript.formatter.config.FormatterConfig
+import com.printscript.formatter.config.JsonReader
+import com.printscript.formatter.rules.*
 import java.io.File
 
 class CodeFormatter {

@@ -1,7 +1,7 @@
-package linters
+package com.printscript.linter.linters
 
-import Token
-import interfaces.Linter
+import com.printscript.linter.interfaces.Linter
+import com.printscript.token.Token
 
 class PrinterRestrictions : Linter {
     override fun lint(tokens: List<Token>): List<String> {

@@ -1,14 +1,8 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import BinaryExpression
-import BooleanLiteral
-import Expression
-import IdentifierExpression
-import NumberLiteral
-import StringLiteral
-import Token
-import UnaryExpression
-import org.example.token.TokenType.*
+import com.printscript.ast.*
+import com.printscript.token.Token
+import com.printscript.token.TokenType.*
 
 class ExpressionBuilder : ASTBuilderStrategy {
 

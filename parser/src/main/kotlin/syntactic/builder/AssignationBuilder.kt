@@ -1,9 +1,9 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import AssignmentStatement
-import IdentifierExpression
-import Token
-import org.example.token.TokenType.*
+import com.printscript.ast.AssignmentStatement
+import com.printscript.ast.IdentifierExpression
+import com.printscript.token.Token
+import com.printscript.token.TokenType.*
 
 class AssignationBuilder : ASTBuilderStrategy {
     private val expectedStruct = listOf(

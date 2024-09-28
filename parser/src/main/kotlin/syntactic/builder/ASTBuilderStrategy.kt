@@ -1,7 +1,8 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import ASTNode
-import Token
+import com.printscript.ast.ASTNode
+import com.printscript.token.Token
+import com.printscript.token.TokenType.*
 
 interface ASTBuilderStrategy {
 
