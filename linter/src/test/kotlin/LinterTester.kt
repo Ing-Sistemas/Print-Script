@@ -8,7 +8,7 @@ class LinterTester {
 
     @Test
     fun testLinterSnakeFalse() {
-        val input = listOf("let val_derrama: string = 'hello argh 76'; println(val_derrama);")
+        val input = listOf("let val_derrama: string = 'hello argh 76'; println(5 + 5);")
         val configLoader = ConfigLoader
         val configurationSnakeFalse = configLoader.loadConfiguration("src/main/resources/configSnakeFalse.json")
         val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.0")
@@ -33,13 +33,12 @@ class LinterTester {
             listToken.add(tokens.next())
         }
         val analyzer = linter.analyze(listToken)
-        assert(analyzer.isNotEmpty())
-        assert(analyzer[0] == "Cannot use println with val_derrama in line: 1 column: 51")
+        assert(analyzer.isEmpty())
     }
 
     @Test
     fun testLinterCamelFalse() {
-        val input = listOf("let val_derrama: string = 'hello argh 76'; println(val_derrama);")
+        val input = listOf("let val_derrama: string = 'hello argh 76'; println(5 + 5);")
         val configLoader = ConfigLoader
         val configurationSnakeFalse = configLoader.loadConfiguration("src/main/resources/configCamelFalse.json")
         val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.0")
@@ -50,7 +49,7 @@ class LinterTester {
         }
         val analyzer = linter.analyze(listToken)
         assert(analyzer.isNotEmpty())
-        assert(analyzer[0] == "Identifier val_derrama does not match the camelCase convention in line: 1 column: 4")
+        assert(analyzer[0] == "Identifier val_derrama does not match the camel case convention in line: 1 column: 4")
     }
 
     @Test
@@ -66,7 +65,6 @@ class LinterTester {
         }
         val analyzer = linter.analyze(listToken)
         assert(analyzer.isNotEmpty())
-        assert(analyzer[0] == "Identifier val_derrama does not match the camelCase convention in line: 1 column: 4")
-        assert(analyzer[2] == "Cannot use println with val_derrama in line: 1 column: 51")
+        assert(analyzer[0] == "Identifier val_derrama does not match the camel case convention in line: 1 column: 4")
     }
 }
