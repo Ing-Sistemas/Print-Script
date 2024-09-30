@@ -1,5 +1,5 @@
 {
-    "caseConfiguration": "snake_case",
-    "restrictPrintln": true,
-    "readInput": true
+    "identifier_format": "snake case",
+    "mandatory-variable-or-literal-in-println": true,
+    "mandatory-variable-or-literal-in-readInput": true
 }

@@ -1,5 +1,5 @@
 {
-    "caseConfiguration": "camelCase",
-    "restrictPrintln": false,
-    "readInput": false
+    "identifier_format": "camel case",
+    "mandatory-variable-or-literal-in-println": false,
+    "mandatory-variable-or-literal-in-readInput": false
 }

@@ -6,45 +6,38 @@ import com.printscript.token.Token
 
 class StaticCodeAnalyzer(configuration: Configuration, private val version: String) {
 
-    private val linters0: List<Linter> = listOfNotNull(
-        IdentifierCaseLinter(configuration.caseConfiguration),
-        if (configuration.restrictPrintln) PrinterRestrictions() else null,
-    )
+    private val linters0: List<Linter>? = listOfNotNull(
+        IdentifierCaseLinter(configuration.identifier_format),
+        if (configuration.`mandatory-variable-or-literal-in-println`) PrinterRestrictions() else null,
+    ).takeIf { it.isNotEmpty() }
 
-    private val linters1: List<Linter> = listOfNotNull(
-        IdentifierCaseLinter(configuration.caseConfiguration),
-        if (configuration.restrictPrintln) PrinterRestrictions() else null,
-        // if (configuration.readInput) ReadInputRestrictions() else null,
-    )
+    private val linters1: List<Linter>? = listOfNotNull(
+        IdentifierCaseLinter(configuration.identifier_format),
+        if (configuration.`mandatory-variable-or-literal-in-println`) PrinterRestrictions() else null,
+        if (configuration.`mandatory-variable-or-literal-in-readInput`) ReadInputRestrictions() else null,
+    ).takeIf { it.isNotEmpty() }
 
     fun analyze(tokens: List<Token>): List<String> {
         val allErrors = mutableListOf<String>()
-        return when (version) {
+        when (version) {
             "1.1" -> {
-                for (linter in linters1) {
+                linters1?.forEach { linter ->
                     allErrors.addAll(linter.lint(tokens))
                 }
-                if (allErrors.isEmpty()) {
-                    emptyList()
-                } else {
-                    allErrors
-                }
             }
-
             "1.0" -> {
-                for (linter in linters0) {
+                linters0?.forEach { linter ->
                     allErrors.addAll(linter.lint(tokens))
                 }
-                if (allErrors.isEmpty()) {
-                    emptyList()
-                } else {
-                    allErrors
-                }
             }
-
             else -> {
                 throw IllegalArgumentException("Unsupported version: $version")
             }
+        }
+        return if (allErrors.isEmpty()) {
+            emptyList()
+        } else {
+            allErrors
         }
     }
 }
