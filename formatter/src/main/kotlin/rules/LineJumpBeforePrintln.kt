@@ -1,7 +1,13 @@
-package com.printscript.formatter.rules
-
-class LineJumpBeforePrintln(private val lineJumps: Int) : CodeFormatRule {
-    override fun apply(code: String): String {
-        return code.replace(Regex("(?<!\\n)(.*)(println\\(.*\\))"), "$1\n".repeat(lineJumps) + "$2")
-    }
-}
+// package org.example.rules
+//
+// import org.example.config.FormatterConfig
+//
+// class LineJumpBeforePrintln(private val lineJumps: Int) : CodeFormatRule {
+//    override fun apply(code: String, config: FormatterConfig, builder: StringBuilder) {
+//        if (config.lineJumpBeforePrintln > 0 && code == "println") {
+//            builder.append("\n".repeat(lineJumps))
+//        }
+//        builder.append(code)
+//    }
+//
+// }

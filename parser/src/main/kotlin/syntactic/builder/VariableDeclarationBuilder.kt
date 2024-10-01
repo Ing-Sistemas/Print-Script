@@ -1,7 +1,11 @@
 package com.printscript.parser.syntactic.builder
 
+import com.printscript.ast.AssignmentStatement
 import com.printscript.ast.TypeDeclarationExpression
 import com.printscript.ast.VariableDeclarationStatement
+import com.printscript.parser.syntactic.SyntacticFail
+import com.printscript.parser.syntactic.SyntacticResult
+import com.printscript.parser.syntactic.SyntacticSuccess
 import com.printscript.token.Token
 import com.printscript.token.TokenType.*
 
@@ -14,15 +18,22 @@ class VariableDeclarationBuilder : ASTBuilderStrategy {
         ASSIGNMENT,
     )
 
-    override fun build(tokens: List<Token>): VariableDeclarationStatement {
+    override fun build(tokens: List<Token>): SyntacticResult {
         val declarator = tokens[expectedStruct.indexOf(KEYWORD)]
         val type = tokens[expectedStruct.indexOf(TYPE)]
-        return VariableDeclarationStatement(
-            declarator.getValue(),
-            TypeDeclarationExpression(type.getValue(), type.getPosition()),
-            AssignationBuilder().build(filterTokens(tokens)),
-            declarator.getPosition(),
-        )
+        return when (val assigment = AssignationBuilder().build(filterTokens(tokens))) {
+            is SyntacticFail -> SyntacticFail(assigment.message)
+            is SyntacticSuccess -> {
+                SyntacticSuccess(
+                    VariableDeclarationStatement(
+                        declarator.getValue(),
+                        TypeDeclarationExpression(type.getValue(), type.getPosition()),
+                        assigment.astNode as AssignmentStatement, // TODO check
+                        declarator.getPosition(),
+                    ),
+                )
+            }
+        }
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

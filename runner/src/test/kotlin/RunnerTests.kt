@@ -15,6 +15,6 @@ class RunnerTests {
             DefaultInputProvider(),
             DefaultOutPutProvider(),
             DefaultEnvProvider(),
-        ).run(file.inputStream(), "1.0")
+        ).run(file.inputStream(), "1.1")
     }
 }
