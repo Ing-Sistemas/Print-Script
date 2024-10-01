@@ -1,7 +1,6 @@
 package com.printscript.interpreter.interpreters.expressions
 
 import com.printscript.ast.BinaryExpression
-import com.printscript.ast.BooleanValue
 import com.printscript.ast.NumberValue
 import com.printscript.ast.StringValue
 import com.printscript.interpreter.interfaces.EnvProvider

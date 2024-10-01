@@ -281,7 +281,7 @@ class InterpreterTests {
             condition = booleanLiteral,
             thenBlock = listOf(literalToExecute),
             elseBlock = null,
-            position = Position(1, 1)
+            position = Position(1, 1),
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
@@ -299,7 +299,7 @@ class InterpreterTests {
             condition = booleanLiteral,
             thenBlock = listOf(binaryExpression),
             elseBlock = null,
-            position = Position(1, 1)
+            position = Position(1, 1),
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
@@ -315,7 +315,7 @@ class InterpreterTests {
             condition = booleanLiteral,
             thenBlock = emptyList(),
             elseBlock = listOf(literalToExecute),
-            position = Position(1, 1)
+            position = Position(1, 1),
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
@@ -333,7 +333,7 @@ class InterpreterTests {
             condition = booleanLiteral,
             thenBlock = emptyList(),
             elseBlock = listOf(binaryExpression),
-            position = Position(1, 1)
+            position = Position(1, 1),
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
