@@ -6,7 +6,6 @@ import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.interfaces.InterpreterResult
 import com.printscript.interpreter.interfaces.OutPutProvider
 import com.printscript.interpreter.results.InterpreterFailure
-import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
 import com.printscript.lexer.Lexer
 import com.printscript.parser.ASTIterator
