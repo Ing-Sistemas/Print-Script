@@ -67,4 +67,19 @@ class LinterTester {
         assert(analyzer.isNotEmpty())
         assert(analyzer[0] == "Identifier val_derrama does not match the camel case convention in line: 1 column: 4")
     }
+
+    @Test
+    fun testLinterSnakeTrue2() {
+        val input = listOf("let val_derrama: string = 'hello argh 76'; println(5 + 5);")
+        val configLoader = ConfigLoader
+        val configurationSnakeFalse = configLoader.loadConfiguration("src/main/resources/configSnakeTrue.json")
+        val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.0")
+        val tokens = Lexer("1.0").tokenize(input.iterator())
+        val listToken = mutableListOf<Token>()
+        while (tokens.hasNext()) {
+            listToken.add(tokens.next())
+        }
+        val analyzer = linter.analyze(listToken)
+        assert(analyzer.isNotEmpty())
+    }
 }
