@@ -1,3 +1,5 @@
+package com.printscript.ast
+
 sealed interface StoredValue {
     fun getType(): String
     fun getMutability(): Boolean

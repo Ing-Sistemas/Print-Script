@@ -1,14 +1,14 @@
-package org.example
+package com.printscript.cli
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import org.example.commands.Analyze
-import org.example.commands.Execute
-import org.example.commands.Format
-import org.example.commands.Validate
+import com.printscript.cli.commands.Analyze
+import com.printscript.cli.commands.Execute
+import com.printscript.cli.commands.Format
+import com.printscript.cli.commands.Validate
 
 class CLI : CliktCommand() {
 

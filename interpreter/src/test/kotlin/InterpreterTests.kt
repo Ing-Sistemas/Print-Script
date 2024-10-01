@@ -1,29 +1,29 @@
 package org.example
 
-import AssignmentStatement
-import BinaryExpression
-import BooleanLiteral
-import EmptyVarDeclarationStatement
-import FunctionCallStatement
-import IdentifierExpression
-import IfStatement
-import Interpreter
-import NumberLiteral
-import NumberValue
-import Position
-import StringLiteral
-import TypeDeclarationExpression
-import UnaryExpression
-import VariableDeclarationStatement
+import com.printscript.ast.AssignmentStatement
+import com.printscript.ast.BinaryExpression
+import com.printscript.ast.BooleanLiteral
+import com.printscript.ast.EmptyVarDeclarationStatement
+import com.printscript.ast.FunctionCallStatement
+import com.printscript.ast.IdentifierExpression
+import com.printscript.ast.IfStatement
+import com.printscript.ast.NumberLiteral
+import com.printscript.ast.NumberValue
+import com.printscript.ast.StringLiteral
+import com.printscript.ast.TypeDeclarationExpression
+import com.printscript.ast.UnaryExpression
+import com.printscript.ast.VariableDeclarationStatement
+import com.printscript.interpreter.Interpreter
+import com.printscript.interpreter.providers.DefaultEnvProvider
+import com.printscript.interpreter.providers.DefaultInputProvider
+import com.printscript.interpreter.providers.DefaultOutPutProvider
+import com.printscript.interpreter.results.InterpreterFailure
+import com.printscript.interpreter.results.InterpreterSuccess
+import com.printscript.interpreter.utils.Storage
+import com.printscript.token.Position
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import providers.DefaultEnvProvider
-import providers.DefaultInputProvider
-import providers.DefaultOutPutProvider
-import results.InterpreterFailure
-import results.InterpreterSuccess
-import utils.*
 
 class InterpreterTests {
 

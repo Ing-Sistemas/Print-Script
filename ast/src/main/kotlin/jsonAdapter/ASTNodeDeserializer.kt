@@ -1,6 +1,7 @@
 
 
 import com.google.gson.*
+import com.printscript.ast.ASTNode
 import java.lang.reflect.Type
 
 class ASTNodeDeserializer() : JsonDeserializer<ASTNode> {

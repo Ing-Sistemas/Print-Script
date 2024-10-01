@@ -1,5 +1,7 @@
-import org.example.CodeFormatter
-import org.example.config.FormatterConfig
+import com.printscript.ast.*
+import com.printscript.formatter.CodeFormatter
+import com.printscript.formatter.config.FormatterConfig
+import com.printscript.token.Position
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

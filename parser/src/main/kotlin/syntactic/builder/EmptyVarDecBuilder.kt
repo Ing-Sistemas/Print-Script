@@ -1,12 +1,12 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import EmptyVarDeclarationStatement
-import IdentifierExpression
-import Token
-import TypeDeclarationExpression
-import org.example.parser.syntactic.SyntacticResult
-import org.example.parser.syntactic.SyntacticSuccess
-import org.example.token.TokenType.*
+import com.printscript.ast.EmptyVarDeclarationStatement
+import com.printscript.ast.IdentifierExpression
+import com.printscript.ast.TypeDeclarationExpression
+import com.printscript.parser.syntactic.SyntacticResult
+import com.printscript.parser.syntactic.SyntacticSuccess
+import com.printscript.token.Token
+import com.printscript.token.TokenType.*
 
 class EmptyVarDecBuilder : ASTBuilderStrategy {
     private val expectedStruct = listOf(

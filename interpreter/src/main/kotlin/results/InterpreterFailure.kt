@@ -1,6 +1,6 @@
-package results
+package com.printscript.interpreter.results
 
-import interfaces.Failure
+import com.printscript.interpreter.interfaces.Failure
 
 class InterpreterFailure(override val error: String) : Failure {
     fun getErrorMessage(): String {

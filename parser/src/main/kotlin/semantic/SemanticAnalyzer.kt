@@ -1,9 +1,8 @@
-package semantic
+package com.printscript.parser.semantic
 
-import ASTNode
-import org.example.*
-import org.example.parser.semantic.*
-import org.example.parser.semantic.result.ResultFactory
+import com.printscript.*
+import com.printscript.ast.ASTNode
+import com.printscript.parser.semantic.result.ResultFactory
 
 class SemanticAnalyzer {
     private val resultFactory = ResultFactory()

@@ -1,23 +1,7 @@
-package org.example
+package com.printscript.formatter
 
-import ASTNode
-import AssignmentStatement
-import BinaryExpression
-import BooleanLiteral
-import EmptyVarDeclarationStatement
-import FunctionCallStatement
-import IdentifierExpression
-import IfStatement
-import NumberLiteral
-import ReadEnvNode
-import ReadInputNode
-import RuleApplier
-import StringLiteral
-import TypeDeclarationExpression
-import UnaryExpression
-import VariableDeclarationStatement
-import Visitor
-import org.example.config.FormatterConfig
+import com.printscript.ast.*
+import com.printscript.formatter.config.FormatterConfig
 
 class FormatterVisitorImpl(private val config: FormatterConfig, private val builder: StringBuilder) : Visitor<Unit> {
 

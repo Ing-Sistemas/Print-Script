@@ -1,4 +1,4 @@
-package org.example
+package com.printscript.runner
 
 import java.io.InputStream
 import java.util.Scanner

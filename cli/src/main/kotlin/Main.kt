@@ -1,4 +1,4 @@
-package org.example
+package com.printscript.cli
 
 import java.io.File
 

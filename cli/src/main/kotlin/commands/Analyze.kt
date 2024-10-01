@@ -1,13 +1,13 @@
-package org.example.commands
+package com.printscript.cli.commands
 
-import Lexer
-import Token
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import configurations.ConfigLoader
-import linters.StaticCodeAnalyzer
-import org.example.CLIContext
-import org.example.ReaderIterator
+import com.printscript.cli.CLIContext
+import com.printscript.lexer.Lexer
+import com.printscript.linter.configurations.ConfigLoader
+import com.printscript.linter.linters.StaticCodeAnalyzer
+import com.printscript.runner.ReaderIterator
+import com.printscript.token.Token
 import java.io.File
 
 class Analyze : CliktCommand(

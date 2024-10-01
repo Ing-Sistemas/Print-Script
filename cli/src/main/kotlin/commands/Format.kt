@@ -1,14 +1,14 @@
-package org.example.commands
+package com.printscript.cli.commands
 
-import Lexer
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import config.ConfigJsonReader
-import org.example.CLIContext
-import org.example.CodeFormatter
-import org.example.ReaderIterator
-import org.example.parser.ASTIterator
-import org.example.parser.Parser
+import com.printscript.cli.CLIContext
+import com.printscript.formatter.CodeFormatter
+import com.printscript.formatter.config.ConfigJsonReader
+import com.printscript.lexer.Lexer
+import com.printscript.parser.ASTIterator
+import com.printscript.parser.Parser
+import com.printscript.runner.ReaderIterator
 import java.io.File
 import java.io.FileWriter
 

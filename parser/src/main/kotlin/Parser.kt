@@ -1,11 +1,11 @@
-package org.example.parser
+package com.printscript.parser
 
-import ASTNode
-import Token
-import org.example.parser.syntactic.SyntacticAnalyzer
-import org.example.parser.syntactic.SyntacticFail
-import org.example.parser.syntactic.SyntacticSuccess
-import semantic.SemanticAnalyzer
+import com.printscript.ast.ASTNode
+import com.printscript.parser.semantic.SemanticAnalyzer
+import com.printscript.parser.syntactic.SyntacticAnalyzer
+import com.printscript.parser.syntactic.SyntacticFail
+import com.printscript.parser.syntactic.SyntacticSuccess
+import com.printscript.token.Token
 
 class Parser {
     private val syntacticAnalyzer = SyntacticAnalyzer()

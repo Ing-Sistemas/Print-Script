@@ -1,5 +1,8 @@
-// TokenIterator.kt
-import org.example.token.TokenType
+package com.printscript.lexer
+
+import com.printscript.token.Position
+import com.printscript.token.Token
+import com.printscript.token.TokenType
 
 class TokenIterator(
     private val input: Iterator<String>,

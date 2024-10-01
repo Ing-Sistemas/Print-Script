@@ -1,3 +1,6 @@
+package com.printscript.ast
+
+import com.printscript.token.Position
 
 sealed interface Expression : ASTNode {
     // fun evaluate(): Any?

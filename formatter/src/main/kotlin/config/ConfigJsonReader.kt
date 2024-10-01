@@ -1,7 +1,6 @@
-package config
+package com.printscript.formatter.config
 
 import com.google.gson.Gson
-import org.example.config.FormatterConfig
 import java.io.File
 
 class ConfigJsonReader {

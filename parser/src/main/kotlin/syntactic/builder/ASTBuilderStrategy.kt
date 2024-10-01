@@ -1,7 +1,7 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import Token
-import org.example.parser.syntactic.SyntacticResult
+import com.printscript.parser.syntactic.SyntacticResult
+import com.printscript.token.Token
 
 interface ASTBuilderStrategy {
 

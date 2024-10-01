@@ -1,23 +1,16 @@
-package interpreters
+package com.printscript.interpreter.interpreters
 
-import BinaryExpression
-import BooleanLiteral
-import Expression
-import IdentifierExpression
-import NumberLiteral
-import StringLiteral
-import StringValue
-import TypeDeclarationExpression
-import UnaryExpression
-import interfaces.EnvProvider
-import interfaces.InputProvider
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import interpreters.expressions.InterpretBinaryExpression
-import interpreters.expressions.InterpretIdentifier
-import interpreters.expressions.InterpretUnaryExpression
-import results.InterpreterSuccess
-import utils.Storage
+import com.printscript.*
+import com.printscript.ast.*
+import com.printscript.interpreter.interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.interpreters.expressions.InterpretBinaryExpression
+import com.printscript.interpreter.interpreters.expressions.InterpretIdentifier
+import com.printscript.interpreter.interpreters.expressions.InterpretUnaryExpression
+import com.printscript.interpreter.results.*
+import com.printscript.interpreter.utils.Storage
 
 class InterpretExpression(
     private val outPutProvider: OutPutProvider,

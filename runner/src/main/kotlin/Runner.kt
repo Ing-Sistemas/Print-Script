@@ -1,15 +1,15 @@
-package org.example
+package com.printscript.runner
 
-import Interpreter
-import Lexer
-import interfaces.EnvProvider
-import interfaces.InputProvider
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import org.example.parser.ASTIterator
-import org.example.parser.Parser
-import results.InterpreterFailure
-import utils.Storage
+import com.printscript.interpreter.Interpreter
+import com.printscript.interpreter.interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.results.InterpreterFailure
+import com.printscript.interpreter.utils.Storage
+import com.printscript.lexer.Lexer
+import com.printscript.parser.ASTIterator
+import com.printscript.parser.Parser
 import java.io.InputStream
 
 class Runner(

@@ -1,16 +1,14 @@
-package interpreters.expressions
+package com.printscript.interpreter.interpreters.expressions
 
-import ASTNode
-import NumberValue
-import UnaryExpression
-import interfaces.EnvProvider
-import interfaces.InputProvider
-import interfaces.InterpreterResult
-import interfaces.OutPutProvider
-import interpreters.InterpretExpression
-import results.InterpreterFailure
-import results.InterpreterSuccess
-import utils.Storage
+import com.printscript.ast.*
+import com.printscript.interpreter.interfaces.EnvProvider
+import com.printscript.interpreter.interfaces.InputProvider
+import com.printscript.interpreter.interfaces.InterpreterResult
+import com.printscript.interpreter.interfaces.OutPutProvider
+import com.printscript.interpreter.interpreters.InterpretExpression
+import com.printscript.interpreter.results.InterpreterFailure
+import com.printscript.interpreter.results.InterpreterSuccess
+import com.printscript.interpreter.utils.Storage
 
 class InterpretUnaryExpression(
     private val outPutProvider: OutPutProvider,

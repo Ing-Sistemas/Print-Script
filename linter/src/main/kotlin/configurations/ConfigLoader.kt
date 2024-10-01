@@ -1,12 +1,13 @@
-package configurations
+package com.printscript.linter.configurations
 import com.google.gson.*
+import configurations.IdentifierFormat
 import java.io.FileReader
 import java.lang.reflect.Type
 
 object ConfigLoader {
     fun loadConfiguration(filePath: String): Configuration {
         val gson = GsonBuilder()
-            .registerTypeAdapter(CaseConfiguration::class.java, CaseConfigurationDeserializer())
+            .registerTypeAdapter(IdentifierFormat::class.java, CaseConfigurationDeserializer())
             .create()
 
         FileReader(filePath).use { reader ->
@@ -16,10 +17,10 @@ object ConfigLoader {
     }
 }
 
-class CaseConfigurationDeserializer : JsonDeserializer<CaseConfiguration> {
-    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): CaseConfiguration {
+class CaseConfigurationDeserializer : JsonDeserializer<IdentifierFormat> {
+    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): IdentifierFormat {
         val value = json.asString
-        return CaseConfiguration.values().firstOrNull { it.value == value }
+        return IdentifierFormat.values().firstOrNull { it.value == value }
             ?: throw JsonParseException("Invalid case configuration: $value")
     }
 }

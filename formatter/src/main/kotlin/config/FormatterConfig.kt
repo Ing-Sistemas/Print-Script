@@ -1,4 +1,4 @@
-package org.example.config
+package com.printscript.formatter.config
 
 data class FormatterConfig(
 

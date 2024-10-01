@@ -1,7 +1,12 @@
-import org.example.parser.Parser
+
+import com.printscript.lexer.Lexer
+import com.printscript.parser.ASTIterator
+import com.printscript.parser.Parser
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import java.io.File
+import kotlin.test.assertNotNull
 
 class ParserTests {
     @Test
@@ -147,10 +152,15 @@ class ParserTests {
 
     @Test
     fun `test if case scenario`() {
-        val code = "let a: string = 'hola'; if (true) { println('chau'); };"
-        val input = listOf(code).iterator()
-        val tokens = Lexer("1.1").tokenize(input)
-        assertDoesNotThrow { Parser().parse(tokens) }
+        val codeFile = File("../parser/src/test/resources/if_case.ps")
+        val lines = TestReadIterator().getLineIterator(codeFile.inputStream())
+        val tokens = Lexer("1.1").tokenize(lines)
+        val astIt = ASTIterator(tokens, Parser())
+        while (astIt.hasNext()) {
+            val ast = astIt.next()
+            assertNotNull(ast)
+        }
+        assertThrows<Exception> { astIt.next() }
     }
 
     @Test
@@ -167,5 +177,18 @@ class ParserTests {
         val input = listOf(code).iterator()
         val tokens = Lexer("1.1").tokenize(input)
         assertDoesNotThrow { Parser().parse(tokens) }
+    }
+
+    @Test
+    fun `use iterator`() {
+        val code = "let a: string = 'hola';"
+        val input = listOf(code).iterator()
+        val tokens = Lexer("1.1").tokenize(input)
+        val astIterator = ASTIterator(tokens, Parser())
+        while (astIterator.hasNext()) {
+            val ast = astIterator.next()
+            assertNotNull(ast)
+        }
+        assertThrows<Exception> { astIterator.next() }
     }
 }

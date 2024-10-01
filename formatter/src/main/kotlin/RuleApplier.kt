@@ -1,6 +1,9 @@
-import org.example.config.FormatterConfig
-import org.example.rules.*
-import java.lang.StringBuilder
+package com.printscript.formatter
+
+import com.printscript.formatter.config.FormatterConfig
+import com.printscript.formatter.rules.SpaceAroundColon
+import com.printscript.formatter.rules.SpaceAroundEquals
+import com.printscript.formatter.rules.SpaceAroundOperator
 
 class RuleApplier(private val config: FormatterConfig, private val builder: StringBuilder) {
     fun apply(code: String) {

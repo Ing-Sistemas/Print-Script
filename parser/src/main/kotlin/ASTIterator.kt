@@ -1,7 +1,7 @@
-package org.example.parser
+package com.printscript.parser
 
-import ASTNode
-import Token
+import com.printscript.ast.ASTNode
+import com.printscript.token.Token
 
 class ASTIterator(
     private val tokens: Iterator<Token>,

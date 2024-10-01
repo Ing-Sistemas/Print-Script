@@ -1,14 +1,14 @@
-package org.example.parser.syntactic.builder
+package com.printscript.parser.syntactic.builder
 
-import ASTNode
-import Expression
-import FunctionCallStatement
-import Token
-import org.example.parser.syntactic.SyntacticAnalyzer
-import org.example.parser.syntactic.SyntacticFail
-import org.example.parser.syntactic.SyntacticResult
-import org.example.parser.syntactic.SyntacticSuccess
-import org.example.token.TokenType.*
+import com.printscript.ast.ASTNode
+import com.printscript.ast.Expression
+import com.printscript.ast.FunctionCallStatement
+import com.printscript.parser.syntactic.SyntacticAnalyzer
+import com.printscript.parser.syntactic.SyntacticFail
+import com.printscript.parser.syntactic.SyntacticResult
+import com.printscript.parser.syntactic.SyntacticSuccess
+import com.printscript.token.Token
+import com.printscript.token.TokenType.*
 
 class FunctionCallBuilder : ASTBuilderStrategy {
     private val expectedStruct = listOf(

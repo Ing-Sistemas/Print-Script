@@ -1,6 +1,6 @@
-package org.example.rules
+package com.printscript.formatter.rules
 
-import org.example.config.FormatterConfig
+import com.printscript.formatter.config.FormatterConfig
 
 class SpaceAroundOperator : CodeFormatRule {
     override fun apply(code: String, config: FormatterConfig, builder: StringBuilder) {
