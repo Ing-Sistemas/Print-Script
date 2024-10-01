@@ -1,18 +1,6 @@
 package org.example
 
-import com.printscript.ast.AssignmentStatement
-import com.printscript.ast.BinaryExpression
-import com.printscript.ast.BooleanLiteral
-import com.printscript.ast.EmptyVarDeclarationStatement
-import com.printscript.ast.FunctionCallStatement
-import com.printscript.ast.IdentifierExpression
-import com.printscript.ast.IfStatement
-import com.printscript.ast.NumberLiteral
-import com.printscript.ast.NumberValue
-import com.printscript.ast.StringLiteral
-import com.printscript.ast.TypeDeclarationExpression
-import com.printscript.ast.UnaryExpression
-import com.printscript.ast.VariableDeclarationStatement
+import com.printscript.ast.*
 import com.printscript.interpreter.Interpreter
 import com.printscript.interpreter.providers.DefaultEnvProvider
 import com.printscript.interpreter.providers.DefaultInputProvider
@@ -246,5 +234,117 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(ifStatement, storage)
         assert(result.isEmpty())
+    }
+
+    @Test
+    fun testElseStatement() {
+        val booleanLiteral = BooleanLiteral(false, Position(1, 1))
+
+        val leftThen = StringLiteral("This should not be printed", Position(1, 1))
+        val rightThen = NumberLiteral(0.0, Position(1, 30))
+        val binaryExpressionThen = BinaryExpression(leftThen, "+", rightThen, Position(1, 15))
+        val functionCallThenBlock = FunctionCallStatement(
+            functionName = "println",
+            arguments = listOf(binaryExpressionThen),
+            block = null,
+            position = Position(1, 1),
+        )
+
+        val leftElse = StringLiteral("Else block executed", Position(2, 1))
+        val rightElse = NumberLiteral(100.0, Position(2, 30))
+        val binaryExpressionElse = BinaryExpression(leftElse, "+", rightElse, Position(2, 15))
+        val functionCallElseBlock = FunctionCallStatement(
+            functionName = "println",
+            arguments = listOf(binaryExpressionElse),
+            block = null,
+            position = Position(2, 1),
+        )
+
+        val ifStatement = IfStatement(
+            condition = booleanLiteral,
+            thenBlock = listOf(functionCallThenBlock),
+            elseBlock = listOf(functionCallElseBlock),
+            position = Position(1, 1),
+        )
+
+        val result = interpreter1.interpret(ifStatement, storage)
+
+        assert(result.isEmpty())
+    }
+
+    @Test
+    fun testIfStatementWithLiteral() {
+        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
+        val literalToExecute = StringLiteral("Executed Literal", Position(1, 5))
+
+        val ifStatement = IfStatement(
+            condition = booleanLiteral,
+            thenBlock = listOf(literalToExecute),
+            elseBlock = null,
+            position = Position(1, 1)
+        )
+
+        val result = interpreter1.interpret(ifStatement, storage)
+        assert(result.isEmpty())
+    }
+
+    @Test
+    fun testIfStatementWithExpression() {
+        val booleanLiteral = BooleanLiteral(true, Position(1, 1))
+        val left = NumberLiteral(10.0, Position(1, 5))
+        val right = NumberLiteral(20.0, Position(1, 10))
+        val binaryExpression = BinaryExpression(left, "+", right, Position(1, 7))
+
+        val ifStatement = IfStatement(
+            condition = booleanLiteral,
+            thenBlock = listOf(binaryExpression),
+            elseBlock = null,
+            position = Position(1, 1)
+        )
+
+        val result = interpreter1.interpret(ifStatement, storage)
+        assert(result.isEmpty())
+    }
+
+    @Test
+    fun testElseStatementWithLiteral() {
+        val booleanLiteral = BooleanLiteral(false, Position(1, 1))
+        val literalToExecute = StringLiteral("Executed Literal in Else", Position(1, 5))
+
+        val ifStatement = IfStatement(
+            condition = booleanLiteral,
+            thenBlock = emptyList(),
+            elseBlock = listOf(literalToExecute),
+            position = Position(1, 1)
+        )
+
+        val result = interpreter1.interpret(ifStatement, storage)
+        assert(result.isEmpty())
+    }
+
+    @Test
+    fun testElseStatementWithExpression() {
+        val booleanLiteral = BooleanLiteral(false, Position(1, 1))
+        val left = NumberLiteral(5.0, Position(1, 5))
+        val right = NumberLiteral(3.0, Position(1, 10))
+        val binaryExpression = BinaryExpression(left, "-", right, Position(1, 7))
+
+        val ifStatement = IfStatement(
+            condition = booleanLiteral,
+            thenBlock = emptyList(),
+            elseBlock = listOf(binaryExpression),
+            position = Position(1, 1)
+        )
+
+        val result = interpreter1.interpret(ifStatement, storage)
+        assert(result.isEmpty())
+    }
+
+    @Test
+    fun passByThings() {
+        val defaultEnvProv = DefaultEnvProvider()
+        defaultEnvProv.getEnv("x")
+        val defaultInputProv = DefaultInputProvider()
+        defaultInputProv.readInput("x")
     }
 }

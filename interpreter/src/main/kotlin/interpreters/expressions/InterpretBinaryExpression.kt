@@ -56,17 +56,6 @@ class InterpretBinaryExpression(
         }
     }
 
-    private fun changeValue(result: InterpreterSuccess): Any {
-        return when (result.getSuccess()) {
-            is BooleanValue -> result.getSuccess().toString()
-            is NumberValue -> result.getSuccess().toString().toDouble()
-            is StringValue -> result.getSuccess().toString()
-            else -> {
-                result
-            }
-        }
-    }
-
     private fun applyOperator(left: Double, operator: String, right: Double): Double {
         return when (operator) {
             "+" -> left + right
