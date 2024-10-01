@@ -3,14 +3,15 @@ package com.printscript.parser.syntactic.builder
 import com.printscript.ast.*
 import com.printscript.parser.syntactic.SyntacticAnalyzer
 import com.printscript.parser.syntactic.SyntacticFail
+import com.printscript.parser.syntactic.SyntacticResult
 import com.printscript.parser.syntactic.SyntacticSuccess
 import com.printscript.token.Token
 import com.printscript.token.TokenType.*
 
 class IfStatementBuilder : ASTBuilderStrategy {
 
-    override fun build(tokens: List<Token>): IfStatement {
-        return parseIfStatement(tokens.listIterator())
+    override fun build(tokens: List<Token>): SyntacticResult {
+        return SyntacticSuccess(parseIfStatement(tokens.listIterator()))
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
@@ -46,14 +47,14 @@ class IfStatementBuilder : ASTBuilderStrategy {
 
     private fun handleBlock(tokens: ListIterator<Token>): List<ASTNode> {
         val openingCurly = tokens.next()
-        if (openingCurly.getType() != OPENING_CURLY_BRACKS) {
+        if (openingCurly.getType() != OPENING_BRACES) {
             throw Exception("Expected closing curly bracks")
         }
         val blockList = mutableListOf<ASTNode>()
         val blockTokens = mutableListOf<Token>()
         while (tokens.hasNext()) {
             val token = tokens.next()
-            if (token.getType() == CLOSING_CURLY_BRACKS) {
+            if (token.getType() == CLOSING_BRACES) {
                 break
             }
             if (token.getType() == SEMICOLON) {

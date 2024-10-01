@@ -3,6 +3,8 @@ package com.printscript.parser.syntactic.builder
 import com.printscript.ast.EmptyVarDeclarationStatement
 import com.printscript.ast.IdentifierExpression
 import com.printscript.ast.TypeDeclarationExpression
+import com.printscript.parser.syntactic.SyntacticResult
+import com.printscript.parser.syntactic.SyntacticSuccess
 import com.printscript.token.Token
 import com.printscript.token.TokenType.*
 
@@ -14,16 +16,18 @@ class EmptyVarDecBuilder : ASTBuilderStrategy {
         TYPE, // STRING_TYPE , NUMBER_TYPE or BOOLEAN_TYPE
     )
 
-    override fun build(tokens: List<Token>): EmptyVarDeclarationStatement {
+    override fun build(tokens: List<Token>): SyntacticResult {
         val declarator = tokens[expectedStruct.indexOf(KEYWORD)]
         val type = tokens[expectedStruct.indexOf(TYPE)]
         val identifierToken = tokens[expectedStruct.indexOf(IDENTIFIER)]
-        return EmptyVarDeclarationStatement(
+
+        val emptyDec = EmptyVarDeclarationStatement(
             declarator.getValue(),
             IdentifierExpression(identifierToken.getValue(), identifierToken.getPosition()),
             TypeDeclarationExpression(type.getValue(), type.getPosition()),
             declarator.getPosition(),
         )
+        return SyntacticSuccess(emptyDec)
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

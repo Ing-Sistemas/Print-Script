@@ -1,7 +1,6 @@
 package com.printscript.interpreter.interpreters.expressions
 
 import com.printscript.ast.BinaryExpression
-import com.printscript.ast.BooleanValue
 import com.printscript.ast.NumberValue
 import com.printscript.ast.StringValue
 import com.printscript.interpreter.interfaces.EnvProvider
@@ -52,17 +51,6 @@ class InterpretBinaryExpression(
 
             else -> {
                 return InterpreterFailure("Invalid operands for operator: $operator")
-            }
-        }
-    }
-
-    private fun changeValue(result: InterpreterSuccess): Any {
-        return when (result.getSuccess()) {
-            is BooleanValue -> result.getSuccess().toString()
-            is NumberValue -> result.getSuccess().toString().toDouble()
-            is StringValue -> result.getSuccess().toString()
-            else -> {
-                result
             }
         }
     }

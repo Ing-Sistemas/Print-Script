@@ -1,12 +1,11 @@
 package com.printscript.parser.syntactic.builder
 
-import com.printscript.ast.ASTNode
+import com.printscript.parser.syntactic.SyntacticResult
 import com.printscript.token.Token
-import com.printscript.token.TokenType.*
 
 interface ASTBuilderStrategy {
 
-    fun build(tokens: List<Token>): ASTNode
+    fun build(tokens: List<Token>): SyntacticResult
 
     fun isValidStruct(tokens: List<Token>): Boolean
 

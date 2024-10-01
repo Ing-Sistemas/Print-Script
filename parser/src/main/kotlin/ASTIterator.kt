@@ -7,14 +7,10 @@ class ASTIterator(
     private val tokens: Iterator<Token>,
     private val parser: Parser,
 ) : Iterator<ASTNode> {
-    private var nextNode: ASTNode? = null
     private var errorMessage: String? = null
 
     override fun hasNext(): Boolean {
-        if (nextNode == null && tokens.hasNext()) {
-            nextNode = fetchNextNode()
-        }
-        return nextNode != null
+        return tokens.hasNext()
     }
 
     override fun next(): ASTNode {
@@ -24,17 +20,16 @@ class ASTIterator(
         if (!hasNext()) {
             throw NoSuchElementException("No more AST nodes")
         }
-        val result = nextNode
-        nextNode = null
-        return result!!
+        return fetchNextNode() ?: throw Exception(errorMessage)
     }
 
     private fun fetchNextNode(): ASTNode? {
-        return try {
-            parser.parse(tokens)
+        try {
+            val ast = parser.parse(tokens)
+            return ast
         } catch (e: Exception) {
             errorMessage = e.message
-            null
+            return null
         }
     }
 }

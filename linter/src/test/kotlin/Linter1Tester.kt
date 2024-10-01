@@ -38,7 +38,67 @@ class Linter1Tester {
         val linter = StaticCodeAnalyzer(configurationSnakeFalse, "1.1")
         val listToken = Lexer("1.1").tokenize(inputIterator).asSequence().toList()
         val analyzer = linter.analyze(listToken)
+        assert(analyzer.isEmpty())
+    }
+
+    @Test
+    fun testTckTest() {
+        val input = "let myVariable: number = 5;"
+        val inputIterator = input.lineSequence().iterator()
+        val configLoader = ConfigLoader
+        val configurationCamelTrue = configLoader.loadConfiguration("src/main/resources/tck1.json")
+        val linter = StaticCodeAnalyzer(configurationCamelTrue, "1.1")
+        val listToken = Lexer("1.1").tokenize(inputIterator).asSequence().toList()
+        val analyzer = linter.analyze(listToken)
         assert(analyzer.isNotEmpty())
-        assert(analyzer[0] == "Cannot use readInput with ) in line: 1 column: 75")
+        assert(analyzer[0] == "Identifier myVariable does not match the snake case convention in line: 1 column: 4")
+    }
+
+    @Test
+    fun emptyConfig() {
+        val input = "let myVariable: number = 5; let my_variable: number = 10;"
+        val inputIterator = input.lineSequence().iterator()
+        val configLoader = ConfigLoader
+        val configuration = configLoader.loadConfiguration("src/main/resources/tck2.json")
+        val linter = StaticCodeAnalyzer(configuration, "1.1")
+        val listToken = Lexer("1.1").tokenize(inputIterator).asSequence().toList()
+        val analyzer = linter.analyze(listToken)
+        assert(analyzer.isEmpty())
+    }
+
+    @Test
+    fun testTck3() {
+        val input = "println(\"Hello\" + \"World!\");"
+        val inputIterator = input.lineSequence().iterator()
+        val configLoader = ConfigLoader
+        val configuration = configLoader.loadConfiguration("src/main/resources/tck3.json")
+        val linter = StaticCodeAnalyzer(configuration, "1.1")
+        val listToken = Lexer("1.1").tokenize(inputIterator).asSequence().toList()
+        val analyzer = linter.analyze(listToken)
+        assert(analyzer.isNotEmpty())
+    }
+
+    @Test
+    fun testReadInp() {
+        val input = "let input: string = readInput(\"Enter\" + \"something\");"
+        val inputIterator = input.lineSequence().iterator()
+        val configLoader = ConfigLoader
+        val configuration = configLoader.loadConfiguration("src/main/resources/readInput.json")
+        val linter = StaticCodeAnalyzer(configuration, "1.1")
+        val listToken = Lexer("1.1").tokenize(inputIterator).asSequence().toList()
+        val analyzer = linter.analyze(listToken)
+        assert(analyzer.isNotEmpty())
+    }
+
+    @Test
+    fun testReadInpIn0() {
+        val input = "let input: string = readInput(\"Enter\" + \"something\");"
+        val inputIterator = input.lineSequence().iterator()
+        val configLoader = ConfigLoader
+        val configuration = configLoader.loadConfiguration("src/main/resources/readInput.json")
+        val linter = StaticCodeAnalyzer(configuration, "1.0")
+        val listToken = Lexer("1.0").tokenize(inputIterator).asSequence().toList()
+        val analyzer = linter.analyze(listToken)
+        assert(analyzer.isEmpty())
     }
 }

@@ -6,21 +6,21 @@
         "OPENING_PARENS",
         "BOOLEAN",
         "CLOSING_PARENS",
-        "OPENING_CURLY_BRACKS",
+        "OPENING_BRACES",
         "FUNCTION_CALL",
         "OPENING_PARENS",
         "LITERAL_STRING",
         "CLOSING_PARENS",
         "SEMICOLON",
-        "CLOSING_CURLY_BRACKS",
+        "CLOSING_BRACES",
         "ELSE",
-        "OPENING_CURLY_BRACKS",
+        "OPENING_BRACES",
         "FUNCTION_CALL",
         "OPENING_PARENS",
         "LITERAL_STRING",
         "CLOSING_PARENS",
         "SEMICOLON",
-        "CLOSING_CURLY_BRACKS"
+        "CLOSING_BRACES"
 
     ]
 }
