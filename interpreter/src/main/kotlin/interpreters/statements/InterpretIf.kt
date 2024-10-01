@@ -1,13 +1,12 @@
 package com.printscript.interpreter.interpreters.statements
 
 import com.printscript.ast.*
+import com.printscript.interpreter.Interpreter
 import com.printscript.interpreter.interfaces.EnvProvider
 import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.interfaces.InterpreterResult
 import com.printscript.interpreter.interfaces.OutPutProvider
 import com.printscript.interpreter.interpreters.InterpretExpression
-import com.printscript.interpreter.interpreters.InterpretLiteral
-import com.printscript.interpreter.interpreters.InterpretStatement
 import com.printscript.interpreter.results.InterpreterFailure
 import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
@@ -30,61 +29,19 @@ class InterpretIf(
         if (condition is InterpreterSuccess && condition.getSuccess() is BooleanValue) {
             if (getConditionValue(condition.getSuccess() as BooleanValue)) {
                 ifBody.forEach { astNode ->
-                    return when (astNode) {
-                        is Literal -> {
-                            InterpretLiteral(
-                                outPutProvider,
-                                inputProvider,
-                                envProvider,
-                            ).interpret(astNode, storage)
-                        }
-                        is Expression -> {
-                            InterpretExpression(
-                                outPutProvider,
-                                inputProvider,
-                                envProvider,
-                            ).interpret(astNode, storage)
-                        }
-                        is Statement -> {
-                            InterpretStatement(
-                                outPutProvider,
-                                inputProvider,
-                                envProvider,
-                            ).interpret(astNode, storage)
-                        }
-                        else -> {
-                            return InterpreterFailure("If condition must be a boolean literal")
-                        }
-                    }
+                    return Interpreter(
+                        outPutProvider,
+                        inputProvider,
+                        envProvider,
+                    ).interpret(astNode, storage)
                 }
             } else {
                 elseBody?.forEach { astNode ->
-                    return when (astNode) {
-                        is Literal -> {
-                            InterpretLiteral(
-                                outPutProvider,
-                                inputProvider,
-                                envProvider,
-                            ).interpret(astNode, storage)
-                        }
-                        is Expression -> {
-                            InterpretExpression(
-                                outPutProvider,
-                                inputProvider,
-                                envProvider,
-                            ).interpret(astNode, storage)
-                        }
-                        is Statement -> {
-                            InterpretStatement(
-                                outPutProvider,
-                                inputProvider,
-                                envProvider,
-                            ).interpret(astNode, storage)
-                        }
-                        else -> {
-                            return InterpreterFailure("If condition must be a boolean literal")
-                        }
-                    }
+                    return Interpreter(
+                        outPutProvider,
+                        inputProvider,
+                        envProvider,
+                    ).interpret(astNode, storage)
                 }
             }
         } else {
@@ -92,6 +49,7 @@ class InterpretIf(
         }
         return InterpreterFailure("If condition must be a boolean literal")
     }
+
     private fun getConditionValue(node: BooleanValue): Boolean {
         return node.value
     }

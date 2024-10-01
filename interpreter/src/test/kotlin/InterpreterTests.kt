@@ -5,6 +5,8 @@ import com.printscript.interpreter.Interpreter
 import com.printscript.interpreter.providers.DefaultEnvProvider
 import com.printscript.interpreter.providers.DefaultInputProvider
 import com.printscript.interpreter.providers.DefaultOutPutProvider
+import com.printscript.interpreter.results.InterpreterFailure
+import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
 import com.printscript.token.Position
 import org.junit.jupiter.api.Assertions.*
@@ -40,21 +42,24 @@ class InterpreterTests {
     fun testNumberLiteral() {
         val numberLiteral = NumberLiteral(42.0, Position(1, 1))
         val result = interpreter1.interpret(numberLiteral, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(42.0, changedResult.getOriginalValue())
     }
 
     @Test
     fun testStringLiteral() {
         val stringLiteral = StringLiteral("hello", Position(1, 1))
         val result = interpreter1.interpret(stringLiteral, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("hello", changedResult.getOriginalValue())
     }
 
     @Test
     fun testBooleanLiteral() {
         val booleanLiteral = BooleanLiteral(true, Position(1, 1))
         val result = interpreter1.interpret(booleanLiteral, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(true, changedResult.getOriginalValue())
     }
 
     @Test
@@ -63,7 +68,8 @@ class InterpreterTests {
         val right = NumberLiteral(5.0, Position(1, 3))
         val binaryExpression = BinaryExpression(left, "+", right, Position(1, 2))
         val result = interpreter1.interpret(binaryExpression, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(15.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -72,7 +78,8 @@ class InterpreterTests {
         val right = NumberLiteral(5.0, Position(1, 3))
         val binaryExpression = BinaryExpression(left, "-", right, Position(1, 2))
         val result = interpreter1.interpret(binaryExpression, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(5.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -81,7 +88,8 @@ class InterpreterTests {
         val right = StringLiteral("World!", Position(1, 10))
         val binaryExpression = BinaryExpression(left, "+", right, Position(1, 7))
         val result = interpreter1.interpret(binaryExpression, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("Hello, World!", changedResult.getOriginalValue())
     }
 
     @Test
@@ -89,7 +97,8 @@ class InterpreterTests {
         val right = NumberLiteral(5.0, Position(1, 2))
         val unaryExpression = UnaryExpression("-", right, Position(1, 1))
         val result = interpreter1.interpret(unaryExpression, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(-5.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -98,19 +107,17 @@ class InterpreterTests {
         val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 5)), "=", NumberLiteral(10.0, Position(1, 10)), Position(1, 7))
         val variableDeclaration = VariableDeclarationStatement("let", typeDeclaration, assignment, Position(1, 1))
 
-        val intResult = interpreter1.interpret(variableDeclaration, storage)
+        interpreter1.interpret(variableDeclaration, storage)
         val result = storage.getFromStorage("x")
         assertEquals(NumberValue(10.0), result)
-        assert(intResult.isEmpty())
     }
 
     @Test
     fun testAssignmentStatement() {
         val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
-        val intResult = interpreter1.interpret(assignment, storage)
+        interpreter1.interpret(assignment, storage)
         val result = storage.getFromStorage("x")
         assertEquals(NumberValue(20.0), result)
-        assert(intResult.isEmpty())
     }
 
     @Test
@@ -118,7 +125,8 @@ class InterpreterTests {
         val arguments = listOf(StringLiteral("Hello World", Position(1, 10)))
         val functionCall = FunctionCallStatement("println", arguments, emptyList(), Position(1, 1))
         val result = interpreter1.interpret(functionCall, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("Hello World", changedResult.getOriginalValue())
     }
 
     @Test
@@ -126,7 +134,9 @@ class InterpreterTests {
         storage.addToStorage("y", NumberValue(50.0))
         val identifier = IdentifierExpression("y", Position(1, 1))
         val result = interpreter1.interpret(identifier, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        println(changedResult.getSuccess())
+        assertEquals(50.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -135,16 +145,17 @@ class InterpreterTests {
         val right = StringLiteral(" is the answer", Position(1, 10))
         val binaryExpression = BinaryExpression(left, "+", right, Position(1, 7))
         val result = interpreter1.interpret(binaryExpression, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("42.0 is the answer", changedResult.getOriginalValue())
     }
 
     @Test
     fun testUnaryExpressionInvalidOperand() {
         val right = NumberLiteral(33.2, Position(1, 2))
         val unaryExpression = UnaryExpression("+", right, Position(1, 1))
-        val result = interpreter1.interpret(unaryExpression, storage)
-        println(result)
-        assert(result.isNotEmpty())
+        val result = interpreter1.interpret(unaryExpression, storage) as InterpreterFailure
+        val assertion = InterpreterFailure("Unary operator + not supported")
+        assertEquals(assertion.getErrorMessage(), result.getErrorMessage())
     }
 
     @Test
@@ -153,7 +164,8 @@ class InterpreterTests {
         val right = NumberLiteral(7.0, Position(1, 5))
         val binaryExpression = BinaryExpression(left, "*", right, Position(1, 3))
         val result = interpreter1.interpret(binaryExpression, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(56.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -166,7 +178,8 @@ class InterpreterTests {
         val multiplication = BinaryExpression(addition, "*", secondRight, Position(1, 7))
 
         val result = interpreter1.interpret(multiplication, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(20.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -179,7 +192,8 @@ class InterpreterTests {
         val subtraction = BinaryExpression(secondLeft, "-", division, Position(1, 7))
 
         val result = interpreter1.interpret(subtraction, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(10.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -189,7 +203,8 @@ class InterpreterTests {
         val third = BinaryExpression(first, "*", second, Position(1, 10))
 
         val result = interpreter1.interpret(third, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(225.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -199,7 +214,8 @@ class InterpreterTests {
         val binaryExpression = BinaryExpression(left, "+", right, Position(1, 5))
 
         val result = interpreter1.interpret(binaryExpression, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("The result is: 42.0", changedResult.getOriginalValue())
     }
 
     @Test
@@ -233,7 +249,8 @@ class InterpreterTests {
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("The result is: 42.0", changedResult.getOriginalValue())
     }
 
     @Test
@@ -250,7 +267,7 @@ class InterpreterTests {
             position = Position(1, 1),
         )
 
-        val leftElse = StringLiteral("Else block executed", Position(2, 1))
+        val leftElse = StringLiteral("Else block executed ", Position(2, 1))
         val rightElse = NumberLiteral(100.0, Position(2, 30))
         val binaryExpressionElse = BinaryExpression(leftElse, "+", rightElse, Position(2, 15))
         val functionCallElseBlock = FunctionCallStatement(
@@ -269,7 +286,8 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(ifStatement, storage)
 
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("Else block executed 100.0", changedResult.getOriginalValue())
     }
 
     @Test
@@ -285,7 +303,8 @@ class InterpreterTests {
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("Executed Literal", changedResult.getOriginalValue())
     }
 
     @Test
@@ -303,7 +322,8 @@ class InterpreterTests {
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(30.0, changedResult.getOriginalValue())
     }
 
     @Test
@@ -319,7 +339,8 @@ class InterpreterTests {
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals("Executed Literal in Else", changedResult.getOriginalValue())
     }
 
     @Test
@@ -337,7 +358,8 @@ class InterpreterTests {
         )
 
         val result = interpreter1.interpret(ifStatement, storage)
-        assert(result.isEmpty())
+        val changedResult = result as InterpreterSuccess
+        assertEquals(2.0, changedResult.getOriginalValue())
     }
 
     @Test
