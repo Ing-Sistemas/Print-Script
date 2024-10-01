@@ -16,7 +16,7 @@ class PrinterRestrictions : Linter {
                 } else {
                     for (i in openingParenIndex + 1 until closingParenIndex) {
                         val utilToken = tokens[i]
-                        if (utilToken.isNotLiteralOrIdentifier()){
+                        if (utilToken.isNotLiteralOrIdentifier()) {
                             errors.add(
                                 "Cannot use println with ${utilToken.getValue()}, type: ${utilToken.getType()} in " +
                                     "line: ${utilToken.getPosition().getLine()} column: ${utilToken.getPosition().getColumn()}",
