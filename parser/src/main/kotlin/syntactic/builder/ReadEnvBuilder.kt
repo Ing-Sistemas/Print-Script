@@ -8,9 +8,9 @@ import com.printscript.token.TokenType
 
 class ReadEnvBuilder : ASTBuilderStrategy {
     override fun build(tokens: List<Token>): SyntacticResult {
-        val identifierName = tokens[1].getValue()
-        val position = tokens[1].getPosition()
-        return SyntacticSuccess(ReadEnvNode(identifierName, position))
+        val envVar = tokens[2].getValue()
+        val position = tokens[0].getPosition()
+        return SyntacticSuccess(ReadEnvNode(envVar, position))
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {

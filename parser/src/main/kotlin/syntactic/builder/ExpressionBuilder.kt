@@ -28,9 +28,18 @@ class ExpressionBuilder : ASTBuilderStrategy {
         BOOLEAN,
         OPENING_PARENS,
         CLOSING_PARENS,
+        READ_ENV,
+        READ_INPUT,
     )
 
     override fun build(tokens: List<Token>): SyntacticResult {
+        if (tokens[0].getType() == READ_ENV) {
+            return ReadEnvBuilder().build(tokens)
+        }
+        if (tokens[0].getType() == READ_INPUT) {
+            return ReadInputBuilder().build(tokens)
+        }
+
         val result = parseExpression(0, tokens.listIterator())
         return if (result == null) {
             SyntacticFail("Error while parsing expression")
