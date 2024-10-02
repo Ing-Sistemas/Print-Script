@@ -40,7 +40,6 @@ class InterpretBinaryExpression(
             else -> rightNode
         }
 
-
         return when {
             leftValue is Int && rightValue is Int -> {
                 InterpreterSuccess(NumberValue(applyOperator(leftValue.toDouble(), operator, rightValue.toDouble())))
