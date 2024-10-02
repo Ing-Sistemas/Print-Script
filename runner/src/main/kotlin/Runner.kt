@@ -26,15 +26,18 @@ class Runner(
         if (version !in versions) {
             throw IllegalArgumentException("version: '$version' is not supported")
         }
-
-        val readerIterator = ReaderIterator().getLineIterator(inputStream)
-        val tokens = Lexer(version).tokenize(readerIterator)
-        var result: InterpreterResult = InterpreterFailure("")
-        val astIterator = ASTIterator(tokens, parser)
-        while (astIterator.hasNext()) {
-            val ast = astIterator.next()
-            result = interpreter.interpret(ast, storage)
+        try {
+            val readerIterator = ReaderIterator().getLineIterator(inputStream)
+            val tokens = Lexer(version).tokenize(readerIterator)
+            var result: InterpreterResult = InterpreterFailure("")
+            val astIterator = ASTIterator(tokens, parser)
+            while (astIterator.hasNext()) {
+                val ast = astIterator.next()
+                result = interpreter.interpret(ast, storage)
+            }
+            return result
+        } catch (e: Exception) {
+            return InterpreterFailure(e.message ?: "An error occurred")
         }
-        return result
     }
 }
