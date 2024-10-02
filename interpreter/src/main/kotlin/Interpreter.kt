@@ -37,20 +37,6 @@ class Interpreter(
                     envProvider,
                 ).interpret(node, storage)
             }
-            is ReadEnvNode -> {
-                InterpretReadEnv(
-                    outPutProvider,
-                    inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
-            }
-            is ReadInputNode -> {
-                InterpretReadInput(
-                    outPutProvider,
-                    inputProvider,
-                    envProvider,
-                ).interpret(node, storage)
-            }
         }
     }
 }
