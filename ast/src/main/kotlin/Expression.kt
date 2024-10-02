@@ -58,13 +58,13 @@ class TypeDeclarationExpression(
 }
 
 class ReadEnvNode(
-    private val identifierName: String,
+    private val envVar: String,
     private val position: Position,
 ) : Expression {
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
-    fun getIdentifierName(): String = identifierName
+    fun getEnvVar(): String = envVar
     fun getPosition(): Position = position
 }
 
@@ -75,6 +75,6 @@ class ReadInputNode(
     override fun <T> accept(visitor: Visitor<T>): T {
         return visitor.visit(this)
     }
-    fun getInput(): String = prompt
+    fun getPrompt(): String = prompt
     fun getPosition(): Position = position
 }

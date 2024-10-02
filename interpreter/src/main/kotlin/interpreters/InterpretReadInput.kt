@@ -13,7 +13,7 @@ class InterpretReadInput(
     private val envProvider: EnvProvider,
 ) {
     fun interpret(node: ReadInputNode, storage: Storage): InterpreterResult {
-//        val input = inputProvider.readInput(node.getInput())
+//        val input = inputProvider.readInput(node.getPrompt())
 //        if (input != null) {
 //            storage.addToStorage(input, null)
 //        }
