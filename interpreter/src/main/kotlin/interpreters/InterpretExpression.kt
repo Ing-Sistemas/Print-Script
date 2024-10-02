@@ -58,6 +58,9 @@ class InterpretExpression(
                     envProvider,
                 ).interpret(node, storage)
             }
+
+            is ReadEnvNode -> TODO()
+            is ReadInputNode -> TODO()
         }
     }
 }

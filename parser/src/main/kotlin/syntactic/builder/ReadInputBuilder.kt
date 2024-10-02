@@ -8,8 +8,8 @@ import com.printscript.token.TokenType
 
 class ReadInputBuilder : ASTBuilderStrategy {
     override fun build(tokens: List<Token>): SyntacticResult {
-        val input = tokens[1].getValue()
-        return SyntacticSuccess(ReadInputNode(input, tokens[0].getPosition()))
+        val prompt = tokens[2].getValue()
+        return SyntacticSuccess(ReadInputNode(prompt, tokens[0].getPosition()))
     }
 
     override fun isValidStruct(tokens: List<Token>): Boolean {
