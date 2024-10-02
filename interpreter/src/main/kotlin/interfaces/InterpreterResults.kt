@@ -9,6 +9,7 @@ interface Success : InterpreterResult {
     val customValue: StoredValue?
     fun getSuccess(): StoredValue?
     fun getOriginalValue(): Any?
+    fun getIntValue(): Any
 }
 interface Failure : InterpreterResult {
     val error: String

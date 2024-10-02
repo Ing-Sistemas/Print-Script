@@ -22,35 +22,48 @@ class InterpretBinaryExpression(
         val operator = node.getOperator()
         val nodeLeftResult = InterpretExpression(outPutProvider, inputProvider, envProvider).interpret(node.getLeft(), storage)
         val nodeRightResult = InterpretExpression(outPutProvider, inputProvider, envProvider).interpret(node.getRight(), storage)
-        val leftNodeConverted = nodeLeftResult as InterpreterSuccess
-        val leftNode = leftNodeConverted.getOriginalValue()
-        val rightNodeConverted = nodeRightResult as InterpreterSuccess
-        val rightNode = rightNodeConverted.getOriginalValue()
-        if (leftNode is BinaryExpression) {
-            interpret(leftNode, storage)
-        }
-        if (rightNode is BinaryExpression) {
-            interpret(rightNode, storage)
-        }
-        return when {
-            leftNode is Double && rightNode is Double -> {
-                InterpreterSuccess(NumberValue(applyOperator(leftNode, operator, rightNode)))
-            }
 
+        if (nodeLeftResult !is InterpreterSuccess || nodeRightResult !is InterpreterSuccess) {
+            return InterpreterFailure("Invalid left or right expression")
+        }
+
+        val leftNode = nodeLeftResult.getIntValue()
+        val rightNode = nodeRightResult.getIntValue()
+
+        val leftValue = when (leftNode) {
+            is NumberValue -> nodeLeftResult.getIntValue()
+            else -> leftNode
+        }
+
+        val rightValue = when (rightNode) {
+            is NumberValue -> nodeRightResult.getIntValue()
+            else -> rightNode
+        }
+
+        return when {
+            leftValue is Int && rightValue is Int -> {
+                InterpreterSuccess(NumberValue(applyOperator(leftValue.toDouble(), operator, rightValue.toDouble())))
+            }
+            leftValue is Double && rightValue is Double -> {
+                InterpreterSuccess(NumberValue(applyOperator(leftValue, operator, rightValue)))
+            }
             leftNode is String && rightNode is String && operator == "+" -> {
                 InterpreterSuccess(StringValue(leftNode + rightNode))
             }
-
-            leftNode is Double && rightNode is String && operator == "+" -> {
-                InterpreterSuccess(StringValue(leftNode.toString() + rightNode))
+            leftValue is Double && rightNode is String && operator == "+" -> {
+                InterpreterSuccess(StringValue(leftValue.toString() + rightNode))
             }
-
-            leftNode is String && rightNode is Double && operator == "+" -> {
-                InterpreterSuccess(StringValue(leftNode + rightNode.toString()))
+            leftNode is String && rightValue is Double && operator == "+" -> {
+                InterpreterSuccess(StringValue(leftNode + rightValue.toString()))
             }
-
+            leftValue is Int && rightNode is String && operator == "+" -> {
+                InterpreterSuccess(StringValue(leftValue.toString() + rightNode))
+            }
+            leftNode is String && rightValue is Int && operator == "+" -> {
+                InterpreterSuccess(StringValue(leftNode + rightValue.toString()))
+            }
             else -> {
-                return InterpreterFailure("Invalid operands for operator: $operator")
+                InterpreterFailure("Invalid operands for operator: $operator")
             }
         }
     }
@@ -61,7 +74,7 @@ class InterpretBinaryExpression(
             "-" -> left - right
             "*" -> left * right
             "/" -> left / right
-            else -> { throw IllegalArgumentException() }
+            else -> throw IllegalArgumentException("Invalid operator: $operator")
         }
     }
 }
