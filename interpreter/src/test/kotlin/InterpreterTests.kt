@@ -43,7 +43,15 @@ class InterpreterTests {
         val numberLiteral = NumberLiteral(42.0, Position(1, 1))
         val result = interpreter1.interpret(numberLiteral, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(42.0, changedResult.getOriginalValue())
+        assertEquals(42, changedResult.getIntValue())
+    }
+
+    @Test
+    fun testNumberLiteral2() {
+        val numberLiteral = NumberLiteral(42.055, Position(1, 1))
+        val result = interpreter1.interpret(numberLiteral, storage)
+        val changedResult = result as InterpreterSuccess
+        assertEquals(42.055, changedResult.getIntValue())
     }
 
     @Test
@@ -69,7 +77,8 @@ class InterpreterTests {
         val binaryExpression = BinaryExpression(left, "+", right, Position(1, 2))
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(15.0, changedResult.getOriginalValue())
+        assertEquals(15, changedResult.getIntValue())
+        println(changedResult)
     }
 
     @Test
@@ -79,7 +88,7 @@ class InterpreterTests {
         val binaryExpression = BinaryExpression(left, "-", right, Position(1, 2))
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(5.0, changedResult.getOriginalValue())
+        assertEquals(5, changedResult.getIntValue())
     }
 
     @Test
@@ -98,7 +107,7 @@ class InterpreterTests {
         val unaryExpression = UnaryExpression("-", right, Position(1, 1))
         val result = interpreter1.interpret(unaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(-5.0, changedResult.getOriginalValue())
+        assertEquals(-5, changedResult.getIntValue())
     }
 
     @Test
@@ -136,7 +145,7 @@ class InterpreterTests {
         val result = interpreter1.interpret(identifier, storage)
         val changedResult = result as InterpreterSuccess
         println(changedResult.getSuccess())
-        assertEquals(50.0, changedResult.getOriginalValue())
+        assertEquals(50, changedResult.getIntValue())
     }
 
     @Test
@@ -146,7 +155,7 @@ class InterpreterTests {
         val binaryExpression = BinaryExpression(left, "+", right, Position(1, 7))
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals("42.0 is the answer", changedResult.getOriginalValue())
+        assertEquals("42 is the answer", changedResult.getOriginalValue())
     }
 
     @Test
@@ -165,7 +174,7 @@ class InterpreterTests {
         val binaryExpression = BinaryExpression(left, "*", right, Position(1, 3))
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(56.0, changedResult.getOriginalValue())
+        assertEquals(56, changedResult.getIntValue())
     }
 
     @Test
@@ -179,7 +188,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(multiplication, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(20.0, changedResult.getOriginalValue())
+        assertEquals(20, changedResult.getIntValue())
     }
 
     @Test
@@ -193,7 +202,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(subtraction, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(10.0, changedResult.getOriginalValue())
+        assertEquals(10, changedResult.getIntValue())
     }
 
     @Test
@@ -204,7 +213,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(third, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(225.0, changedResult.getOriginalValue())
+        assertEquals(225, changedResult.getIntValue())
     }
 
     @Test
@@ -215,7 +224,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals("The result is: 42.0", changedResult.getOriginalValue())
+        assertEquals("The result is: 42", changedResult.getOriginalValue())
     }
 
     @Test
@@ -250,7 +259,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(ifStatement, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals("The result is: 42.0", changedResult.getOriginalValue())
+        assertEquals("The result is: 42", changedResult.getOriginalValue())
     }
 
     @Test
@@ -287,7 +296,7 @@ class InterpreterTests {
         val result = interpreter1.interpret(ifStatement, storage)
 
         val changedResult = result as InterpreterSuccess
-        assertEquals("Else block executed 100.0", changedResult.getOriginalValue())
+        assertEquals("Else block executed 100", changedResult.getOriginalValue())
     }
 
     @Test
@@ -323,7 +332,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(ifStatement, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(30.0, changedResult.getOriginalValue())
+        assertEquals(30, changedResult.getIntValue())
     }
 
     @Test
@@ -359,7 +368,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(ifStatement, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(2.0, changedResult.getOriginalValue())
+        assertEquals(2, changedResult.getIntValue())
     }
 
     @Test
