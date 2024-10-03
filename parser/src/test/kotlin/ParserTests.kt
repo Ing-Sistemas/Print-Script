@@ -165,7 +165,7 @@ class ParserTests {
 
     @Test
     fun `read env test`() {
-        val code = "readEnv(a);"
+        val code = "const name: string = readEnv(\"BEST_FOOTBALL_CLUB\");"
         val input = listOf(code).iterator()
         val tokens = Lexer("1.1").tokenize(input)
         assertDoesNotThrow { Parser().parse(tokens) }

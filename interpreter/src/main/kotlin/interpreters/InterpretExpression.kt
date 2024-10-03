@@ -6,9 +6,7 @@ import com.printscript.interpreter.interfaces.EnvProvider
 import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.interfaces.InterpreterResult
 import com.printscript.interpreter.interfaces.OutPutProvider
-import com.printscript.interpreter.interpreters.expressions.InterpretBinaryExpression
-import com.printscript.interpreter.interpreters.expressions.InterpretIdentifier
-import com.printscript.interpreter.interpreters.expressions.InterpretUnaryExpression
+import com.printscript.interpreter.interpreters.expressions.*
 import com.printscript.interpreter.results.*
 import com.printscript.interpreter.utils.Storage
 
@@ -56,6 +54,21 @@ class InterpretExpression(
                     outPutProvider,
                     inputProvider,
                     envProvider,
+                ).interpret(node, storage)
+            }
+            is ReadEnvNode -> {
+                InterpretReadEnv(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                ).interpret(node, storage)
+            }
+            is ReadInputNode -> {
+                InterpretReadInput(
+                    outPutProvider,
+                    inputProvider,
+                    envProvider,
+                    "string",
                 ).interpret(node, storage)
             }
         }

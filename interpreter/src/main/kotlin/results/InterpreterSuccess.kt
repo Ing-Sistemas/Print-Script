@@ -18,4 +18,21 @@ class InterpreterSuccess(override val customValue: StoredValue?) : Success {
             else -> null
         }
     }
+
+    override fun getIntValue(): Any {
+        return when (val value = customValue as StoredValue) {
+            is NumberValue -> convertToIntIfApplicable(value)
+            is StringValue -> value.value
+            is BooleanValue -> value.value
+        }
+    }
+
+    private fun convertToIntIfApplicable(value: NumberValue): Any {
+        val numericValue: Double = value.value
+        return if (numericValue % 1.0 == 0.0) {
+            numericValue.toInt()
+        } else {
+            return numericValue
+        }
+    }
 }
