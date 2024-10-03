@@ -380,6 +380,7 @@ class InterpreterTests {
         defaultInputProv.readInput("x")
         interpreter1.interpret(ReadEnvNode("x", Position(1, 1)), storage)
     }
+
     @Test
     fun testReadInput() {
         val readInput = ReadInputNode("Name:", Position(1, 1))
@@ -391,5 +392,4 @@ class InterpreterTests {
         val result = storage.getFromStorage("name")
         assertEquals(StringValue(""), result)
     }
-
 }

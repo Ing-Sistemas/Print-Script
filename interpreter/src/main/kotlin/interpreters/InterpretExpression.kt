@@ -68,7 +68,7 @@ class InterpretExpression(
                     outPutProvider,
                     inputProvider,
                     envProvider,
-                    "string"
+                    "string",
                 ).interpret(node, storage)
             }
         }

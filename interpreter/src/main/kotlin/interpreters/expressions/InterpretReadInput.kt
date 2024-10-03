@@ -1,12 +1,10 @@
 package com.printscript.interpreter.interpreters.expressions
 
 import com.printscript.ast.*
-import com.printscript.interpreter.Interpreter
 import com.printscript.interpreter.interfaces.EnvProvider
 import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.interfaces.InterpreterResult
 import com.printscript.interpreter.interfaces.OutPutProvider
-import com.printscript.interpreter.interpreters.InterpretExpression
 import com.printscript.interpreter.results.InterpreterFailure
 import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
@@ -15,16 +13,15 @@ class InterpretReadInput(
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
-    private val expectedType: String
+    private val expectedType: String,
 ) {
     fun interpret(node: ReadInputNode, storage: Storage): InterpreterResult {
-
         val prompt = node.getPrompt()
 
         outPutProvider.output(prompt)
 
         val input = inputProvider.readInput(prompt)
-        //val input = "Felipe"
+        // val input = "Felipe"
 
         if (input == "true" || input == "false") {
             if (expectedType == "boolean") {
