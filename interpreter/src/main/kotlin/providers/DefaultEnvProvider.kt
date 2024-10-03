@@ -4,6 +4,6 @@ import com.printscript.interpreter.interfaces.EnvProvider
 
 class DefaultEnvProvider : EnvProvider {
     override fun getEnv(name: String): String? {
-        return name
+        return System.getenv(name)
     }
 }
