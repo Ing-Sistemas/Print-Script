@@ -6,6 +6,7 @@ import com.printscript.interpreter.providers.DefaultEnvProvider
 import com.printscript.interpreter.providers.DefaultInputProvider
 import com.printscript.interpreter.providers.DefaultOutPutProvider
 import com.printscript.interpreter.results.InterpreterFailure
+import com.printscript.interpreter.results.InterpreterResultInformation
 import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
 import com.printscript.token.Position
@@ -377,5 +378,18 @@ class InterpreterTests {
         defaultEnvProv.getEnv("x")
         val defaultInputProv = DefaultInputProvider()
         defaultInputProv.readInput("x")
+        interpreter1.interpret(ReadEnvNode("x", Position(1, 1)), storage)
     }
+    @Test
+    fun testReadInput() {
+        val readInput = ReadInputNode("Name:", Position(1, 1))
+        val typeDeclaration = TypeDeclarationExpression("string", Position(1, 1))
+        val assignment = AssignmentStatement(IdentifierExpression("name", Position(1, 5)), "=", readInput, Position(1, 7))
+        val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 77))
+        val result2 = interpreter1.interpret(variableDeclaration, storage)
+        result2 as InterpreterResultInformation
+        val result = storage.getFromStorage("name")
+        assertEquals(StringValue(""), result)
+    }
+
 }

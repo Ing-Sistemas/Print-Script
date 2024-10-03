@@ -15,7 +15,7 @@ class InterpretReadInput(
     private val outPutProvider: OutPutProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
-    private val expectedType: String?
+    private val expectedType: String
 ) {
     fun interpret(node: ReadInputNode, storage: Storage): InterpreterResult {
 
@@ -23,8 +23,8 @@ class InterpretReadInput(
 
         outPutProvider.output(prompt)
 
-        //val input = inputProvider.readInput(prompt)
-        val input = "Felipe"
+        val input = inputProvider.readInput(prompt)
+        //val input = "Felipe"
 
         if (input == "true" || input == "false") {
             if (expectedType == "boolean") {
