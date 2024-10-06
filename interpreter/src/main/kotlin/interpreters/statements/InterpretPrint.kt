@@ -2,7 +2,6 @@ package com.printscript.interpreter.interpreters.statements
 
 import com.printscript.ast.FunctionCallStatement
 import com.printscript.ast.StringValue
-import com.printscript.interpreter.Interpreter
 import com.printscript.interpreter.interfaces.EnvProvider
 import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.interfaces.InterpreterResult
@@ -29,8 +28,7 @@ class InterpretPrint(
             if (result is InterpreterSuccess) {
                 outPutProvider.output(result.getOriginalValue().toString())
                 return InterpreterSuccess(StringValue(result.getOriginalValue().toString()))
-            }
-            else {
+            } else {
                 return InterpreterFailure("Error in printing")
             }
         }
