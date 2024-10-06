@@ -22,17 +22,28 @@ class InterpreterSuccess(override val customValue: StoredValue?) : Success {
     override fun getIntValue(): Any {
         return when (val value = customValue as StoredValue) {
             is NumberValue -> convertToIntIfApplicable(value)
-            is StringValue -> value.value
+            is StringValue -> convertToIntIfApplicable(value)
             is BooleanValue -> value.value
         }
     }
 
-    private fun convertToIntIfApplicable(value: NumberValue): Any {
-        val numericValue: Double = value.value
-        return if (numericValue % 1.0 == 0.0) {
-            numericValue.toInt()
-        } else {
-            return numericValue
+    private fun convertToIntIfApplicable(value: StoredValue): Any {
+        if (value is StringValue) {
+            val newValue = value.value
+            return if (newValue.toDoubleOrNull() != null) {
+                convertToIntIfApplicable(NumberValue(newValue.toDouble()))
+            } else {
+                newValue
+            }
         }
+        if (value is NumberValue) {
+            val newValue = value.value
+            return if (newValue % 1.0 == 0.0) {
+                newValue.toInt()
+            } else {
+                newValue
+            }
+        }
+        return value
     }
 }

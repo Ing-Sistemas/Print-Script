@@ -2,11 +2,13 @@ package com.printscript.interpreter.interpreters.statements
 
 import com.printscript.ast.FunctionCallStatement
 import com.printscript.ast.StringValue
+import com.printscript.interpreter.Interpreter
 import com.printscript.interpreter.interfaces.EnvProvider
 import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.interfaces.InterpreterResult
 import com.printscript.interpreter.interfaces.OutPutProvider
 import com.printscript.interpreter.interpreters.InterpretExpression
+import com.printscript.interpreter.results.InterpreterFailure
 import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
 
@@ -18,7 +20,6 @@ class InterpretPrint(
 
     fun interpret(node: FunctionCallStatement, storage: Storage): InterpreterResult {
         val arguments = node.getArguments()
-        val toPrint = mutableListOf<String>()
         for (argument in arguments) {
             val result = InterpretExpression(
                 outPutProvider,
@@ -26,10 +27,13 @@ class InterpretPrint(
                 envProvider,
             ).interpret(argument, storage)
             if (result is InterpreterSuccess) {
-                toPrint.add(outPutProvider.output(result.getOriginalValue().toString()))
+                outPutProvider.output(result.getOriginalValue().toString())
+                return InterpreterSuccess(StringValue(result.getOriginalValue().toString()))
+            }
+            else {
+                return InterpreterFailure("Error in printing")
             }
         }
-        val result = StringValue(toPrint.joinToString(""))
-        return InterpreterSuccess(result)
+        return InterpreterFailure("Error in function call")
     }
 }

@@ -32,7 +32,7 @@ class InterpretExpression(
                 InterpretIdentifier(outPutProvider).interpret(node, storage)
             }
             is TypeDeclarationExpression -> {
-                val nodeTypeString = StringValue(outPutProvider.output(node.getType()))
+                val nodeTypeString = StringValue(node.getType())
                 return InterpreterSuccess(nodeTypeString)
             }
             is BooleanLiteral -> {

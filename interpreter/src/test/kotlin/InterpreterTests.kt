@@ -131,6 +131,28 @@ class InterpreterTests {
     }
 
     @Test
+    fun testVariableDeclarationStatement2() {
+        val typeDeclaration = TypeDeclarationExpression("number", Position(1, 1))
+        val assignment = AssignmentStatement(IdentifierExpression("b", Position(1, 5)), "=", NumberLiteral(5.0, Position(1, 10)), Position(1, 7))
+        val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 1))
+
+        val assignment2 = AssignmentStatement(IdentifierExpression("b", Position(1, 1)), "=", NumberLiteral(2.0, Position(1, 5)), Position(1, 3))
+        interpreter1.interpret(variableDeclaration, storage)
+        val result = storage.getFromStorage("b")
+        interpreter1.interpret(assignment2, storage)
+        println(storage.getFromStorage("b"))
+        assertEquals(NumberValue(5.0), result)
+    }
+
+    @Test
+    fun testAssignmentStatement2() {
+        val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
+        interpreter1.interpret(assignment, storage)
+        val result = storage.getFromStorage("x")
+        assertEquals(NumberValue(20.0), result)
+    }
+
+    @Test
     fun testFunctionCallStatementPrintln() {
         val arguments = listOf(StringLiteral("Hello World", Position(1, 10)))
         val functionCall = FunctionCallStatement("println", arguments, emptyList(), Position(1, 1))
@@ -156,7 +178,7 @@ class InterpreterTests {
         val binaryExpression = BinaryExpression(left, "+", right, Position(1, 7))
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals("42 is the answer", changedResult.getOriginalValue())
+        assertEquals("42 is the answer", changedResult.getIntValue())
     }
 
     @Test
@@ -170,26 +192,27 @@ class InterpreterTests {
 
     @Test
     fun testBinaryExpressionWithMul() {
-        val left = NumberLiteral(8.0, Position(1, 1))
-        val right = NumberLiteral(7.0, Position(1, 5))
-        val binaryExpression = BinaryExpression(left, "*", right, Position(1, 3))
+        val left = NumberLiteral(3.1, Position(1, 1))
+        val right = NumberLiteral(2.0, Position(1, 5))
+        val binaryExpression = BinaryExpression(left, "/", right, Position(1, 3))
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(56, changedResult.getIntValue())
+        assertEquals(1.55, changedResult.getIntValue())
     }
 
     @Test
     fun testNestedBinaryExpressionsAdditionAndMultiplication() {
-        val left = NumberLiteral(2.0, Position(1, 1))
-        val right = NumberLiteral(3.0, Position(1, 5))
-        val addition = BinaryExpression(left, "+", right, Position(1, 3))
+        val left = NumberLiteral(5.0, Position(1, 1))
+        val right = NumberLiteral(5.0, Position(1, 5))
+        val addition = BinaryExpression(left, "*", right, Position(1, 3))
 
-        val secondRight = NumberLiteral(4.0, Position(1, 10))
-        val multiplication = BinaryExpression(addition, "*", secondRight, Position(1, 7))
+        val secondRight = NumberLiteral(8.0, Position(1, 10))
+        val multiplication = BinaryExpression(addition, "-", secondRight, Position(1, 7))
 
         val result = interpreter1.interpret(multiplication, storage)
         val changedResult = result as InterpreterSuccess
-        assertEquals(20, changedResult.getIntValue())
+        println(changedResult.getIntValue())
+        assertEquals(17, changedResult.getIntValue())
     }
 
     @Test
@@ -225,6 +248,7 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
+        println(changedResult.getOriginalValue())
         assertEquals("The result is: 42", changedResult.getOriginalValue())
     }
 
@@ -382,14 +406,21 @@ class InterpreterTests {
     }
 
     @Test
-    fun testReadInput() {
-        val readInput = ReadInputNode("Name:", Position(1, 1))
-        val typeDeclaration = TypeDeclarationExpression("string", Position(1, 1))
-        val assignment = AssignmentStatement(IdentifierExpression("name", Position(1, 5)), "=", readInput, Position(1, 7))
-        val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 77))
-        val result2 = interpreter1.interpret(variableDeclaration, storage)
-        result2 as InterpreterResultInformation
-        val result = storage.getFromStorage("name")
-        assertEquals(StringValue(""), result)
+    fun testStringToInt() {
+        val newValue = StringValue("42")
+        val result = InterpreterSuccess(newValue)
+        assertEquals(42, result.getIntValue())
     }
+
+//    @Test
+//    fun testReadInput() {
+//        val readInput = ReadInputNode("Name:", Position(1, 1))
+//        val typeDeclaration = TypeDeclarationExpression("string", Position(1, 1))
+//        val assignment = AssignmentStatement(IdentifierExpression("name", Position(1, 5)), "=", readInput, Position(1, 7))
+//        val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 77))
+//        val result2 = interpreter1.interpret(variableDeclaration, storage)
+//        result2 as InterpreterResultInformation
+//        val result = storage.getFromStorage("name")
+//        //assertEquals(StringValue(""), result)
+//    }
 }

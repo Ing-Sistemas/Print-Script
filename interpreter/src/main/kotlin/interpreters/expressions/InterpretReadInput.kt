@@ -38,11 +38,11 @@ class InterpretReadInput(
                 storage.addToStorage(input, StringValue(input))
                 return InterpreterSuccess(StringValue(input))
             } else {
-                return InterpreterFailure("Not valid input")
+                return InterpreterFailure("Not valid input 1")
             }
         } else {
-            return InterpreterFailure("Not valid input")
+            return InterpreterFailure("Not valid input 2")
         }
-        return InterpreterFailure("Not valid input")
+        return InterpreterFailure("Not valid input 3")
     }
 }
