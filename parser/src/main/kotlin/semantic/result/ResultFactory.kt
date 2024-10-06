@@ -21,7 +21,7 @@ class ResultFactory {
         return ResultString(value, type, errors)
     }
 
-    fun createNumberResult(value: Double, type: DataType, errors: List<String> = emptyList()): ResultInformation {
+    fun createNumberResult(value: Number, type: DataType, errors: List<String> = emptyList()): ResultInformation {
         return ResultNumber(value, type, errors)
     }
 
