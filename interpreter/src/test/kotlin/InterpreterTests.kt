@@ -2,10 +2,12 @@ package org.example
 
 import com.printscript.ast.*
 import com.printscript.interpreter.Interpreter
+import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.providers.DefaultEnvProvider
 import com.printscript.interpreter.providers.DefaultInputProvider
 import com.printscript.interpreter.providers.DefaultOutPutProvider
 import com.printscript.interpreter.results.InterpreterFailure
+import com.printscript.interpreter.results.InterpreterResultInformation
 import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
 import com.printscript.token.Position
@@ -78,7 +80,6 @@ class InterpreterTests {
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
         assertEquals(15, changedResult.getIntValue())
-        println(changedResult)
     }
 
     @Test
@@ -139,7 +140,6 @@ class InterpreterTests {
         interpreter1.interpret(variableDeclaration, storage)
         val result = storage.getFromStorage("b")
         interpreter1.interpret(assignment2, storage)
-        println(storage.getFromStorage("b"))
         assertEquals(NumberValue(5.0), result)
     }
 
@@ -166,7 +166,6 @@ class InterpreterTests {
         val identifier = IdentifierExpression("y", Position(1, 1))
         val result = interpreter1.interpret(identifier, storage)
         val changedResult = result as InterpreterSuccess
-        println(changedResult.getSuccess())
         assertEquals(50, changedResult.getIntValue())
     }
 
@@ -210,7 +209,6 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(multiplication, storage)
         val changedResult = result as InterpreterSuccess
-        println(changedResult.getIntValue())
         assertEquals(17, changedResult.getIntValue())
     }
 
@@ -247,7 +245,6 @@ class InterpreterTests {
 
         val result = interpreter1.interpret(binaryExpression, storage)
         val changedResult = result as InterpreterSuccess
-        println(changedResult.getOriginalValue())
         assertEquals("The result is: 42", changedResult.getOriginalValue())
     }
 
@@ -411,15 +408,29 @@ class InterpreterTests {
         assertEquals(42, result.getIntValue())
     }
 
-//    @Test
-//    fun testReadInput() {
-//        val readInput = ReadInputNode("Name:", Position(1, 1))
-//        val typeDeclaration = TypeDeclarationExpression("string", Position(1, 1))
-//        val assignment = AssignmentStatement(IdentifierExpression("name", Position(1, 5)), "=", readInput, Position(1, 7))
-//        val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 77))
-//        val result2 = interpreter1.interpret(variableDeclaration, storage)
-//        result2 as InterpreterResultInformation
-//        val result = storage.getFromStorage("name")
-//        //assertEquals(StringValue(""), result)
-//    }
+    class TestInputProv(var input: String? = null) : InputProvider {
+        override fun readInput(name: String): String? {
+            return input
+        }
+    }
+
+    @Test
+    fun testReadInput() {
+        val inputProvider = TestInputProv("Felipe")
+        val interpreterExample = Interpreter(
+            outPutProvider,
+            inputProvider,
+            envProvider,
+        )
+
+        val readInput = ReadInputNode("Name:", Position(1, 1))
+        val typeDeclaration = TypeDeclarationExpression("string", Position(1, 1))
+        val assignment = AssignmentStatement(IdentifierExpression("name", Position(1, 5)), "=", readInput, Position(1, 7))
+        val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 77))
+        val result2 = interpreterExample.interpret(variableDeclaration, storage)
+        result2 as InterpreterResultInformation
+        val result = storage.getFromStorage("name")
+        assertEquals(InterpreterResultInformation::class.java, result2::class.java)
+        assertEquals(StringValue("Felipe"), result)
+    }
 }
