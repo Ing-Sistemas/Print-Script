@@ -1,6 +1,5 @@
-package com.printscript.lexer
+package com.printscript.token
 
-import com.printscript.token.TokenType
 import com.printscript.token.TokenType.*
 
 class TokenPatternProvider {

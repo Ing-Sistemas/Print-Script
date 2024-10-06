@@ -62,6 +62,12 @@ class InterpretBinaryExpression(
             leftNode is String && rightValue is Int && operator == "+" -> {
                 InterpreterSuccess(StringValue(leftNode + rightValue.toString()))
             }
+            leftValue is Double && rightValue is Int -> {
+                InterpreterSuccess(NumberValue(applyOperator(leftValue, operator, rightValue.toDouble())))
+            }
+            leftValue is Int && rightValue is Double -> {
+                InterpreterSuccess(NumberValue(applyOperator(leftValue.toDouble(), operator, rightValue)))
+            }
             else -> {
                 InterpreterFailure("Invalid operands for operator: $operator")
             }

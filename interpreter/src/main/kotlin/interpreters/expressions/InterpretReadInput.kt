@@ -23,6 +23,8 @@ class InterpretReadInput(
         val input = inputProvider.readInput(prompt)
         // val input = "Felipe"
 
+        if (input.isNullOrBlank()) return InterpreterFailure("Not valid input 0")
+
         if (input == "true" || input == "false") {
             if (expectedType == "boolean") {
                 storage.addToStorage(input, BooleanValue(input.toBoolean()))
@@ -38,11 +40,11 @@ class InterpretReadInput(
                 storage.addToStorage(input, StringValue(input))
                 return InterpreterSuccess(StringValue(input))
             } else {
-                return InterpreterFailure("Not valid input")
+                return InterpreterFailure("Not valid input 1")
             }
         } else {
-            return InterpreterFailure("Not valid input")
+            return InterpreterFailure("Not valid input 2")
         }
-        return InterpreterFailure("Not valid input")
+        return InterpreterFailure("Not valid input 3")
     }
 }
