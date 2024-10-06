@@ -37,12 +37,7 @@ class InterpreterSuccess(override val customValue: StoredValue?) : Success {
             }
         }
         if (value is NumberValue) {
-            val newValue = value.value
-            return if (newValue % 1.0 == 0.0) {
-                newValue.toInt()
-            } else {
-                newValue
-            }
+            return value.value
         }
         return value
     }

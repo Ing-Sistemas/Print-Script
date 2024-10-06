@@ -3,7 +3,7 @@ package com.printscript.parser.semantic.result
 import com.printscript.parser.semantic.DataType
 
 class ResultNumber(
-    private val value: Double,
+    private val value: Number,
     private val type: DataType,
     private val errors: List<String>,
 ) : ResultInformation {

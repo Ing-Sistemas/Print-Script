@@ -26,9 +26,9 @@ class InterpretUnaryExpression(
         when (unaryNode.getOperator()) {
             "-" -> {
                 if (useRight is InterpreterSuccess) {
-                    val numberToUse = (useRight.getOriginalValue()) as Double
-                    val negateNumber = -numberToUse
-                    return InterpreterSuccess(toCustom(negateNumber))
+                    val numberToUse = useRight.getSuccess() as NumberValue
+                    val negateNumber = numberToUse.negate()
+                    return InterpreterSuccess(negateNumber)
                 } else {
                     return InterpreterFailure("There is an interpreter Failure in: $useRight")
                 }
