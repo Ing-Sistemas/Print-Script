@@ -1,0 +1,68 @@
+[
+  {
+    "declarator": "const",
+    "typeDeclarationExpression": {
+      "type": "boolean",
+      "position": {
+        "column": 21,
+        "line": 1
+      }
+    },
+    "assignmentStatement": {
+      "identifier": {
+        "identifier": "booleanResult",
+        "position": {
+          "column": 6,
+          "line": 1
+        }
+      },
+      "equalOperand": "\u003d",
+      "value": {
+        "value": false,
+        "position": {
+          "column": 31,
+          "line": 1
+        }
+      },
+      "position": {
+        "column": 29,
+        "line": 1
+      }
+    },
+    "position": {
+      "column": 0,
+      "line": 1
+    }
+  },
+  {
+    "condition": {
+      "identifier": "booleanResult",
+      "position": {
+        "column": 3,
+        "line": 2
+      }
+    },
+    "thenBlock": [
+      {
+        "functionName": "println",
+        "arguments": [
+          {
+            "value": "hello",
+            "position": {
+              "column": 12,
+              "line": 3
+            }
+          }
+        ],
+        "position": {
+          "column": 4,
+          "line": 3
+        }
+      }
+    ],
+    "position": {
+      "column": 0,
+      "line": 2
+    }
+  }
+]

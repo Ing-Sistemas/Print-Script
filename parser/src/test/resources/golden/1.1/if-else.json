@@ -1,0 +1,102 @@
+[
+  {
+    "declarator": "const",
+    "typeDeclarationExpression": {
+      "type": "boolean",
+      "position": {
+        "column": 21,
+        "line": 1
+      }
+    },
+    "assignmentStatement": {
+      "identifier": {
+        "identifier": "booleanResult",
+        "position": {
+          "column": 6,
+          "line": 1
+        }
+      },
+      "equalOperand": "\u003d",
+      "value": {
+        "value": false,
+        "position": {
+          "column": 31,
+          "line": 1
+        }
+      },
+      "position": {
+        "column": 29,
+        "line": 1
+      }
+    },
+    "position": {
+      "column": 0,
+      "line": 1
+    }
+  },
+  {
+    "condition": {
+      "identifier": "booleanResult",
+      "position": {
+        "column": 3,
+        "line": 2
+      }
+    },
+    "thenBlock": [
+      {
+        "functionName": "println",
+        "arguments": [
+          {
+            "value": "else statement not working correctly",
+            "position": {
+              "column": 12,
+              "line": 3
+            }
+          }
+        ],
+        "position": {
+          "column": 4,
+          "line": 3
+        }
+      }
+    ],
+    "elseBlock": [
+      {
+        "functionName": "println",
+        "arguments": [
+          {
+            "value": "else statement working correctly",
+            "position": {
+              "column": 12,
+              "line": 5
+            }
+          }
+        ],
+        "position": {
+          "column": 4,
+          "line": 5
+        }
+      }
+    ],
+    "position": {
+      "column": 0,
+      "line": 2
+    }
+  },
+  {
+    "functionName": "println",
+    "arguments": [
+      {
+        "value": "outside of conditional",
+        "position": {
+          "column": 8,
+          "line": 7
+        }
+      }
+    ],
+    "position": {
+      "column": 0,
+      "line": 7
+    }
+  }
+]
