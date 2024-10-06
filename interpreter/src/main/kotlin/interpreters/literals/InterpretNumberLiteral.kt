@@ -10,7 +10,7 @@ import com.printscript.interpreter.utils.Storage
 class InterpretNumberLiteral(private val outPutProvider: OutPutProvider) {
 
     fun interpret(node: NumberLiteral, storage: Storage): InterpreterResult {
-        val value = NumberValue(node.getValue())
+        val value = NumberValue(if (node.getValue() % 1 == 0.0) node.getValue().toInt() else node.getValue())
         return InterpreterSuccess(value)
     }
 }

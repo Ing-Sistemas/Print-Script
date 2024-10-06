@@ -119,7 +119,7 @@ class InterpreterTests {
 
         interpreter1.interpret(variableDeclaration, storage)
         val result = storage.getFromStorage("x")
-        assertEquals(NumberValue(10.0), result)
+        assertEquals(NumberValue(10), result)
     }
 
     @Test
@@ -127,7 +127,7 @@ class InterpreterTests {
         val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
         interpreter1.interpret(assignment, storage)
         val result = storage.getFromStorage("x")
-        assertEquals(NumberValue(20.0), result)
+        assertEquals(NumberValue(20), result)
     }
 
     @Test
@@ -142,7 +142,7 @@ class InterpreterTests {
         val result = storage.getFromStorage("b")
         val result2 = interpreter1.interpret(assignment2, storage)
         assertEquals(result2 is InterpreterFailure, true)
-        assertEquals(NumberValue(5.0, false), result)
+        assertEquals(NumberValue(5, false), result)
     }
 
     @Test
@@ -150,7 +150,7 @@ class InterpreterTests {
         val assignment = AssignmentStatement(IdentifierExpression("x", Position(1, 1)), "=", NumberLiteral(20.0, Position(1, 5)), Position(1, 3))
         interpreter1.interpret(assignment, storage)
         val result = storage.getFromStorage("x")
-        assertEquals(NumberValue(20.0), result)
+        assertEquals(NumberValue(20), result)
     }
 
     @Test
@@ -164,7 +164,7 @@ class InterpreterTests {
 
     @Test
     fun testIdentifierExpression() {
-        storage.addToStorage("y", NumberValue(50.0))
+        storage.addToStorage("y", NumberValue(50))
         val identifier = IdentifierExpression("y", Position(1, 1))
         val result = interpreter1.interpret(identifier, storage)
         val changedResult = result as InterpreterSuccess
@@ -401,13 +401,6 @@ class InterpreterTests {
         val defaultInputProv = DefaultInputProvider()
         defaultInputProv.readInput("x")
         interpreter1.interpret(ReadEnvNode("x", Position(1, 1)), storage)
-    }
-
-    @Test
-    fun testStringToInt() {
-        val newValue = StringValue("42")
-        val result = InterpreterSuccess(newValue)
-        assertEquals(42, result.getIntValue())
     }
 
     class TestInputProv(var input: String? = null) : InputProvider {
