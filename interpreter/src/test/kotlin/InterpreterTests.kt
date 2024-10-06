@@ -137,10 +137,12 @@ class InterpreterTests {
         val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 1))
 
         val assignment2 = AssignmentStatement(IdentifierExpression("b", Position(1, 1)), "=", NumberLiteral(2.0, Position(1, 5)), Position(1, 3))
-        interpreter1.interpret(variableDeclaration, storage)
+        val interpreter77 =interpreter1.interpret(variableDeclaration, storage)
+        interpreter77 as InterpreterResultInformation
         val result = storage.getFromStorage("b")
-        interpreter1.interpret(assignment2, storage)
-        assertEquals(NumberValue(5.0), result)
+        val result2 = interpreter1.interpret(assignment2, storage)
+        assertEquals(result2 is InterpreterFailure, true)
+        assertEquals(NumberValue(5.0, false), result)
     }
 
     @Test
@@ -431,6 +433,6 @@ class InterpreterTests {
         result2 as InterpreterResultInformation
         val result = storage.getFromStorage("name")
         assertEquals(InterpreterResultInformation::class.java, result2::class.java)
-        assertEquals(StringValue("Felipe"), result)
+        assertEquals(StringValue("Felipe", false), result)
     }
 }

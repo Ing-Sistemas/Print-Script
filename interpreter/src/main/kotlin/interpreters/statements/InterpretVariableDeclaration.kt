@@ -16,31 +16,24 @@ class InterpretVariableDeclaration(
 ) {
 
     fun interpret(node: VariableDeclarationStatement, storage: Storage): InterpreterResult {
-        val declarator = node.getAssignmentExpression()
+        val assignment = node.getAssignmentExpression()
+        val declarator = node.getDeclarator()
         Interpreter(
             outPutProvider,
             inputProvider,
             envProvider,
-        ).interpret(declarator, storage)
-//        val value = node.getAssignmentExpression().getValue()
-//        val storedValue = convertToStoredValue(
-//            InterpretExpression(
-//                outPutProvider,
-//                inputProvider,
-//                envProvider,
-//            ).interpret(value, storage),
-//        )
+        ).interpret(assignment, storage)
+        val mutable = storage.getFromStorage(assignment.getIdentifier().getIdentifier())
+        when (declarator) {
+            "let" -> {
+                return InterpreterResultInformation(storage)
+            }
+            "const" -> {
+                val newAssignment = mutable?.unMutable()
+                storage.addToStorage(assignment.getIdentifier().getIdentifier(), newAssignment)
+                return InterpreterResultInformation(storage)
+            }
+        }
         return InterpreterResultInformation(storage)
     }
 }
-
-// private fun convertToStoredValue(value: InterpreterResult): StoredValue {
-//    return when (value) {
-//        is InterpreterSuccess -> {
-//            value.getSuccess() as StoredValue
-//        }
-//        else -> {
-//            throw IllegalArgumentException("Value is not a stored value")
-//        }
-//    }
-// }
