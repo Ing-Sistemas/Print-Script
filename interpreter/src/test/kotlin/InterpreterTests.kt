@@ -137,7 +137,7 @@ class InterpreterTests {
         val variableDeclaration = VariableDeclarationStatement("const", typeDeclaration, assignment, Position(1, 1))
 
         val assignment2 = AssignmentStatement(IdentifierExpression("b", Position(1, 1)), "=", NumberLiteral(2.0, Position(1, 5)), Position(1, 3))
-        val interpreter77 =interpreter1.interpret(variableDeclaration, storage)
+        val interpreter77 = interpreter1.interpret(variableDeclaration, storage)
         interpreter77 as InterpreterResultInformation
         val result = storage.getFromStorage("b")
         val result2 = interpreter1.interpret(assignment2, storage)

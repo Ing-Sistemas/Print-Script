@@ -27,8 +27,7 @@ class InterpretAssignment(
         ).interpret(node.getValue(), storage)
         if (storage.getFromStorage(identifier)?.getMutability() == false) {
             return InterpreterFailure("Cannot assign to a constant variable")
-        }
-        else {
+        } else {
             val valueToUse = convertToStoredValue(value)
             storage.addToStorage(identifier, valueToUse)
             return InterpreterResultInformation(storage)
