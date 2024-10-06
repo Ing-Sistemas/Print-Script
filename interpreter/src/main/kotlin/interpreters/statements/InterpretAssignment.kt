@@ -7,6 +7,7 @@ import com.printscript.interpreter.interfaces.InputProvider
 import com.printscript.interpreter.interfaces.InterpreterResult
 import com.printscript.interpreter.interfaces.OutPutProvider
 import com.printscript.interpreter.interpreters.InterpretExpression
+import com.printscript.interpreter.results.InterpreterFailure
 import com.printscript.interpreter.results.InterpreterResultInformation
 import com.printscript.interpreter.results.InterpreterSuccess
 import com.printscript.interpreter.utils.Storage
@@ -24,9 +25,13 @@ class InterpretAssignment(
             inputProvider,
             envProvider,
         ).interpret(node.getValue(), storage)
-        val valueToUse = convertToStoredValue(value)
-        storage.addToStorage(identifier, valueToUse)
-        return InterpreterResultInformation(storage)
+        if (storage.getFromStorage(identifier)?.getMutability() == false) {
+            return InterpreterFailure("Cannot assign to a constant variable")
+        } else {
+            val valueToUse = convertToStoredValue(value)
+            storage.addToStorage(identifier, valueToUse)
+            return InterpreterResultInformation(storage)
+        }
     }
 
     private fun convertToStoredValue(value: InterpreterResult): StoredValue {
