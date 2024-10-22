@@ -1,4 +1,4 @@
 ./run-cli.sh execute --version=1.0 execute.ps
 ./run-cli.sh analyse --version=1.0 lint.ps configSnakeFalse.json
 ./run-cli.sh validate --version=1.0 validate.ps
-./run-cli.sh format --version=1.0 format.ps config.json
+./run-cli.sh format --version=1.0 format.ps /configurations/config.json
