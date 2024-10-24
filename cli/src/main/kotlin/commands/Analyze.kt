@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.printscript.cli.CLIContext
 import com.printscript.cli.logic.AnalyzeLogic
-import com.printscript.token.Token
 import java.io.File
 
 class Analyze : CliktCommand(
@@ -27,8 +26,6 @@ class Analyze : CliktCommand(
 
         val configBaseDir = File("../linter/src/main/resources")
         val configFile = File(configBaseDir, linterConfig)
-
-        val tokens = mutableListOf<Token>()
 
         try {
             val result = AnalyzeLogic().analyse(version, inputFile.inputStream(), configFile)
