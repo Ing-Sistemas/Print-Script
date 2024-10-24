@@ -31,7 +31,7 @@ class Analyze : CliktCommand(
         val tokens = mutableListOf<Token>()
 
         try {
-            val result = AnalyzeLogic().analyse(version, linterConfig, configFile, inputFile)
+            val result = AnalyzeLogic().analyse(version, inputFile.inputStream(), configFile)
             if (result.isEmpty()) {
                 echo("No linting errors found.")
             } else {

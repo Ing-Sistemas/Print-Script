@@ -29,7 +29,7 @@ class Format : CliktCommand(
         val configFile = File(configBaseDir, formatConfig)
         val config = ConfigJsonReader().convertJsonIntoFormatterConfig(configFile.path)
         try {
-            FormatLogic().format(inputFile, config, cliContext.version)
+            FormatLogic().format(cliContext.version, inputFile, config)
         } catch (e: Exception) {
             throw CliktError(e.message)
         }

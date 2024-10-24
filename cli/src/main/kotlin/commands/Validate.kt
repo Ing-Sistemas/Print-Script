@@ -20,7 +20,7 @@ class Validate : CliktCommand(
 
         try {
             echo("Validating file...")
-            ValidateLogic().validate(version, inputFile)
+            ValidateLogic().validate(version, inputFile.inputStream())
             echo("File validated successfully.")
         } catch (e: Exception) {
             throw CliktError(e.message)
