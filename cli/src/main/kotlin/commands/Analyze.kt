@@ -45,7 +45,6 @@ class Analyze : CliktCommand(
             }
             val result = linter.analyze(tokens)
             if (result.isNotEmpty()) {
-                println(result.size)
                 throw CliktError("Failed lint check for $linterConfig with Error: ${result.fold("") { acc, s -> acc + s }}")
             }
         } catch (e: Exception) {
