@@ -3,10 +3,7 @@ package com.printscript.cli.commands
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.printscript.cli.CLIContext
-import com.printscript.lexer.Lexer
-import com.printscript.linter.configurations.ConfigLoader
-import com.printscript.linter.linters.StaticCodeAnalyzer
-import com.printscript.runner.ReaderIterator
+import com.printscript.cli.logic.AnalyzeLogic
 import com.printscript.token.Token
 import java.io.File
 
@@ -34,18 +31,10 @@ class Analyze : CliktCommand(
         val tokens = mutableListOf<Token>()
 
         try {
-            val configLoader = ConfigLoader
-            val config = configLoader.loadConfiguration(configFile.path)
-            val linter = StaticCodeAnalyzer(config, version)
-            val readerIterator = ReaderIterator().getLineIterator(inputFile.inputStream())
-            val lexer = Lexer(version).tokenize(readerIterator)
-            while (lexer.hasNext()) {
-                val token = lexer.next()
-                tokens.add(token)
-            }
-            val result = linter.analyze(tokens)
-            if (result.isNotEmpty()) {
-                println(result.size)
+            val result = AnalyzeLogic().analyse(version, linterConfig, configFile, inputFile)
+            if (result.isEmpty()) {
+                echo("No linting errors found.")
+            } else {
                 throw CliktError("Failed lint check for $linterConfig with Error: ${result.fold("") { acc, s -> acc + s }}")
             }
         } catch (e: Exception) {
