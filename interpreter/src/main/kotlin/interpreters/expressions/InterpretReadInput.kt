@@ -21,7 +21,6 @@ class InterpretReadInput(
         outPutProvider.output(prompt)
 
         val input = inputProvider.readInput(prompt)
-        // val input = "Felipe"
 
         if (input.isNullOrBlank()) return InterpreterFailure("Not valid input 0")
 

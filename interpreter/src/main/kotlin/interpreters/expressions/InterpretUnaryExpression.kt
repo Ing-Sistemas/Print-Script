@@ -36,7 +36,4 @@ class InterpretUnaryExpression(
             else -> return InterpreterFailure("Unary operator ${node.getOperator()} not supported")
         }
     }
-    private fun toCustom(value: Any?): NumberValue {
-        return NumberValue(value as Double)
-    }
 }

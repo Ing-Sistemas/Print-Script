@@ -22,7 +22,7 @@ class Execute : CliktCommand(
         val inputFile = File(baseDir, fileName)
 
         echo("Executing input...")
-        try {
+        try { // Execute logic is already implemented in the Runner class
             Runner(DefaultInputProvider(), DefaultOutPutProvider(), DefaultEnvProvider()).run(inputFile.inputStream(), version)
         } catch (e: Exception) {
             throw CliktError(e.message)

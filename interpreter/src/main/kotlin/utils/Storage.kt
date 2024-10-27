@@ -9,10 +9,4 @@ class Storage {
         storage[key] = value
     }
     fun getFromStorage(key: String) = storage[key]
-    fun deleteFromStorage(key: String) = storage.remove(key)
-    fun getAllFromStorage() {
-        for ((key, value) in storage) {
-            println("$key: $value")
-        }
-    }
 }

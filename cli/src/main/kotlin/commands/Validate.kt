@@ -3,9 +3,7 @@ package com.printscript.cli.commands
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.printscript.cli.CLIContext
-import com.printscript.lexer.Lexer
-import com.printscript.parser.Parser
-import com.printscript.runner.ReaderIterator
+import com.printscript.cli.logic.ValidateLogic
 import java.io.File
 
 class Validate : CliktCommand(
@@ -21,11 +19,9 @@ class Validate : CliktCommand(
         val inputFile = File(baseDir, file)
 
         try {
-            val readerIterator = ReaderIterator().getLineIterator(inputFile.inputStream())
-            val tokens = Lexer(version).tokenize(readerIterator)
-            echo("Parsing $file ...")
-            Parser().parse(tokens)
-            echo("successfully validated")
+            echo("Validating file...")
+            ValidateLogic().validate(version, inputFile.inputStream())
+            echo("File validated successfully.")
         } catch (e: Exception) {
             throw CliktError(e.message)
         }
