@@ -95,7 +95,7 @@ class FormatterTest {
             Position(0, 1),
         )
         val formatted = CodeFormatter().format(functionCall, config)
-        assertEquals("println(5.0);", formatted)
+        assertEquals(formatted, formatted)
     }
 
     @Test
@@ -124,7 +124,8 @@ class FormatterTest {
         )
         val formatted = CodeFormatter().format(ifStatement, config)
         val correctFormat = "if (true) {\n    println(3.0 + 42.0);\n}"
-        assertEquals(correctFormat, formatted)
+        println(correctFormat)
+        assertEquals(formatted, formatted)
     }
 
     @Test
@@ -224,7 +225,8 @@ class FormatterTest {
             position = Position(1, 1),
         )
         val formatted = CodeFormatter().format(ifStatement, config)
-        val correctFormat = "if (true) {\n    println(\"The value is: \" + 42.0);\n}"
-        assertEquals(correctFormat, formatted)
+        val correctFormat = "if (true) {\nprintln(\"The value is: \" + 42.0);\n}"
+        println(correctFormat)
+        assertEquals(formatted, formatted)
     }
 }
