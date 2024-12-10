@@ -2,5 +2,5 @@
     "spaceBeforeColon": true,
     "spaceAfterColon": true,
     "spaceAroundEquals": true,
-    "lineJumpBeforePrintln": 1
+    "lineJumpBeforePrintln": 13
 }
