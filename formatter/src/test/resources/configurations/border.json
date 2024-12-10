@@ -2,7 +2,7 @@
     "spaceBeforeColon":true,
     "spaceAfterColon":true,
     "spaceAroundEquals":null,
-    "lineJumpBeforePrintln": null,
+    "lineJumpBeforePrintln": 1,
     "lineJumpAfterSemicolon": true,
     "singleSpaceBetweenTokens": true,
     "spaceAroundOperators": true
