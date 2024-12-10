@@ -15,7 +15,7 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
         variableDeclarationStatement.getTypeDeclarationExpression().accept(this)
         applier.apply(variableDeclarationStatement.getAssignmentExpression().getEqualOperator())
         variableDeclarationStatement.getAssignmentExpression().getValue().accept(this)
-        builder.append("; \n")
+        builder.append(";\n")
     }
 
     override fun visit(ifStatement: IfStatement) {

@@ -28,7 +28,7 @@ class FormatterTest {
             Position(0, 1),
         )
         val formatted = CodeFormatter().format(ast, config)
-        assertEquals("let a : number = 5.0; \n", formatted)
+        assertEquals("let a : number = 5.0;\n", formatted)
     }
 
     @Test
@@ -52,7 +52,7 @@ class FormatterTest {
             Position(0, 1),
         )
         val formatted = CodeFormatter().format(ast, config)
-        assertEquals("let a:number = 5.0; \n", formatted)
+        assertEquals("let a:number = 5.0;\n", formatted)
     }
 
     @Test
@@ -148,7 +148,7 @@ class FormatterTest {
             Position(0, 1),
         )
         val formatted = CodeFormatter().format(ast, config)
-        assertEquals("let a: number = 5.0; \n", formatted)
+        assertEquals("let a: number = 5.0;\n", formatted)
     }
 
     @Test
@@ -172,7 +172,7 @@ class FormatterTest {
             Position(0, 1),
         )
         val formatted = CodeFormatter().format(ast, config)
-        assertEquals("let a :number = 5.0; \n", formatted)
+        assertEquals("let a :number = 5.0;\n", formatted)
     }
 
     @Test
@@ -196,7 +196,7 @@ class FormatterTest {
             Position(0, 1),
         )
         val formatted = CodeFormatter().format(ast, config)
-        assertEquals("let a:number = 5.0; \n", formatted)
+        assertEquals("let a:number = 5.0;\n", formatted)
     }
 
     @Test
