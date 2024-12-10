@@ -79,9 +79,12 @@ class FormatterVisitorImpl(private val config: FormatterConfig, private val buil
     }
 
     override fun visit(functionCallStatement: FunctionCallStatement) {
-        repeat(config.lineJumpBeforePrintln) {
-            builder.append("\n")
+        if (config.lineJumpBeforePrintln != null) {
+            repeat(config.lineJumpBeforePrintln) {
+                builder.append("\n")
+            }
         }
+
         builder.append(functionCallStatement.getFunctionName())
         builder.append("(")
         functionCallStatement.getArguments().forEachIndexed { index, argument ->

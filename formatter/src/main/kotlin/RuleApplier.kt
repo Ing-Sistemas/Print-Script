@@ -9,14 +9,14 @@ class RuleApplier(private val config: FormatterConfig, private val builder: Stri
     fun apply(code: String) {
         when (code) {
             "=" -> {
-                if (config.spaceAroundEquals) {
+                if (config.spaceAroundEquals != null && config.spaceAroundEquals) {
                     SpaceAroundEquals().apply(code, config, builder)
                 } else {
                     builder.append(code)
                 }
             }
             ":" -> {
-                if (config.spaceAfterColon || config.spaceBeforeColon) {
+                if (config.spaceAfterColon != null && config.spaceAfterColon || config.spaceBeforeColon != null && config.spaceBeforeColon) {
                     SpaceAroundColon().apply(code, config, builder)
                 } else {
                     builder.append(code)

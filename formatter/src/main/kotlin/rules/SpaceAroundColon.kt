@@ -6,11 +6,11 @@ class SpaceAroundColon : CodeFormatRule {
     override fun apply(code: String, config: FormatterConfig, builder: StringBuilder) {
         val spaceAfterColon = config.spaceAfterColon
         val spaceBeforeColon = config.spaceBeforeColon
-        if (spaceAfterColon && spaceBeforeColon && code == ":") {
+        if (spaceAfterColon != null && spaceAfterColon && spaceBeforeColon != null && spaceBeforeColon && code == ":") {
             builder.append(" $code ")
-        } else if (spaceAfterColon && code == ":") {
+        } else if (spaceAfterColon != null && spaceAfterColon && code == ":") {
             builder.append("$code ")
-        } else if (spaceBeforeColon && code == ":") {
+        } else if (spaceBeforeColon != null && spaceBeforeColon && code == ":") {
             builder.append(" $code")
         } else {
             builder.append(code)
